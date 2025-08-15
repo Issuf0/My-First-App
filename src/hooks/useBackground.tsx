@@ -1,29 +1,31 @@
 import { useEffect, useRef } from 'react';
 import { Audio } from 'expo-av';
-export function useBackgroundSound(soundFile: any, loop = true) {
+
+export function useBackgroundSound(soundFile: any, isPlaying = true) {
     const sound = useRef<Audio.Sound | null>(null);
 
     useEffect(() => {
-        // Verificar se soundFile existe antes de criar a função
-        if (!soundFile) return;
-
-        const loadSound = async () => {
-            try {
-                // Cleanup anterior
+        const manageSound = async () => {
+            if (isPlaying) {
+                if (!sound.current) {
+                    try {
+                        sound.current = new Audio.Sound();
+                        await sound.current.loadAsync(soundFile);
+                        await sound.current.setIsLoopingAsync(true);
+                        await sound.current.playAsync();
+                    } catch (error) {
+                        console.log('Erro ao carregar som:', error);
+                    }
+                }
+            } else {
                 if (sound.current) {
                     await sound.current.unloadAsync();
+                    sound.current = null;
                 }
-
-                sound.current = new Audio.Sound();
-                await sound.current.loadAsync(soundFile);
-                await sound.current.setIsLoopingAsync(loop);
-                await sound.current.playAsync();
-            } catch (error) {
-                console.log('Erro ao carregar som:', error);
             }
         };
 
-        loadSound();
+        manageSound();
 
         return () => {
             if (sound.current) {
@@ -31,5 +33,5 @@ export function useBackgroundSound(soundFile: any, loop = true) {
                 sound.current = null;
             }
         };
-    }, [soundFile, loop]);
+    }, [soundFile, isPlaying]);
 }

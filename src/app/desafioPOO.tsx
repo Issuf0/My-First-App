@@ -6,7 +6,6 @@ import {
     TouchableOpacity,
     ScrollView,
     Alert,
-    Dimensions,
     StatusBar,
     Animated,
     Easing,
@@ -15,13 +14,7 @@ import {
 import React, { useState, useRef } from "react";
 import { router } from "expo-router";
 import exerciciosPOO from "../database/desafioPOO.json";
-
-const { width, height } = Dimensions.get('window');
-
-const responsiveSize = (fontSize) => {
-    const baseWidth = 450; // Largura base de um iPhone X
-    return Math.round((width / baseWidth) * fontSize);
-};
+import { normalize, vh, vw } from "../utils/responsive";
 
 // Componente de fundo com ícones POO
 const POOBackground = () => {
@@ -40,7 +33,7 @@ const POOBackground = () => {
         '👥', '📚', '💼', '🎯', '🔄', '⭐', '🎨', '🔧', '💡', '🚀', '☕',
 
         // Símbolos
-        '{', '}', '(', ')', '[', ']', '<', '>', '.', ';', ':', '=',
+        '{', '}', '(', ')', '[', ']', '< ', '>', '.', ';', ':', '=',
 
         // Palavras-chave específicas POO
         'class Person', 'extends Object', 'implements Interface',
@@ -52,7 +45,7 @@ const POOBackground = () => {
         <View style={styles.backgroundContainer}>
             {Array.from({ length: 45 }, (_, index) => {
                 const element = pooElements[Math.floor(Math.random() * pooElements.length)];
-                const isSymbol = ['{', '}', '(', ')', '[', ']', '<', '>', '.', ';', ':', '='].includes(element);
+                const isSymbol = ['{', '}', '(', ')', '[', ']', '< ', '>', '.', ';', ':', '='].includes(element);
                 const isIcon = ['☕', '🏗', '🔒', '🔓', '⚙', '🧩', '📦', '🔗', '🎭', '🏭', '🛠', '👥', '📚', '💼', '🎯', '🔄', '⭐', '🎨', '🔧', '💡', '🚀'].includes(element);
                 const isPOOConcept = ['class', 'object', 'extends', 'implements', 'inheritance', 'polymorphism', 'encapsulation'].includes(element);
                 const isMethodStructure = element.includes('()') || element.includes('new ') || element.includes('@Override');
@@ -63,23 +56,27 @@ const POOBackground = () => {
                         style={[
                             styles.backgroundElement,
                             {
-                                top: Math.random() * height,
-                                left: Math.random() * width,
+                                top: Math.random() * vh(100),
+                                left: Math.random() * vw(100),
                                 opacity: isIcon ? 0.25 :
                                     isPOOConcept ? 0.18 :
                                         isMethodStructure ? 0.15 :
                                             isSymbol ? 0.12 : 0.08,
-                                fontSize: isIcon ? (Math.random() * 15 + 20) :
+                                fontSize: normalize(isIcon ? (Math.random() * 15 + 20) :
                                     isPOOConcept ? (Math.random() * 10 + 16) :
                                         isMethodStructure ? (Math.random() * 8 + 14) :
                                             isSymbol ? (Math.random() * 8 + 16) :
-                                                (Math.random() * 6 + 10),
+                                                (Math.random() * 6 + 10)),
                                 transform: [{ rotate: `${ Math.random() * 360 }deg` }],
-                            color: isIcon ? '#FF8C42' :
-            isPOOConcept ? '#6C63FF' :
-            isMethodStructure ? '#4ECDC4' :
-            isSymbol ? '#45B7D1' :
-            '#2C3E50'
+                            color: isIcon 
+                                    ? '#FF8C42' 
+                                    : isPOOConcept 
+                                    ? '#6C63FF' 
+                                    : isMethodStructure 
+                                    ? '#4ECDC4' 
+                                    : isSymbol 
+                                    ? '#45B7D1' 
+                                    : '#2C3E50',
                             }
                         ]}
                     >
@@ -238,7 +235,7 @@ export default function JavaPOOEditor() {
         );
     };
 
-    const inserirTexto = (texto) => {
+    const inserirTexto = (texto: string) => {
         const newCode = userCode.slice(0, cursorPosition.start) + texto + userCode.slice(cursorPosition.end);
         setUserCode(newCode);
     };
@@ -412,7 +409,7 @@ export default function JavaPOOEditor() {
                         {isValidating ? (
                             <View style={styles.loadingContainer}>
                                 <Animated.View style={{ transform: [{ rotate: spinAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
-                                    <Text style={{ fontSize: 24 }}>⚙️</Text>
+                                    <Text style={{ fontSize: normalize(24) }}>⚙️</Text>
                                 </Animated.View>
                                 <Text style={styles.validateButtonText}>Compilando Java POO...</Text>
                             </View>
@@ -476,39 +473,39 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         flex: 1,
-        paddingHorizontal: responsiveSize(20),
-        paddingTop: responsiveSize(50),
+        paddingHorizontal: vw(5),
+        paddingTop: vh(7),
     },
     headerContainer: {
-        marginBottom: responsiveSize(20),
+        marginBottom: vh(3),
     },
     titleContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: responsiveSize(5),
+        marginBottom: vh(1),
     },
     title: {
-        fontSize: responsiveSize(24),
+        fontSize: normalize(24),
         fontWeight: 'bold',
         color: '#FF8C42',
     },
     pontuacaoText: {
-        fontSize: responsiveSize(16),
+        fontSize: normalize(16),
         fontWeight: 'bold',
         color: '#6C63FF',
     },
     exercicioNumero: {
-        fontSize: responsiveSize(12),
+        fontSize: normalize(12),
         color: '#ffffff',
         textAlign: 'center',
         opacity: 0.8,
     },
     exercicioCard: {
         backgroundColor: '#161B22',
-        borderRadius: responsiveSize(15),
-        padding: responsiveSize(20),
-        marginBottom: responsiveSize(15),
+        borderRadius: normalize(15),
+        padding: normalize(20),
+        marginBottom: vh(2),
         borderWidth: 1,
         borderColor: '#21262D',
     },
@@ -516,54 +513,54 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: responsiveSize(10),
+        marginBottom: vh(1.5),
     },
     exercicioTitulo: {
-        fontSize: responsiveSize(20),
+        fontSize: normalize(20),
         fontWeight: 'bold',
         color: '#FF8C42',
         flex: 1,
     },
     categoriaTag: {
         backgroundColor: 'rgba(108, 99, 255, 0.2)',
-        borderRadius: responsiveSize(8),
-        paddingHorizontal: responsiveSize(8),
-        paddingVertical: responsiveSize(4),
+        borderRadius: normalize(8),
+        paddingHorizontal: vw(2),
+        paddingVertical: vh(0.5),
     },
     categoriaText: {
         color: '#6C63FF',
-        fontSize: responsiveSize(12),
+        fontSize: normalize(12),
         fontWeight: '600',
     },
     exercicioDescricao: {
-        fontSize: responsiveSize(16),
+        fontSize: normalize(16),
         color: '#ffffff',
-        lineHeight: responsiveSize(22),
-        marginBottom: responsiveSize(15),
+        lineHeight: normalize(22),
+        marginBottom: vh(2),
     },
     pontosContainer: {
         backgroundColor: 'rgba(255, 140, 66, 0.15)',
-        borderRadius: responsiveSize(8),
-        paddingHorizontal: responsiveSize(12),
-        paddingVertical: responsiveSize(6),
+        borderRadius: normalize(8),
+        paddingHorizontal: vw(3),
+        paddingVertical: vh(1),
         alignSelf: 'flex-start',
-        marginBottom: responsiveSize(15),
+        marginBottom: vh(2),
     },
     pontosText: {
         color: '#FF8C42',
-        fontSize: responsiveSize(14),
+        fontSize: normalize(14),
         fontWeight: 'bold',
     },
     infoButtonsContainer: {
         flexDirection: 'row',
-        gap: responsiveSize(10),
-        marginBottom: responsiveSize(10),
+        gap: vw(2.5),
+        marginBottom: vh(1.5),
     },
     infoButton: {
         backgroundColor: 'rgba(255, 140, 66, 0.12)',
-        borderRadius: responsiveSize(8),
-        paddingVertical: responsiveSize(8),
-        paddingHorizontal: responsiveSize(12),
+        borderRadius: normalize(8),
+        paddingVertical: vh(1),
+        paddingHorizontal: vw(3),
         borderWidth: 1,
         borderColor: 'rgba(255, 140, 66, 0.3)',
         flex: 1,
@@ -574,149 +571,149 @@ const styles = StyleSheet.create({
     },
     infoButtonText: {
         color: '#FF8C42',
-        fontSize: responsiveSize(14),
+        fontSize: normalize(14),
         fontWeight: '600',
         textAlign: 'center',
     },
     infoContainer: {
         backgroundColor: 'rgba(78, 205, 196, 0.12)',
-        borderRadius: responsiveSize(8),
-        padding: responsiveSize(15),
-        marginTop: responsiveSize(10),
+        borderRadius: normalize(8),
+        padding: normalize(15),
+        marginTop: vh(1.5),
         borderWidth: 1,
         borderColor: 'rgba(78, 205, 196, 0.3)',
     },
     variaveisContainer: {
         backgroundColor: 'rgba(108, 99, 255, 0.12)',
-        borderRadius: responsiveSize(8),
-        padding: responsiveSize(15),
-        marginTop: responsiveSize(10),
+        borderRadius: normalize(8),
+        padding: normalize(15),
+        marginTop: vh(1.5),
         borderWidth: 1,
         borderColor: 'rgba(108, 99, 255, 0.3)',
     },
     infoTitle: {
         color: '#ffffff',
-        fontSize: responsiveSize(16),
+        fontSize: normalize(16),
         fontWeight: 'bold',
-        marginBottom: responsiveSize(10),
+        marginBottom: vh(1.5),
     },
     infoText: {
         color: '#ffffff',
-        fontSize: responsiveSize(14),
-        marginBottom: responsiveSize(5),
-        lineHeight: responsiveSize(20),
+        fontSize: normalize(14),
+        marginBottom: vh(1),
+        lineHeight: normalize(20),
     },
     variaveisSubtitle: {
         color: '#FF8C42',
-        fontSize: responsiveSize(13),
+        fontSize: normalize(13),
         fontWeight: '600',
-        marginBottom: responsiveSize(10),
+        marginBottom: vh(1.5),
     },
     variavelItem: {
         backgroundColor: 'rgba(255, 255, 255, 0.05)',
-        borderRadius: responsiveSize(6),
-        padding: responsiveSize(8),
-        marginBottom: responsiveSize(6),
+        borderRadius: normalize(6),
+        padding: normalize(8),
+        marginBottom: vh(1),
     },
     variavelText: {
         fontFamily: 'monospace',
         color: '#FF8C42',
-        fontSize: responsiveSize(14),
+        fontSize: normalize(14),
         fontWeight: 'bold',
     },
     palavrasChaveTitle: {
         color: '#ffffff',
-        fontSize: responsiveSize(14),
+        fontSize: normalize(14),
         fontWeight: 'bold',
-        marginTop: responsiveSize(10),
-        marginBottom: responsiveSize(8),
+        marginTop: vh(1.5),
+        marginBottom: vh(1),
     },
     palavrasChaveContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: responsiveSize(6),
+        gap: vw(1.5),
     },
     palavraChaveTag: {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: responsiveSize(4),
-        paddingHorizontal: responsiveSize(6),
-        paddingVertical: responsiveSize(3),
+        borderRadius: normalize(4),
+        paddingHorizontal: vw(1.5),
+        paddingVertical: vh(0.5),
     },
     palavraChaveText: {
         color: '#ffffff',
-        fontSize: responsiveSize(11),
+        fontSize: normalize(11),
         fontWeight: '500',
     },
     toolbarContainer: {
-        marginBottom: responsiveSize(15),
+        marginBottom: vh(2),
     },
     toolbarTitle: {
         color: '#ffffff',
-        fontSize: responsiveSize(14),
+        fontSize: normalize(14),
         fontWeight: '600',
-        marginBottom: responsiveSize(8),
+        marginBottom: vh(1),
     },
     toolbarButtons: {
         flexDirection: 'row',
-        gap: responsiveSize(8),
+        gap: vw(2),
     },
     toolButton: {
         backgroundColor: '#21262D',
-        borderRadius: responsiveSize(8),
-        paddingVertical: responsiveSize(8),
-        paddingHorizontal: responsiveSize(12),
+        borderRadius: normalize(8),
+        paddingVertical: vh(1),
+        paddingHorizontal: vw(3),
         borderWidth: 1,
         borderColor: '#4ECDC4',
     },
     toolButtonText: {
         color: '#4ECDC4',
-        fontSize: responsiveSize(12),
+        fontSize: normalize(12),
         fontWeight: '600',
     },
     editorContainer: {
-        marginBottom: responsiveSize(20),
+        marginBottom: vh(3),
     },
     editorHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: responsiveSize(10),
+        marginBottom: vh(1.5),
     },
     editorTitle: {
         color: '#ffffff',
-        fontSize: responsiveSize(16),
+        fontSize: normalize(16),
         fontWeight: '600',
     },
     resetButton: {
         backgroundColor: 'rgba(108, 99, 255, 0.2)',
-        borderRadius: responsiveSize(6),
-        paddingVertical: responsiveSize(6),
-        paddingHorizontal: responsiveSize(10),
+        borderRadius: normalize(6),
+        paddingVertical: vh(0.8),
+        paddingHorizontal: vw(2.5),
     },
     resetButtonText: {
         color: '#6C63FF',
-        fontSize: responsiveSize(12),
+        fontSize: normalize(12),
         fontWeight: '600',
     },
     codeInput: {
         backgroundColor: '#0D1117',
-        borderRadius: responsiveSize(12),
-        padding: responsiveSize(15),
-        fontSize: responsiveSize(14),
+        borderRadius: normalize(12),
+        padding: normalize(15),
+        fontSize: normalize(14),
         fontFamily: 'monospace',
         color: '#ffffff',
-        minHeight: responsiveSize(250),
-        maxHeight: responsiveSize(400),
+        minHeight: vh(30),
+        maxHeight: vh(50),
         borderWidth: 2,
         borderColor: '#21262D',
         textAlignVertical: 'top',
     },
     validateButton: {
         backgroundColor: '#FF8C42',
-        borderRadius: responsiveSize(12),
-        paddingVertical: responsiveSize(15),
-        paddingHorizontal: responsiveSize(20),
-        marginBottom: responsiveSize(20),
+        borderRadius: normalize(12),
+        paddingVertical: vh(2),
+        paddingHorizontal: vw(5),
+        marginBottom: vh(3),
         borderWidth: 2,
         borderColor: '#E67E22',
         elevation: 4,
@@ -732,11 +729,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: responsiveSize(10),
+        gap: vw(2.5),
     },
     validateButtonText: {
         color: '#ffffff',
-        fontSize: responsiveSize(16),
+        fontSize: normalize(16),
         fontWeight: 'bold',
         textAlign: 'center',
     },
@@ -749,8 +746,8 @@ const styles = StyleSheet.create({
     modalContent: {
         width: '85%',
         backgroundColor: '#161B22',
-        borderRadius: responsiveSize(15),
-        padding: responsiveSize(25),
+        borderRadius: normalize(15),
+        padding: normalize(25),
         alignItems: 'center',
         borderWidth: 2,
     },
@@ -762,39 +759,39 @@ const styles = StyleSheet.create({
     },
     resultadoText: {
         color: '#ffffff',
-        fontSize: responsiveSize(18),
+        fontSize: normalize(18),
         fontWeight: '600',
         textAlign: 'center',
-        lineHeight: responsiveSize(26),
-        marginBottom: responsiveSize(20),
+        lineHeight: normalize(26),
+        marginBottom: vh(3),
     },
     closeButton: {
         backgroundColor: '#FF8C42',
-        borderRadius: responsiveSize(10),
-        paddingVertical: responsiveSize(12),
-        paddingHorizontal: responsiveSize(30),
+        borderRadius: normalize(10),
+        paddingVertical: vh(1.5),
+        paddingHorizontal: vw(7.5),
         elevation: 2,
     },
     closeButtonText: {
         color: '#ffffff',
-        fontSize: responsiveSize(16),
+        fontSize: normalize(16),
         fontWeight: 'bold',
     },
     backContainer: {
         alignItems: 'center',
-        paddingBottom: responsiveSize(30),
+        paddingBottom: vh(4),
     },
     backButton: {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: responsiveSize(20),
-        paddingVertical: responsiveSize(12),
-        paddingHorizontal: responsiveSize(25),
+        borderRadius: normalize(20),
+        paddingVertical: vh(1.5),
+        paddingHorizontal: vw(6),
         borderWidth: 1,
         borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     backButtonText: {
         color: '#ffffff',
-        fontSize: responsiveSize(16),
+        fontSize: normalize(16),
         fontWeight: '600',
     },
 });

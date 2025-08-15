@@ -7,133 +7,15 @@ import { normalize, vh, vw } from "../utils/responsive";
 import * as Animatable from 'react-native-animatable';
 import { Ionicons } from '@expo/vector-icons';
 
-const perguntas = [
-    {
-        pergunta: "Qual é o tipo de dado usado para armanezar números inteiros em Java?",
-        opcoes: ["float", "int", "boolean", "char"],
-        correta: "int"
-    },
-    {
-        pergunta: "Qual palavra-chave é usada para criar uma classe em Java?",
-        opcoes: ["class", "object", "new", "package"],
-        correta: "class"
-    },
-    {
-        pergunta: "O que acontece quando usamos um new em Java?",
-        opcoes: ["Um novo objecto é criado e o construtor da classe é executado", "Um novo pacote é iniciado", "Uma nova variável global é declarada", "A função main é encerrada"],
-        correta: "Um novo objecto é criado e o construtor da classe é executado"
-    },
-    {
-        pergunta: "O que é um metódo em Java?",
-        opcoes: ["Um operador lógico usado em expressões", "Um tipo de classe abastrata", "Uma variável que armazena dados temporários", "Um conjunto de instruções que podem ser executadas várias vezes"],
-        correta: "Um conjunto de instruções que podem ser executadas várias vezes"
-    },
-    {
-        pergunta: "Qual é o operador de adição em Java?",
-        opcoes: ["++", "+", "+=", "add"],
-        correta: "+"
-    },
-    {
-        pergunta: "Qual destes é usado para guardar texto em Java?",
-        opcoes: ["char", "String", "int", "boolean"],
-        correta: "String"
-    },
-    {
-        pergunta: "Como se escreve uma variável inteira chamada idade?",
-        opcoes: ["int idade", "integer idade", "idade int", "num idade"],
-        correta: "int idade"
-    },
-    {
-        pergunta: "Qual estrutura de controlo é usada para repetições?",
-        opcoes: ["if", "switch", "loop", "for"],
-        correta: "for"
-    },
-    {
-        pergunta: "Qual palavra-chave serve para criar um objecto?",
-        opcoes: ["init", "new", "make", "create"],
-        correta: "new"
-    },
-    {
-        pergunta: "Como começa a execução de um programa em Java?",
-        opcoes: ["Pela função start()", "Pelo método main()", "Pela classe program()", "Pelo construtor de classe pai"],
-        correta: "Pelo método main()"
-    },
-    {
-        pergunta: "Qual destes é um tipo de dado primitivo em Java?",
-        opcoes: ["String", "Array", "int", "Scanner"],
-        correta: "int"
-    },
-    {
-        pergunta: "Qual símbolo é usado para comentários de uma linha em Java?",
-        opcoes: ["#", "//", "/*", "<!-- -->"],
-        correta: "//"
-    },
-    {
-        pergunta: "O que System.out.println() faz?",
-        opcoes: ["Lê dados do utilizador", "Compila o código", "Imprime algo no ecrã", "Cria uma nova nova variável"],
-        correta: "Imprime algo no ecrã"
-    },
-    {
-        pergunta: "Qual é o modificador de acesso mais restritivo em Java?",
-        opcoes: ["protected", "public", "default(sem modificador)", "private"],
-        correta: "private"
-    },
-    {
-        pergunta: "Qual é a diferença entre == e .equals() em Java?",
-        opcoes: ["== compara valores, .equals() compara referências", ".equals() é apenas usado para tipos primitivos", "Ambos comparam valores de forma idêntica, sempre.", "== compara referências, .equals() compara valores"],
-        correta: "== compara referências, .equals() compara valores"
-    },
-    {
-        pergunta: "O que o operador '&&' representa em Java?",
-        opcoes: ["E lógico (AND)", "OU lógico (OR)", "Negação lógica (NOT)", "OU exclusivo (XOR)"],
-        correta: "E lógico (AND)"
-    },
-    {
-        pergunta: "Qual é a sintaxe correta para um loop 'while' em Java?",
-        opcoes: ["while (condição) { ... }", "while { ... } (condição)", "loop (condição) { ... }", "while.loop (condição) { ... }"],
-        correta: "while (condição) { ... }"
-    },
-    {
-        pergunta: "Como se declara um array de inteiros com 5 elementos em Java?",
-        opcoes: ["int[] meuArray = new int[5];", "int meuArray[5];", "array<int> meuArray = new array<int>(5);", "int meuArray = {0, 0, 0, 0, 0};"],
-        correta: "int[] meuArray = new int[5];"
-    },
-    {
-        pergunta: "O que o método 'length()' faz em uma String Java?",
-        opcoes: ["Retorna o número de caracteres na String", "Retorna a capacidade da String", "Define o tamanho da String", "Remove espaços em branco da String"],
-        correta: "Retorna o número de caracteres na String"
-    },
-    {
-        pergunta: "Qual é a saída de 'System.out.println(10 / 3);' em Java?",
-        opcoes: ["3", "3.33", "3.0", "1"],
-        correta: "3"
-    },
-    {
-        pergunta: "Como se chama o processo de converter um tipo de dado para outro em Java?",
-        opcoes: ["Casting", "Parsing", "Boxing", "Formatting"],
-        correta: "Casting"
-    },
-    {
-        pergunta: "Qual é a palavra-chave usada para sair de um loop prematuramente?",
-        opcoes: ["break", "continue", "return", "exit"],
-        correta: "break"
-    },
-    {
-        pergunta: "O que o operador '%' faz em Java?",
-        opcoes: ["Retorna o resto de uma divisão", "Calcula a porcentagem", "Define um comentário", "Compara dois valores"],
-        correta: "Retorna o resto de uma divisão"
-    },
-    {
-        pergunta: "Qual é o valor padrão de uma variável booleana não inicializada em Java?",
-        opcoes: ["false", "true", "0", "null"],
-        correta: "false"
-    },
-    {
-        pergunta: "Como se compara se duas Strings são iguais em valor em Java?",
-        opcoes: ["usando o método .equals()", "usando o operador ==", "usando o método .compare()", "usando o operador ==="],
-        correta: "usando o método .equals()"
+import perguntas from "../database/desafioJavaQuiz.json";
+
+const shuffleArray = (array: any[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
-];
+    return array;
+};
 
 const BackgroundSymbols = () => {
     const symbols = [
@@ -429,7 +311,7 @@ export default function Main() {
 
                     {/* Options */}
                     <View style={styles.optionsContainer}>
-                        {shuffledPerguntas[index].opcoes.map((opcao: string, i: number) => {
+                        {shuffleArray([...shuffledPerguntas[index].opcoes]).map((opcao: string, i: number) => {
                             let buttonStyle: any[] = [styles.optionButton];
                             let textStyle: any[] = [styles.optionText];
 

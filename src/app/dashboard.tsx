@@ -7,133 +7,15 @@ import { normalize, vh, vw } from "../utils/responsive";
 import * as Animatable from 'react-native-animatable';
 import { Ionicons } from '@expo/vector-icons';
 
-const perguntas = [
-    {
-        pergunta: "O que significa POO?",
-        opcoes: ["Programação Orientada a Objectos", "Programa Original de Operações", "Plano Operações Online"],
-        correta: "Programação Orientada a Objectos"
-    },
-    {
-        pergunta: "É correcto afirmar que Java é...",
-        opcoes: ["Linguagem de programação de alto nível", "Linguagem de programação de baixo nível", "Linguagem usado no front-end", "Não sei"],
-        correta: "Linguagem de programação de alto nível"
-    },
-    {
-        pergunta: "Qual é a palavra-chave usado para herança no Java ?",
-        opcoes: ["inherits", "extends", "implements", "super"],
-        correta: "extends"
-    },
-    {
-        pergunta: "Qual é o papel dos métodos get e set?",
-        opcoes: ["Permitir leitura e modificação controlada de atributos private", "Declarar atributos como públicos", "Definir o tipo de herança da classe", "Criar construtores automaticos"],
-        correta: "Permitir leitura e modificação controlada de atributos private"
-    },
-    {
-        pergunta: "O que é encapsulamento em Java?",
-        opcoes: ["Ocultar detalhes internos de uma classe e controlar o acesso aos seus dados", "Compartilhar todas as variáveis com outras classes", "Criar métodos públicos apenas para leitura", "Armanezar todas as variáveis num ficheiro externo"],
-        correta: "Ocultar detalhes internos de uma classe e controlar o acesso aos seus dados"
-    },
-    {
-        pergunta: "Quando usamos herança em Java, o que acontece com a superclasse?",
-        opcoes: ["Torna-se uma classe abstrata", "Perde o acesso a seus próprios métodos", "Gera automaticamente novos pacotes", "Herda os atributos e métodos da superclasse"],
-        correta: "Herda os atributos e métodos da superclasse"
-    },
-    {
-        pergunta: "O que define a relação entre Funcionario e chefe numa herança?",
-        opcoes: ["Funcionario é um pacote que contém Chefe", "Chefe e Funcionario não podem coexistir numa classe", "Chefe herda características da classe Funcionario", "Funconario é uma interface de Chefe"],
-        correta: "Chefe herda características da classe Funcionario"
-    },
-    {
-        pergunta: "Qual é a principal função do modificador private em Java?",
-        opcoes: ["Permitir o acesso global a todas as classes", "Restringir o acesso directo a atributos e métodos", "Compartilhar métodos com outros pacotes", "Executar o método principal"],
-        correta: "Restringir o acesso directo a atributos e métodos"
-    },
-    {
-        pergunta: "Qual destas é uma vantagem da programação modular?",
-        opcoes: ["Exige menos classes e mais variáveis globais", "Elimina o uso de métodos", "Facilita a manunteção e reutilização de código", "Impede a criação de objectos"],
-        correta: "Facilita a manunteção e reutilização de código"
-    },
-    {
-        pergunta: "Qual é a função principal de um package em Java?",
-        opcoes: ["Agrupar classes e interfaces relacionadas", "Impedir a modularização do código", "Aumentar o tempo de execução", "Eliminar a necessidade de construtores"],
-        correta: "Agrupar classes e interfaces relacionadas"
-    },
-    {
-        pergunta: "O que é modularização em Java?",
-        opcoes: ["É o processo de compilar métodos em classes aleatórias", "É a criação de um único ficheiro com todas as funções", "É a duplicação código para facilitar a execução", "É dividir programa em partes independentes com responsabilidades específicas"],
-        correta: "É dividir programa em partes independentes com responsabilidades específicas"
-    },
-    {
-        pergunta: "Qual das seguintes opções representa um método que não retorno valor?",
-        opcoes: ["void imprimirMensagem()", "int calcularSoma()", "String obterNome()", "boolean validarSenha()"],
-        correta: "void imprimirMensagem()"
-    },
-    {
-        pergunta: "Onde devem ser definidos os parâmetros de um método?",
-        opcoes: ["Na sua declaração, entre parênteses", "Fora da classe principal", "Apenas dentro de blocos if", "No final do programa, fora da mim"],
-        correta: "Na sua declaração, entre parênteses"
-    },
-    {
-        pergunta: "Qual destas regras é correcta sobre nomes de métodos em Java?",
-        opcoes: ["Devem terminar com ponto e vírgula", "Devem smepre começar com 'main'", "Podem conter espaços em branco", "Devem começar com letra mainúscula e ser um verbo"],
-        correta: "Devem começar com letra mainúscula e ser um verbo"
-    },
-    {
-        pergunta: "O que significa o modificador static em um método?",
-        opcoes: ["O método pertence à classe e não à instância", "O método pode ser executado apenas uma vez", "O método é protegido por uma senha", "O método só pode ser chamado de fora da classe"],
-        correta: "O método pertence à classe e não à instância"
-    },
-    {
-        pergunta: "O que é um objeto em POO?",
-        opcoes: ["Uma instância de uma classe", "Um tipo de dado primitivo", "Uma variável de classe", "Uma anotação para documentação"],
-        correta: "Uma instância de uma classe"
-    },
-    {
-        pergunta: "Qual a finalidade de um método 'setter'?",
-        opcoes: ["Modificar o valor de um atributo privado", "Retornar o valor de um atributo privado", "Criar uma nova instância da classe", "Destruir um objeto"],
-        correta: "Modificar o valor de um atributo privado"
-    },
-    {
-        pergunta: "O que a palavra-chave 'instanceof' faz?",
-        opcoes: ["Verifica se um objeto é uma instância de uma classe específica", "Cria uma nova instância de uma classe", "Compara dois objetos", "Retorna o tipo de um objeto"],
-        correta: "Verifica se um objeto é uma instância de uma classe específica"
-    },
-    {
-        pergunta: "Qual é a principal vantagem do encapsulamento?",
-        opcoes: ["Ocultar a complexidade e proteger os dados", "Permitir o acesso direto aos atributos", "Aumentar o acoplamento entre as classes", "Reduzir o número de métodos"],
-        correta: "Ocultar a complexidade e proteger os dados"
-    },
-    {
-        pergunta: "O que é uma exceção em Java?",
-        opcoes: ["Um evento que interrompe o fluxo normal do programa", "Um tipo de erro de sintaxe", "Uma classe que não pode ser instanciada", "Um método que não retorna valor"],
-        correta: "Um evento que interrompe o fluxo normal do programa"
-    },
-    {
-        pergunta: "Qual a diferença entre 'throw' e 'throws' em Java?",
-        opcoes: ["'throw' é usado para lançar uma exceção, 'throws' é usado na assinatura de um método para indicar que ele pode lançar exceções", "'throws' é usado para lançar uma exceção, 'throw' é usado na assinatura de um método", "Não há diferença", "'throw' é usado para tratar exceções, 'throws' é usado para lançá-las"],
-        correta: "'throw' é usado para lançar uma exceção, 'throws' é usado na assinatura de um método para indicar que ele pode lançar exceções"
-    },
-    {
-        pergunta: "O que é o 'garbage collector' em Java?",
-        opcoes: ["Um processo que libera memória de objetos não utilizados", "Uma ferramenta para depurar código", "Um tipo de exceção", "Uma classe para formatar strings"],
-        correta: "Um processo que libera memória de objetos não utilizados"
-    },
-    {
-        pergunta: "Qual a finalidade da anotação '@Override'?",
-        opcoes: ["Indicar que um método está sobrescrevendo um método da superclasse", "Indicar que um método está obsoleto", "Indicar que um método é privado", "Indicar que um método é estático"],
-        correta: "Indicar que um método está sobrescrevendo um método da superclasse"
-    },
-    {
-        pergunta: "O que é uma classe aninhada (nested class) em Java?",
-        opcoes: ["Uma classe definida dentro de outra classe", "Uma classe que herda de outra classe", "Uma classe que não pode ser instanciada", "Uma classe que contém apenas métodos estáticos"],
-        correta: "Uma classe definida dentro de outra classe"
-    },
-    {
-        pergunta: "Qual a diferença entre 'ArrayList' e 'LinkedList' em Java?",
-        opcoes: ["'ArrayList' usa um array dinâmico, 'LinkedList' usa uma lista duplamente encadeada", "'LinkedList' é mais rápido para acessar elementos por índice", "'ArrayList' é mais eficiente para inserção e remoção de elementos no meio da lista", "Não há diferença de desempenho"],
-        correta: "'ArrayList' usa um array dinâmico, 'LinkedList' usa uma lista duplamente encadeada"
+import perguntas from "../database/desafioPOOQuiz.json";
+
+const shuffleArray = (array: any[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
-];
+    return array;
+};
 
 // Componente para símbolos de fundo
 const BackgroundSymbols = () => {
@@ -427,7 +309,7 @@ export default function Dashboard() {
 
                     {/* Options */}
                     <View style={styles.optionsContainer}>
-                        {shuffledPerguntas[index].opcoes.map((opcao: string, i: number) => {
+                        {shuffleArray([...shuffledPerguntas[index].opcoes]).map((opcao: string, i: number) => {
                             let buttonStyle: any[] = [styles.optionButton];
                             let textStyle: any[] = [styles.optionText];
 

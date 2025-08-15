@@ -1,18 +1,18 @@
 import { StyleSheet } from "react-native";
+import { normalize, vh } from "../../utils/responsive";
 
 export const styles = StyleSheet.create({
     button: {
         width: "100%",
-        height: 52,
+        height: vh(7),
         backgroundColor: "#E15610",
-        borderRadius: 10,
+        borderRadius: normalize(10),
         justifyContent: "center",
         alignItems: "center"
     },
     title: {
-        fontSize: 16,
+        fontSize: normalize(16),
         fontWeight: "bold",
         color: "#FFF",
-        fontFamily: "Arial"
     },
 })

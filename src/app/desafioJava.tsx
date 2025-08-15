@@ -6,18 +6,16 @@ import {
     TouchableOpacity,
     ScrollView,
     Alert,
-    Dimensions,
     StatusBar,
     ActivityIndicator,
     Animated,
     Easing,
     Modal
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { router } from "expo-router";
 import exercicios from "../database/desafioJava.json";
-
-const { width, height } = Dimensions.get('window');
+import { normalize, vh, vw } from "../utils/responsive";
 
 // Componente de fundo com ícones Java
 const JavaBackground = () => {
@@ -34,13 +32,13 @@ const JavaBackground = () => {
 
         // Símbolos e operadores
         '{ }', '( )', '[ ]', '< >', ';', '=', '==', '!=', '<=', '>=',
-        '&&', '||', '!', '+', '-', '*', '/', '%', '++', '--', '+=', '-=',
+        '&&', '||', '!', '+', '-', '*', '/', '%', '++', '--', '+', '-=',
 
         // Ícones Java especiais
         '☕', '♨', '⚙', '🔧', '💻', '📝', '🔍', '⚡', '🚀', '💡',
 
         // Chavenas e símbolos
-        '{', '}', '(', ')', '[', ']', '<', '>', '"', "'",
+        '{', '}', '(', ')', '[', ']', '< ', '>', '"', "'",
 
         // Palavras-chave essenciais
         'class', 'public', 'private', 'static', 'void', 'int', 'String', 'boolean',
@@ -54,7 +52,7 @@ const JavaBackground = () => {
         <View style={styles.backgroundContainer}>
             {Array.from({ length: 35 }, (_, index) => {
                 const element = javaElements[Math.floor(Math.random() * javaElements.length)];
-                const isSymbol = ['{', '}', '(', ')', '[', ']', '<', '>', ';', '=', '+', '-', '*', '/', '%'].includes(element);
+                const isSymbol = ['{', '}', '(', ')', '[', ']', '< ', '>', ';', '=', '+', '-', '*', '/', '%'].includes(element);
                 const isIcon = ['☕', '♨', '⚙', '🔧', '💻', '📝', '🔍', '⚡', '🚀', '💡'].includes(element);
 
                 return (
@@ -63,16 +61,18 @@ const JavaBackground = () => {
                         style={[
                             styles.backgroundElement,
                             {
-                                top: Math.random() * height,
-                                left: Math.random() * width,
+                                top: Math.random() * vh(100),
+                                left: Math.random() * vw(100),
                                 opacity: isIcon ? 0.15 : (isSymbol ? 0.12 : 0.08),
-                                fontSize: isIcon ? (Math.random() * 10 + 20) :
+                                fontSize: normalize(isIcon ? (Math.random() * 10 + 20) :
                                     isSymbol ? (Math.random() * 8 + 16) :
-                                        (Math.random() * 6 + 10),
+                                        (Math.random() * 6 + 10)),
                                 transform: [{ rotate: `${ Math.random() * 360 }deg` }],
-                            color: isIcon ? '#ff6b35' :
-            isSymbol ? '#e94560' :
-            '#16213e'
+                            color: isIcon 
+                                ? '#ff6b35' 
+                                : isSymbol 
+                                ? '#e94560' 
+                                : '#16213e',
                             }
                         ]}
                     >
@@ -89,8 +89,17 @@ const backgroundMusic = require('@/assets/audio/background.mp3');
 export default function JavaCodeEditor() {
    ;
 
-    const [exercicioAtual, setExercicioAtual] = useState(exercicios[0]);
-    const [userCode, setUserCode] = useState(exercicioAtual.templateCodigo);
+    const [exerciciosEmbaralhados, setExerciciosEmbaralhados] = useState([]);
+    const [indiceAtual, setIndiceAtual] = useState(0);
+    const [exercicioAtual, setExercicioAtual] = useState(null);
+    const [userCode, setUserCode] = useState('');
+
+    useEffect(() => {
+        const exerciciosEmbaralhados = [...exercicios].sort(() => Math.random() - 0.5);
+        setExerciciosEmbaralhados(exerciciosEmbaralhados);
+        setExercicioAtual(exerciciosEmbaralhados[0]);
+        setUserCode(exerciciosEmbaralhados[0].templateCodigo);
+    }, []);
     const [resultado, setResultado] = useState('');
     const [isValidating, setIsValidating] = useState(false);
     const [showDicas, setShowDicas] = useState(false);
@@ -235,9 +244,10 @@ export default function JavaCodeEditor() {
     };
 
     const proximoExercicio = () => {
-        const proximoIndex = exercicios.findIndex(ex => ex.id === exercicioAtual.id) + 1;
-        if (proximoIndex < exercicios.length) {
-            const proximoEx = exercicios[proximoIndex];
+        const proximo = indiceAtual + 1;
+        if (proximo < exerciciosEmbaralhados.length) {
+            setIndiceAtual(proximo);
+            const proximoEx = exerciciosEmbaralhados[proximo];
             setExercicioAtual(proximoEx);
             setUserCode(proximoEx.templateCodigo);
             setResultado('');
@@ -270,7 +280,7 @@ export default function JavaCodeEditor() {
         );
     };
 
-    const inserirTexto = (texto) => {
+    const inserirTexto = (texto: string) => {
         const newCode = userCode.slice(0, cursorPosition.start) + texto + userCode.slice(cursorPosition.end);
         setUserCode(newCode);
     };
@@ -280,7 +290,7 @@ export default function JavaCodeEditor() {
             <JavaBackground />
             <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
 
-            <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+            <View style={styles.contentContainer}>
                 {/* Header */}
                 <View style={styles.headerContainer}>
                     <View style={styles.titleContainer}>
@@ -438,7 +448,7 @@ export default function JavaCodeEditor() {
                         {isValidating ? (
                             <View style={styles.loadingContainer}>
                                 <Animated.View style={{ transform: [{ rotate: spinAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
-                                    <Text style={{ fontSize: 24 }}>⚙️</Text>
+                                    <Text style={{ fontSize: normalize(24) }}>⚙️</Text>
                                 </Animated.View>
                                 <Text style={styles.validateButtonText}>Validando...</Text>
                             </View>
@@ -477,7 +487,7 @@ export default function JavaCodeEditor() {
                         <Text style={styles.backButtonText}>← Voltar ao Menu</Text>
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
+            </View>
         </View>
     );
 }
@@ -500,41 +510,41 @@ const styles = StyleSheet.create({
         fontFamily: 'monospace',
         fontWeight: '300',
     },
-    scrollContainer: {
+    contentContainer: {
         flex: 1,
-        paddingHorizontal: 20,
-        paddingTop: 50,
+        paddingHorizontal: vw(5),
+        paddingTop: vh(2),
     },
     headerContainer: {
-        marginBottom: 20,
+        marginBottom: vh(1),
     },
     titleContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 5,
+        marginBottom: vh(1),
     },
     title: {
-        fontSize: 24,
+        fontSize: normalize(24),
         fontWeight: 'bold',
         color: '#ff6b35',
     },
     pontuacaoText: {
-        fontSize: 16,
+        fontSize: normalize(16),
         fontWeight: 'bold',
         color: '#e94560',
     },
     exercicioNumero: {
-        fontSize: 12,
+        fontSize: normalize(12),
         color: '#ffffff',
         textAlign: 'center',
         opacity: 0.8,
     },
     exercicioCard: {
         backgroundColor: '#16213e',
-        borderRadius: 15,
-        padding: 20,
-        marginBottom: 15,
+        borderRadius: normalize(15),
+        padding: normalize(20),
+        marginBottom: vh(1),
         borderWidth: 1,
         borderColor: '#0f3460',
     },
@@ -542,54 +552,54 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: vh(1.5),
     },
     exercicioTitulo: {
-        fontSize: 20,
+        fontSize: normalize(20),
         fontWeight: 'bold',
         color: '#ff6b35',
         flex: 1,
     },
     categoriaTag: {
         backgroundColor: 'rgba(233, 69, 96, 0.2)',
-        borderRadius: 8,
-        paddingHorizontal: 8,
-        paddingVertical: 4,
+        borderRadius: normalize(8),
+        paddingHorizontal: vw(2),
+        paddingVertical: vh(0.5),
     },
     categoriaText: {
         color: '#e94560',
-        fontSize: 12,
+        fontSize: normalize(12),
         fontWeight: '600',
     },
     exercicioDescricao: {
-        fontSize: 16,
+        fontSize: normalize(16),
         color: '#ffffff',
-        lineHeight: 22,
-        marginBottom: 15,
+        lineHeight: normalize(22),
+        marginBottom: vh(2),
     },
     pontosContainer: {
         backgroundColor: 'rgba(255, 107, 53, 0.1)',
-        borderRadius: 8,
-        paddingHorizontal: 12,
-        paddingVertical: 6,
+        borderRadius: normalize(8),
+        paddingHorizontal: vw(3),
+        paddingVertical: vh(1),
         alignSelf: 'flex-start',
-        marginBottom: 15,
+        marginBottom: vh(2),
     },
     pontosText: {
         color: '#ff6b35',
-        fontSize: 14,
+        fontSize: normalize(14),
         fontWeight: 'bold',
     },
     infoButtonsContainer: {
         flexDirection: 'row',
-        gap: 10,
-        marginBottom: 10,
+        gap: vw(2.5),
+        marginBottom: vh(1.5),
     },
     infoButton: {
         backgroundColor: 'rgba(255, 107, 53, 0.1)',
-        borderRadius: 8,
-        paddingVertical: 8,
-        paddingHorizontal: 12,
+        borderRadius: normalize(8),
+        paddingVertical: vh(1),
+        paddingHorizontal: vw(3),
         borderWidth: 1,
         borderColor: 'rgba(255, 107, 53, 0.3)',
         flex: 1,
@@ -600,149 +610,149 @@ const styles = StyleSheet.create({
     },
     infoButtonText: {
         color: '#ff6b35',
-        fontSize: 14,
+        fontSize: normalize(14),
         fontWeight: '600',
         textAlign: 'center',
     },
     infoContainer: {
         backgroundColor: 'rgba(255, 193, 7, 0.1)',
-        borderRadius: 8,
-        padding: 15,
-        marginTop: 10,
+        borderRadius: normalize(8),
+        padding: normalize(15),
+        marginTop: vh(1.5),
         borderWidth: 1,
         borderColor: 'rgba(255, 193, 7, 0.3)',
     },
     variaveisContainer: {
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
-        borderRadius: 8,
-        padding: 15,
-        marginTop: 10,
+        borderRadius: normalize(8),
+        padding: normalize(15),
+        marginTop: vh(1.5),
         borderWidth: 1,
         borderColor: 'rgba(59, 130, 246, 0.3)',
     },
     infoTitle: {
         color: '#ffffff',
-        fontSize: 16,
+        fontSize: normalize(16),
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: vh(1.5),
     },
     infoText: {
         color: '#ffffff',
-        fontSize: 14,
-        marginBottom: 5,
-        lineHeight: 20,
+        fontSize: normalize(14),
+        marginBottom: vh(1),
+        lineHeight: normalize(20),
     },
     variaveisSubtitle: {
         color: '#ff6b35',
-        fontSize: 13,
+        fontSize: normalize(13),
         fontWeight: '600',
-        marginBottom: 10,
+        marginBottom: vh(1.5),
     },
     variavelItem: {
         backgroundColor: 'rgba(255, 255, 255, 0.05)',
-        borderRadius: 6,
-        padding: 8,
-        marginBottom: 6,
+        borderRadius: normalize(6),
+        padding: normalize(8),
+        marginBottom: vh(1),
     },
     variavelText: {
         fontFamily: 'monospace',
         color: '#ff6b35',
-        fontSize: 14,
+        fontSize: normalize(14),
         fontWeight: 'bold',
     },
     palavrasChaveTitle: {
         color: '#ffffff',
-        fontSize: 14,
+        fontSize: normalize(14),
         fontWeight: 'bold',
-        marginTop: 10,
-        marginBottom: 8,
+        marginTop: vh(1.5),
+        marginBottom: vh(1),
     },
     palavrasChaveContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 6,
+        gap: vw(1.5),
     },
     palavraChaveTag: {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: 4,
-        paddingHorizontal: 6,
-        paddingVertical: 3,
+        borderRadius: normalize(4),
+        paddingHorizontal: vw(1.5),
+        paddingVertical: vh(0.5),
     },
     palavraChaveText: {
         color: '#ffffff',
-        fontSize: 11,
+        fontSize: normalize(11),
         fontWeight: '500',
     },
     toolbarContainer: {
-        marginBottom: 15,
+        marginBottom: vh(1),
     },
     toolbarTitle: {
         color: '#ffffff',
-        fontSize: 14,
+        fontSize: normalize(14),
         fontWeight: '600',
-        marginBottom: 8,
+        marginBottom: vh(1),
     },
     toolbarButtons: {
         flexDirection: 'row',
-        gap: 8,
+        gap: vw(2),
     },
     toolButton: {
         backgroundColor: '#0f3460',
-        borderRadius: 8,
-        paddingVertical: 8,
-        paddingHorizontal: 12,
+        borderRadius: normalize(8),
+        paddingVertical: vh(1),
+        paddingHorizontal: vw(3),
         borderWidth: 1,
         borderColor: '#ff6b35',
     },
     toolButtonText: {
         color: '#ff6b35',
-        fontSize: 12,
+        fontSize: normalize(12),
         fontWeight: '600',
     },
     editorContainer: {
-        marginBottom: 20,
+        flex: 1,
+        marginBottom: vh(3),
     },
     editorHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: vh(1.5),
     },
     editorTitle: {
         color: '#ffffff',
-        fontSize: 16,
+        fontSize: normalize(16),
         fontWeight: '600',
     },
     resetButton: {
         backgroundColor: 'rgba(233, 69, 96, 0.2)',
-        borderRadius: 6,
-        paddingVertical: 6,
-        paddingHorizontal: 10,
+        borderRadius: normalize(6),
+        paddingVertical: vh(0.8),
+        paddingHorizontal: vw(2.5),
     },
     resetButtonText: {
         color: '#e94560',
-        fontSize: 12,
+        fontSize: normalize(12),
         fontWeight: '600',
     },
     codeInput: {
         backgroundColor: '#0f1419',
-        borderRadius: 12,
-        padding: 15,
-        fontSize: 14,
+        borderRadius: normalize(12),
+        padding: normalize(15),
+        fontSize: normalize(14),
         fontFamily: 'monospace',
         color: '#ffffff',
-        minHeight: 200,
-        maxHeight: 350,
         borderWidth: 2,
         borderColor: '#16213e',
         textAlignVertical: 'top',
+        flex: 1,
     },
     validateButton: {
         backgroundColor: '#ff6b35',
-        borderRadius: 12,
-        paddingVertical: 15,
-        paddingHorizontal: 20,
-        marginBottom: 20,
+        borderRadius: normalize(12),
+        paddingVertical: vh(2),
+        paddingHorizontal: vw(5),
+        marginBottom: vh(1),
         borderWidth: 2,
         borderColor: '#e55a2b',
         elevation: 4,
@@ -758,11 +768,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 10,
+        gap: vw(2.5),
     },
     validateButtonText: {
         color: '#ffffff',
-        fontSize: 16,
+        fontSize: normalize(16),
         fontWeight: 'bold',
         textAlign: 'center',
     },
@@ -775,8 +785,8 @@ const styles = StyleSheet.create({
     modalContent: {
         width: '85%',
         backgroundColor: '#16213e',
-        borderRadius: 15,
-        padding: 25,
+        borderRadius: normalize(15),
+        padding: normalize(25),
         alignItems: 'center',
         borderWidth: 2,
     },
@@ -788,39 +798,39 @@ const styles = StyleSheet.create({
     },
     resultadoText: {
         color: '#ffffff',
-        fontSize: 18,
+        fontSize: normalize(18),
         fontWeight: '600',
         textAlign: 'center',
-        lineHeight: 26,
-        marginBottom: 20,
+        lineHeight: normalize(26),
+        marginBottom: vh(3),
     },
     closeButton: {
         backgroundColor: '#ff6b35',
-        borderRadius: 10,
-        paddingVertical: 12,
-        paddingHorizontal: 30,
+        borderRadius: normalize(10),
+        paddingVertical: vh(1.5),
+        paddingHorizontal: vw(7.5),
         elevation: 2,
     },
     closeButtonText: {
         color: '#ffffff',
-        fontSize: 16,
+        fontSize: normalize(16),
         fontWeight: 'bold',
     },
     backContainer: {
         alignItems: 'center',
-        paddingBottom: 30,
+        paddingBottom: vh(1),
     },
     backButton: {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: 20,
-        paddingVertical: 12,
-        paddingHorizontal: 25,
+        borderRadius: normalize(20),
+        paddingVertical: vh(1.5),
+        paddingHorizontal: vw(6),
         borderWidth: 1,
         borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     backButtonText: {
         color: '#ffffff',
-        fontSize: 16,
+        fontSize: normalize(16),
         fontWeight: '600',
     },
 });

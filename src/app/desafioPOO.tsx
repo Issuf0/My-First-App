@@ -11,9 +11,10 @@ import {
     Easing,
     Modal
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { router } from "expo-router";
 import exerciciosPOO from "../database/desafioPOO.json";
+import { Exercicio } from "../types";
 import { normalize, vh, vw } from "../utils/responsive";
 
 // Componente de fundo com ícones POO
@@ -63,10 +64,8 @@ const POOBackground = () => {
                                         isMethodStructure ? 0.15 :
                                             isSymbol ? 0.12 : 0.08,
                                 fontSize: normalize(isIcon ? (Math.random() * 15 + 20) :
-                                    isPOOConcept ? (Math.random() * 10 + 16) :
-                                        isMethodStructure ? (Math.random() * 8 + 14) :
-                                            isSymbol ? (Math.random() * 8 + 16) :
-                                                (Math.random() * 6 + 10)),
+                                    isSymbol ? (Math.random() * 8 + 16) :
+                                        (Math.random() * 6 + 10)),
                                 transform: [{ rotate: `${ Math.random() * 360 }deg` }],
                             color: isIcon 
                                     ? '#FF8C42' 
@@ -90,15 +89,24 @@ const POOBackground = () => {
 
 
 export default function JavaPOOEditor() {
-    const [exercicioAtual, setExercicioAtual] = useState(exerciciosPOO[0]);
-    const [userCode, setUserCode] = useState(exercicioAtual.templateCodigo);
+    const [exerciciosEmbaralhados, setExerciciosEmbaralhados] = useState<Exercicio[]>([]);
+    const [indiceAtual, setIndiceAtual] = useState(0);
+    const [exercicioAtual, setExercicioAtual] = useState<Exercicio | null>(null);
+    const [userCode, setUserCode] = useState('');
     const [resultado, setResultado] = useState('');
     const [isValidating, setIsValidating] = useState(false);
     const [showDicas, setShowDicas] = useState(false);
     const [showVariaveis, setShowVariaveis] = useState(false);
     const [pontuacao, setPontuacao] = useState(0);
-    const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
+
+    useEffect(() => {
+        const exerciciosEmbaralhados = [...exerciciosPOO].sort(() => Math.random() - 0.5);
+        setExerciciosEmbaralhados(exerciciosEmbaralhados);
+        setExercicioAtual(exerciciosEmbaralhados[0]);
+        setUserCode(exerciciosEmbaralhados[0].templateCodigo);
+    }, []);
 
     const codeInputRef = useRef(null);
     const pulseAnim = useRef(new Animated.Value(1)).current;
@@ -132,6 +140,10 @@ export default function JavaPOOEditor() {
     const validarCodigo = async () => {
         if (!userCode.trim()) {
             Alert.alert("❌ Erro", "Por favor, escreva algum código!");
+            return;
+        }
+
+        if (!exercicioAtual) {
             return;
         }
 
@@ -200,6 +212,9 @@ export default function JavaPOOEditor() {
     };
 
     const proximoExercicio = () => {
+        if (!exercicioAtual) {
+            return;
+        }
         const proximoIndex = exerciciosPOO.findIndex(ex => ex.id === exercicioAtual.id) + 1;
         if (proximoIndex < exerciciosPOO.length) {
             const proximoEx = exerciciosPOO[proximoIndex];
@@ -220,6 +235,9 @@ export default function JavaPOOEditor() {
     };
 
     const resetarCodigo = () => {
+        if (!exercicioAtual) {
+            return;
+        }
         Alert.alert(
             "🔄 Resetar Código",
             "Tem certeza que deseja voltar ao template inicial?",
@@ -246,7 +264,9 @@ export default function JavaPOOEditor() {
             <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
 
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-                {/* Header */}
+                {exercicioAtual && (
+                    <>
+                        {/* Header */}
                 <View style={styles.headerContainer}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>☕ Java POO Master</Text>
@@ -297,7 +317,7 @@ export default function JavaPOOEditor() {
                     {showDicas && (
                         <View style={styles.infoContainer}>
                             <Text style={styles.infoTitle}>💡 Dicas POO:</Text>
-                            {exercicioAtual.dicas.map((dica, index) => (
+                            {exercicioAtual.dicas.map((dica: string, index: number) => (
                                 <Text key={index} style={styles.infoText}>
                                     • {dica}
                                 </Text>
@@ -312,14 +332,14 @@ export default function JavaPOOEditor() {
                             <Text style={styles.variaveisSubtitle}>
                                 ⚠ Inclua exatamente estes elementos para validação:
                             </Text>
-                            {exercicioAtual.variaveisObrigatorias.map((variavel, index) => (
+                            {exercicioAtual.variaveisObrigatorias.map((variavel: string, index: number) => (
                                 <View key={index} style={styles.variavelItem}>
                                     <Text style={styles.variavelText}>{variavel}</Text>
                                 </View>
                             ))}
                             <Text style={styles.palavrasChaveTitle}>🔑 Conceitos POO esperados:</Text>
                             <View style={styles.palavrasChaveContainer}>
-                                {exercicioAtual.palavrasChave.map((palavra, index) => (
+                                {exercicioAtual.palavrasChave.map((palavra: string, index: number) => (
                                     <View key={index} style={styles.palavraChaveTag}>
                                         <Text style={styles.palavraChaveText}>{palavra}</Text>
                                     </View>
@@ -396,7 +416,7 @@ export default function JavaPOOEditor() {
                         autoCorrect={false}
                         spellCheck={false}
                         onSelectionChange={(e) => setCursorPosition(e.nativeEvent.selection)}
-                    />
+                            />
                 </View>
 
                 {/* Botão Validar */}
@@ -441,14 +461,9 @@ export default function JavaPOOEditor() {
                         </View>
                     </View>
                 </Modal>
-
-                {/* Botão Voltar */}
-                <View style={styles.backContainer}>
-                    <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-                        <Text style={styles.backButtonText}>← Voltar ao Menu</Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
+            </>
+        )}
+        </ScrollView>
         </View>
     );
 }
@@ -474,29 +489,29 @@ const styles = StyleSheet.create({
     scrollContainer: {
         flex: 1,
         paddingHorizontal: vw(5),
-        paddingTop: vh(7),
+        paddingTop: vh(2),
     },
     headerContainer: {
-        marginBottom: vh(3),
+        marginBottom: vh(0.5),
     },
     titleContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: vh(1),
+        marginBottom: vh(0.5),
     },
     title: {
-        fontSize: normalize(24),
+        fontSize: normalize(22),
         fontWeight: 'bold',
         color: '#FF8C42',
     },
     pontuacaoText: {
-        fontSize: normalize(16),
+        fontSize: normalize(14),
         fontWeight: 'bold',
         color: '#6C63FF',
     },
     exercicioNumero: {
-        fontSize: normalize(12),
+        fontSize: normalize(11),
         color: '#ffffff',
         textAlign: 'center',
         opacity: 0.8,
@@ -505,7 +520,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#161B22',
         borderRadius: normalize(15),
         padding: normalize(20),
-        marginBottom: vh(2),
+        marginBottom: vh(0.5),
         borderWidth: 1,
         borderColor: '#21262D',
     },
@@ -513,10 +528,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: vh(1.5),
+        marginBottom: vh(1),
     },
     exercicioTitulo: {
-        fontSize: normalize(20),
+        fontSize: normalize(18),
         fontWeight: 'bold',
         color: '#FF8C42',
         flex: 1,
@@ -529,14 +544,14 @@ const styles = StyleSheet.create({
     },
     categoriaText: {
         color: '#6C63FF',
-        fontSize: normalize(12),
+        fontSize: normalize(11),
         fontWeight: '600',
     },
     exercicioDescricao: {
-        fontSize: normalize(16),
+        fontSize: normalize(14),
         color: '#ffffff',
         lineHeight: normalize(22),
-        marginBottom: vh(2),
+        marginBottom: vh(0.5),
     },
     pontosContainer: {
         backgroundColor: 'rgba(255, 140, 66, 0.15)',
@@ -544,17 +559,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: vw(3),
         paddingVertical: vh(1),
         alignSelf: 'flex-start',
-        marginBottom: vh(2),
+        marginBottom: vh(1),
     },
     pontosText: {
         color: '#FF8C42',
-        fontSize: normalize(14),
+        fontSize: normalize(13),
         fontWeight: 'bold',
     },
     infoButtonsContainer: {
         flexDirection: 'row',
         gap: vw(2.5),
-        marginBottom: vh(1.5),
+        marginBottom: vh(1),
     },
     infoButton: {
         backgroundColor: 'rgba(255, 140, 66, 0.12)',
@@ -571,7 +586,7 @@ const styles = StyleSheet.create({
     },
     infoButtonText: {
         color: '#FF8C42',
-        fontSize: normalize(14),
+        fontSize: normalize(13),
         fontWeight: '600',
         textAlign: 'center',
     },
@@ -579,7 +594,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(78, 205, 196, 0.12)',
         borderRadius: normalize(8),
         padding: normalize(15),
-        marginTop: vh(1.5),
+        marginTop: vh(1),
         borderWidth: 1,
         borderColor: 'rgba(78, 205, 196, 0.3)',
     },
@@ -587,46 +602,46 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(108, 99, 255, 0.12)',
         borderRadius: normalize(8),
         padding: normalize(15),
-        marginTop: vh(1.5),
+        marginTop: vh(1),
         borderWidth: 1,
         borderColor: 'rgba(108, 99, 255, 0.3)',
     },
     infoTitle: {
         color: '#ffffff',
-        fontSize: normalize(16),
+        fontSize: normalize(15),
         fontWeight: 'bold',
-        marginBottom: vh(1.5),
+        marginBottom: vh(1),
     },
     infoText: {
         color: '#ffffff',
-        fontSize: normalize(14),
-        marginBottom: vh(1),
+        fontSize: normalize(13),
+        marginBottom: vh(0.5),
         lineHeight: normalize(20),
     },
     variaveisSubtitle: {
         color: '#FF8C42',
-        fontSize: normalize(13),
+        fontSize: normalize(12),
         fontWeight: '600',
-        marginBottom: vh(1.5),
+        marginBottom: vh(1),
     },
     variavelItem: {
         backgroundColor: 'rgba(255, 255, 255, 0.05)',
         borderRadius: normalize(6),
         padding: normalize(8),
-        marginBottom: vh(1),
+        marginBottom: vh(0.5),
     },
     variavelText: {
         fontFamily: 'monospace',
         color: '#FF8C42',
-        fontSize: normalize(14),
+        fontSize: normalize(13),
         fontWeight: 'bold',
     },
     palavrasChaveTitle: {
         color: '#ffffff',
-        fontSize: normalize(14),
+        fontSize: normalize(13),
         fontWeight: 'bold',
         marginTop: vh(1.5),
-        marginBottom: vh(1),
+        marginBottom: vh(0.5),
     },
     palavrasChaveContainer: {
         flexDirection: 'row',
@@ -641,17 +656,17 @@ const styles = StyleSheet.create({
     },
     palavraChaveText: {
         color: '#ffffff',
-        fontSize: normalize(11),
+        fontSize: normalize(10),
         fontWeight: '500',
     },
     toolbarContainer: {
-        marginBottom: vh(2),
+        marginBottom: vh(0.5),
     },
     toolbarTitle: {
         color: '#ffffff',
-        fontSize: normalize(14),
+        fontSize: normalize(13),
         fontWeight: '600',
-        marginBottom: vh(1),
+        marginBottom: vh(0.5),
     },
     toolbarButtons: {
         flexDirection: 'row',
@@ -667,21 +682,22 @@ const styles = StyleSheet.create({
     },
     toolButtonText: {
         color: '#4ECDC4',
-        fontSize: normalize(12),
+        fontSize: normalize(11),
         fontWeight: '600',
     },
     editorContainer: {
-        marginBottom: vh(3),
+        flex: 1,
+        marginBottom: vh(1),
     },
     editorHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: vh(1.5),
+        marginBottom: vh(1),
     },
     editorTitle: {
         color: '#ffffff',
-        fontSize: normalize(16),
+        fontSize: normalize(15),
         fontWeight: '600',
     },
     resetButton: {
@@ -692,28 +708,27 @@ const styles = StyleSheet.create({
     },
     resetButtonText: {
         color: '#6C63FF',
-        fontSize: normalize(12),
+        fontSize: normalize(11),
         fontWeight: '600',
     },
     codeInput: {
         backgroundColor: '#0D1117',
         borderRadius: normalize(12),
         padding: normalize(15),
-        fontSize: normalize(14),
+        fontSize: normalize(13),
         fontFamily: 'monospace',
         color: '#ffffff',
-        minHeight: vh(30),
-        maxHeight: vh(50),
         borderWidth: 2,
         borderColor: '#21262D',
         textAlignVertical: 'top',
+        flex: 1,
     },
     validateButton: {
         backgroundColor: '#FF8C42',
         borderRadius: normalize(12),
         paddingVertical: vh(2),
         paddingHorizontal: vw(5),
-        marginBottom: vh(3),
+        marginBottom: vh(0.5),
         borderWidth: 2,
         borderColor: '#E67E22',
         elevation: 4,
@@ -733,7 +748,7 @@ const styles = StyleSheet.create({
     },
     validateButtonText: {
         color: '#ffffff',
-        fontSize: normalize(16),
+        fontSize: normalize(15),
         fontWeight: 'bold',
         textAlign: 'center',
     },
@@ -759,11 +774,11 @@ const styles = StyleSheet.create({
     },
     resultadoText: {
         color: '#ffffff',
-        fontSize: normalize(18),
+        fontSize: normalize(16),
         fontWeight: '600',
         textAlign: 'center',
         lineHeight: normalize(26),
-        marginBottom: vh(3),
+        marginBottom: vh(1.5),
     },
     closeButton: {
         backgroundColor: '#FF8C42',
@@ -774,24 +789,7 @@ const styles = StyleSheet.create({
     },
     closeButtonText: {
         color: '#ffffff',
-        fontSize: normalize(16),
+        fontSize: normalize(15),
         fontWeight: 'bold',
     },
-    backContainer: {
-        alignItems: 'center',
-        paddingBottom: vh(4),
-    },
-    backButton: {
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: normalize(20),
-        paddingVertical: vh(1.5),
-        paddingHorizontal: vw(6),
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.2)',
-    },
-    backButtonText: {
-        color: '#ffffff',
-        fontSize: normalize(16),
-        fontWeight: '600',
-    },
-});
+    });

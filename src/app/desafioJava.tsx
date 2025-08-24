@@ -9,7 +9,12 @@ import {
     ActivityIndicator,
     Animated,
     Easing,
-    Modal
+    Modal,
+    ScrollView,
+    KeyboardAvoidingView,
+    Platform,
+    Dimensions,
+    Keyboard
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import { router } from "expo-router";
@@ -67,19 +72,19 @@ const JavaBackground = () => {
                                 fontSize: normalize(isIcon ? (Math.random() * 10 + 20) :
                                     isSymbol ? (Math.random() * 8 + 16) :
                                         (Math.random() * 6 + 10)),
-                                transform: [{ rotate: `${ Math.random() * 360 }deg` }],
-                            color: isIcon 
-                                ? '#ff6b35' 
-                                : isSymbol 
-                                ? '#e94560' 
-                                : '#16213e',
+                                transform: [{ rotate: `${Math.random() * 360}deg` }],
+                                color: isIcon
+                                    ? '#ff6b35'
+                                    : isSymbol
+                                        ? '#e94560'
+                                        : '#16213e',
                             }
                         ]}
                     >
-            {element}
-        </Text>
-    );
-})}
+                        {element}
+                    </Text>
+                );
+            })}
         </View >
     );
 };
@@ -87,19 +92,42 @@ const JavaBackground = () => {
 const backgroundMusic = require('@/assets/audio/background.mp3');
 
 export default function JavaCodeEditor() {
-   ;
-
     const [exerciciosEmbaralhados, setExerciciosEmbaralhados] = useState<Exercicio[]>([]);
     const [indiceAtual, setIndiceAtual] = useState(0);
     const [exercicioAtual, setExercicioAtual] = useState<Exercicio | null>(null);
     const [userCode, setUserCode] = useState('');
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
     useEffect(() => {
         const exerciciosEmbaralhados = [...exercicios].sort(() => Math.random() - 0.5);
         setExerciciosEmbaralhados(exerciciosEmbaralhados);
         setExercicioAtual(exerciciosEmbaralhados[0]);
         setUserCode(exerciciosEmbaralhados[0].templateCodigo);
+
+        // Listener para mudanças do teclado
+        const keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            (e) => {
+                setKeyboardHeight(e.endCoordinates.height);
+                setIsKeyboardVisible(true);
+            }
+        );
+
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setKeyboardHeight(0);
+                setIsKeyboardVisible(false);
+            }
+        );
+
+        return () => {
+            keyboardDidHideListener?.remove();
+            keyboardDidShowListener?.remove();
+        };
     }, []);
+
     const [resultado, setResultado] = useState('');
     const [isValidating, setIsValidating] = useState(false);
     const [showDicas, setShowDicas] = useState(false);
@@ -107,11 +135,11 @@ export default function JavaCodeEditor() {
     const [pontuacao, setPontuacao] = useState(0);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
-    const [editorHeight, setEditorHeight] = useState<number | undefined>(undefined);
     const scaleValue = useRef(new Animated.Value(1)).current;
     const spinValue = useRef(new Animated.Value(0)).current;
 
     const codeInputRef = useRef(null);
+    const scrollViewRef = useRef<ScrollView>(null);
 
     const pulseAnim = useRef(new Animated.Value(1)).current;
     const spinAnim = useRef(new Animated.Value(0)).current;
@@ -139,6 +167,17 @@ export default function JavaCodeEditor() {
         pulseAnim.setValue(1);
         spinAnim.stopAnimation();
         spinAnim.setValue(0);
+    };
+
+    // Função para focar no editor quando necessário
+    const focusCodeEditor = () => {
+        if (codeInputRef.current) {
+            codeInputRef.current.focus();
+            // Rolar para o editor após um pequeno delay
+            setTimeout(() => {
+                scrollViewRef.current?.scrollToEnd({ animated: true });
+            }, 300);
+        }
     };
 
     // Validação do código (simulada - integrar com API)
@@ -261,7 +300,7 @@ export default function JavaCodeEditor() {
         } else {
             Alert.alert(
                 "🏆 Parabéns!",
-                `Você completou todos os exercícios!\nPontuação final: ${ pontuacao } pontos`,
+                `Você completou todos os exercícios!\nPontuação final: ${pontuacao} pontos`,
                 [
                     { text: "Voltar ao Menu", onPress: () => router.back() }
                 ]
@@ -291,6 +330,8 @@ export default function JavaCodeEditor() {
     const inserirTexto = (texto: string) => {
         const newCode = userCode.slice(0, cursorPosition.start) + texto + userCode.slice(cursorPosition.end);
         setUserCode(newCode);
+        // Focar no editor após inserir texto
+        setTimeout(() => focusCodeEditor(), 100);
     };
 
     return (
@@ -298,8 +339,21 @@ export default function JavaCodeEditor() {
             <JavaBackground />
             <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
 
-            <View style={styles.contentContainer}>
-                <View style={{ flex: 1 }}>
+            <KeyboardAvoidingView
+                style={styles.keyboardAvoidingContainer}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
+            >
+                <ScrollView
+                    ref={scrollViewRef}
+                    style={[
+                        styles.contentContainer,
+                        isKeyboardVisible && styles.contentWithKeyboard
+                    ]}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={styles.scrollContentContainer}
+                    keyboardShouldPersistTaps="handled"
+                >
                     {exercicioAtual && (
                         <>
                             {/* Header */}
@@ -323,10 +377,6 @@ export default function JavaCodeEditor() {
                                 </View>
 
                                 <Text style={styles.exercicioDescricao}>{exercicioAtual.descricao}</Text>
-
-                                <View style={styles.pontosContainer}>
-                                    <Text style={styles.pontosText}>💎 Pontos: {exercicioAtual.pontos}</Text>
-                                </View>
 
                                 {/* Botões de Informação */}
                                 <View style={styles.infoButtonsContainer}>
@@ -388,7 +438,12 @@ export default function JavaCodeEditor() {
                             {/* Barra de Ferramentas */}
                             <View style={styles.toolbarContainer}>
                                 <Text style={styles.toolbarTitle}>⚡ Atalhos Rápidos:</Text>
-                                <View style={styles.toolbarButtons}>
+                                <ScrollView
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    style={styles.toolbarScrollView}
+                                >
+                                    <View style={styles.toolbarButtons}>
                                         <TouchableOpacity
                                             style={styles.toolButton}
                                             onPress={() => inserirTexto('System.out.println("");')}
@@ -420,10 +475,14 @@ export default function JavaCodeEditor() {
                                             <Text style={styles.toolButtonText}>array</Text>
                                         </TouchableOpacity>
                                     </View>
-                                </View>
+                                </ScrollView>
+                            </View>
 
                             {/* Editor de Código */}
-                            <View style={styles.editorContainer}>
+                            <View style={[
+                                styles.editorContainer,
+                                isKeyboardVisible && styles.editorWithKeyboard
+                            ]}>
                                 <View style={styles.editorHeader}>
                                     <Text style={styles.editorTitle}>📝 Seu Código Java:</Text>
                                     <TouchableOpacity style={styles.resetButton} onPress={resetarCodigo}>
@@ -434,7 +493,10 @@ export default function JavaCodeEditor() {
                                 <TextInput
                                     ref={codeInputRef}
                                     multiline
-                                    style={[styles.codeInput, { height: editorHeight }]}
+                                    style={[
+                                        styles.codeInput,
+                                        isKeyboardVisible && styles.codeInputWithKeyboard
+                                    ]}
                                     value={userCode}
                                     onChangeText={setUserCode}
                                     placeholder="Digite seu código Java aqui..."
@@ -444,12 +506,16 @@ export default function JavaCodeEditor() {
                                     autoCorrect={false}
                                     spellCheck={false}
                                     onSelectionChange={(e) => setCursorPosition(e.nativeEvent.selection)}
-                                    onContentSizeChange={(e) => setEditorHeight(e.nativeEvent.contentSize.height)}
+                                    onFocus={focusCodeEditor}
+                                    scrollEnabled={true}
                                 />
                             </View>
 
                             {/* Botão Validar */}
-                            <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
+                            <Animated.View style={{
+                                transform: [{ scale: pulseAnim }],
+                                marginBottom: isKeyboardVisible ? normalize(10) : normalize(20)
+                            }}>
                                 <TouchableOpacity
                                     style={[styles.validateButton, isValidating && styles.validateButtonDisabled]}
                                     onPress={validarCodigo}
@@ -492,8 +558,8 @@ export default function JavaCodeEditor() {
                             </Modal>
                         </>
                     )}
-                </View>
-            </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </View>
     );
 }
@@ -516,10 +582,20 @@ const styles = StyleSheet.create({
         fontFamily: 'monospace',
         fontWeight: '300',
     },
+    keyboardAvoidingContainer: {
+        flex: 1,
+    },
     contentContainer: {
         flex: 1,
         paddingHorizontal: vw(5),
         paddingTop: vh(1),
+    },
+    contentWithKeyboard: {
+        paddingBottom: normalize(10),
+    },
+    scrollContentContainer: {
+        flexGrow: 1,
+        paddingBottom: normalize(30),
     },
     headerContainer: {
         marginBottom: vh(0.2),
@@ -582,19 +658,6 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         lineHeight: normalize(22),
         marginBottom: vh(0.5),
-    },
-    pontosContainer: {
-        backgroundColor: 'rgba(255, 107, 53, 0.1)',
-        borderRadius: normalize(8),
-        paddingHorizontal: vw(3),
-        paddingVertical: vh(1),
-        alignSelf: 'flex-start',
-        marginBottom: vh(1),
-    },
-    pontosText: {
-        color: '#ff6b35',
-        fontSize: normalize(13),
-        fontWeight: 'bold',
     },
     infoButtonsContainer: {
         flexDirection: 'row',
@@ -750,6 +813,8 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#16213e',
         textAlignVertical: 'top',
+        minHeight: vh(20),
+        flex: 1,
     },
     validateButton: {
         backgroundColor: '#ff6b35',

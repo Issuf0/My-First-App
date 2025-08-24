@@ -9,7 +9,10 @@ import {
     StatusBar,
     Animated,
     Easing,
-    Modal
+    Modal,
+    KeyboardAvoidingView,
+    Platform,
+    Keyboard
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import { router } from "expo-router";
@@ -66,23 +69,23 @@ const POOBackground = () => {
                                 fontSize: normalize(isIcon ? (Math.random() * 15 + 20) :
                                     isSymbol ? (Math.random() * 8 + 16) :
                                         (Math.random() * 6 + 10)),
-                                transform: [{ rotate: `${ Math.random() * 360 }deg` }],
-                            color: isIcon 
-                                    ? '#FF8C42' 
-                                    : isPOOConcept 
-                                    ? '#6C63FF' 
-                                    : isMethodStructure 
-                                    ? '#4ECDC4' 
-                                    : isSymbol 
-                                    ? '#45B7D1' 
-                                    : '#2C3E50',
+                                transform: [{ rotate: `${Math.random() * 360}deg` }],
+                                color: isIcon
+                                    ? '#FF8C42'
+                                    : isPOOConcept
+                                        ? '#6C63FF'
+                                        : isMethodStructure
+                                            ? '#4ECDC4'
+                                            : isSymbol
+                                                ? '#45B7D1'
+                                                : '#2C3E50',
                             }
                         ]}
                     >
-            {element}
-        </Text>
-    );
-})}
+                        {element}
+                    </Text>
+                );
+            })}
         </View >
     );
 };
@@ -100,6 +103,8 @@ export default function JavaPOOEditor() {
     const [pontuacao, setPontuacao] = useState(0);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
+    const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
     useEffect(() => {
         const exerciciosEmbaralhados = [...exerciciosPOO].sort(() => Math.random() - 0.5);
@@ -108,7 +113,31 @@ export default function JavaPOOEditor() {
         setUserCode(exerciciosEmbaralhados[0].templateCodigo);
     }, []);
 
+    // Gerenciar eventos do teclado
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            (e) => {
+                setKeyboardHeight(e.endCoordinates.height);
+                setIsKeyboardVisible(true);
+            }
+        );
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setKeyboardHeight(0);
+                setIsKeyboardVisible(false);
+            }
+        );
+
+        return () => {
+            keyboardDidHideListener?.remove();
+            keyboardDidShowListener?.remove();
+        };
+    }, []);
+
     const codeInputRef = useRef(null);
+    const scrollViewRef = useRef(null);
     const pulseAnim = useRef(new Animated.Value(1)).current;
     const spinAnim = useRef(new Animated.Value(0)).current;
 
@@ -167,7 +196,7 @@ export default function JavaPOOEditor() {
                     }
                     break;
                 case 2: // Herança
-                     if (codigoLimpo.includes('classcachorroextendscanimal') && codigoLimpo.includes('@override') && codigoLimpo.includes('super(')) {
+                    if (codigoLimpo.includes('classcachorroextendscanimal') && codigoLimpo.includes('@override') && codigoLimpo.includes('super(')) {
                         sucesso = true;
                         mensagem = '🎉 Herança implementada com sucesso!\n+65 pontos';
                         setPontuacao(pontuacao + 65);
@@ -226,7 +255,7 @@ export default function JavaPOOEditor() {
         } else {
             Alert.alert(
                 "🏆 Mestre em POO!",
-                `Parabéns! Você dominou a Programação Orientada a Objetos!\nPontuação final: ${ pontuacao } pontos\n\nVocê agora entende: Classes, Objetos, Herança, Polimorfismo e Encapsulamento!`,
+                `Parabéns! Você dominou a Programação Orientada a Objetos!\nPontuação final: ${pontuacao} pontos\n\nVocê agora entende: Classes, Objetos, Herança, Polimorfismo e Encapsulamento!`,
                 [
                     { text: "Voltar ao Menu", onPress: () => router.back() }
                 ]
@@ -258,213 +287,263 @@ export default function JavaPOOEditor() {
         setUserCode(newCode);
     };
 
+    const focusOnEditor = () => {
+        if (codeInputRef.current) {
+            codeInputRef.current.focus();
+        }
+        // Scroll para o editor quando o teclado aparecer
+        if (scrollViewRef.current && isKeyboardVisible) {
+            setTimeout(() => {
+                scrollViewRef.current?.scrollToEnd({ animated: true });
+            }, 300);
+        }
+    };
+
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 25}
+        >
             <POOBackground />
             <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
 
-            <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+            <ScrollView
+                ref={scrollViewRef}
+                style={[
+                    styles.scrollContainer,
+                    isKeyboardVisible && { marginBottom: Platform.OS === 'android' ? keyboardHeight * 0.1 : 0 }
+                ]}
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={{ paddingBottom: isKeyboardVisible ? vh(5) : vh(2) }}
+            >
                 {exercicioAtual && (
                     <>
                         {/* Header */}
-                <View style={styles.headerContainer}>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>☕ Java POO Master</Text>
-                        <Text style={styles.pontuacaoText}>🏆 {pontuacao} pts</Text>
-                    </View>
-                    <Text style={styles.exercicioNumero}>
-                        {exercicioAtual.titulo} ({exercicioAtual.nivel}) - {exercicioAtual.id}/{exerciciosPOO.length}
-                    </Text>
-                </View>
-
-                {/* Card do Exercício Completo */}
-                <View style={styles.exercicioCard}>
-                    <View style={styles.exercicioHeader}>
-                        <Text style={styles.exercicioTitulo}>{exercicioAtual.titulo}</Text>
-                        <View style={styles.categoriaTag}>
-                            <Text style={styles.categoriaText}>{exercicioAtual.categoria}</Text>
+                        <View style={styles.headerContainer}>
+                            <View style={styles.titleContainer}>
+                                <Text style={styles.title}>☕ Java POO Master</Text>
+                                <Text style={styles.pontuacaoText}>🏆 {pontuacao} pts</Text>
+                            </View>
+                            <Text style={styles.exercicioNumero}>
+                                {exercicioAtual.titulo} ({exercicioAtual.nivel}) - {exercicioAtual.id}/{exerciciosPOO.length}
+                            </Text>
                         </View>
-                    </View>
 
-                    <Text style={styles.exercicioDescricao}>{exercicioAtual.descricao}</Text>
-
-                    <View style={styles.pontosContainer}>
-                        <Text style={styles.pontosText}>💎 Pontos: {exercicioAtual.pontos}</Text>
-                    </View>
-
-                    {/* Botões de Informação */}
-                    <View style={styles.infoButtonsContainer}>
-                        <TouchableOpacity
-                            style={[styles.infoButton, showDicas && styles.infoButtonActive]}
-                            onPress={() => setShowDicas(!showDicas)}
-                        >
-                            <Text style={styles.infoButtonText}>
-                                💡 {showDicas ? 'Ocultar' : 'Ver'} Dicas
-                            </Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={[styles.infoButton, showVariaveis && styles.infoButtonActive]}
-                            onPress={() => setShowVariaveis(!showVariaveis)}
-                        >
-                            <Text style={styles.infoButtonText}>
-                                📋 {showVariaveis ? 'Ocultar' : 'Ver'} Requisitos
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    {/* Dicas */}
-                    {showDicas && (
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.infoTitle}>💡 Dicas POO:</Text>
-                            {exercicioAtual.dicas.map((dica: string, index: number) => (
-                                <Text key={index} style={styles.infoText}>
-                                    • {dica}
-                                </Text>
-                            ))}
-                        </View>
-                    )}
-
-                    {/* Variáveis Obrigatórias */}
-                    {showVariaveis && (
-                        <View style={styles.variaveisContainer}>
-                            <Text style={styles.infoTitle}>📋 Elementos Obrigatórios:</Text>
-                            <Text style={styles.variaveisSubtitle}>
-                                ⚠ Inclua exatamente estes elementos para validação:
-                            </Text>
-                            {exercicioAtual.variaveisObrigatorias.map((variavel: string, index: number) => (
-                                <View key={index} style={styles.variavelItem}>
-                                    <Text style={styles.variavelText}>{variavel}</Text>
-                                </View>
-                            ))}
-                            <Text style={styles.palavrasChaveTitle}>🔑 Conceitos POO esperados:</Text>
-                            <View style={styles.palavrasChaveContainer}>
-                                {exercicioAtual.palavrasChave.map((palavra: string, index: number) => (
-                                    <View key={index} style={styles.palavraChaveTag}>
-                                        <Text style={styles.palavraChaveText}>{palavra}</Text>
+                        {/* Card do Exercício Completo - Ocultar quando teclado visível */}
+                        {!isKeyboardVisible && (
+                            <View style={styles.exercicioCard}>
+                                <View style={styles.exercicioHeader}>
+                                    <Text style={styles.exercicioTitulo}>{exercicioAtual.titulo}</Text>
+                                    <View style={styles.categoriaTag}>
+                                        <Text style={styles.categoriaText}>{exercicioAtual.categoria}</Text>
                                     </View>
-                                ))}
+                                </View>
+
+                                <Text style={styles.exercicioDescricao}>{exercicioAtual.descricao}</Text>
+
+                                {/* Botões de Informação */}
+                                <View style={styles.infoButtonsContainer}>
+                                    <TouchableOpacity
+                                        style={[styles.infoButton, showDicas && styles.infoButtonActive]}
+                                        onPress={() => setShowDicas(!showDicas)}
+                                    >
+                                        <Text style={styles.infoButtonText}>
+                                            💡 {showDicas ? 'Ocultar' : 'Ver'} Dicas
+                                        </Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity
+                                        style={[styles.infoButton, showVariaveis && styles.infoButtonActive]}
+                                        onPress={() => setShowVariaveis(!showVariaveis)}
+                                    >
+                                        <Text style={styles.infoButtonText}>
+                                            📋 {showVariaveis ? 'Ocultar' : 'Ver'} Requisitos
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                {/* Dicas */}
+                                {showDicas && (
+                                    <View style={styles.infoContainer}>
+                                        <Text style={styles.infoTitle}>💡 Dicas POO:</Text>
+                                        {exercicioAtual.dicas.map((dica: string, index: number) => (
+                                            <Text key={index} style={styles.infoText}>
+                                                • {dica}
+                                            </Text>
+                                        ))}
+                                    </View>
+                                )}
+
+                                {/* Variáveis Obrigatórias */}
+                                {showVariaveis && (
+                                    <View style={styles.variaveisContainer}>
+                                        <Text style={styles.infoTitle}>📋 Elementos Obrigatórios:</Text>
+                                        <Text style={styles.variaveisSubtitle}>
+                                            ⚠ Inclua exatamente estes elementos para validação:
+                                        </Text>
+                                        {exercicioAtual.variaveisObrigatorias.map((variavel: string, index: number) => (
+                                            <View key={index} style={styles.variavelItem}>
+                                                <Text style={styles.variavelText}>{variavel}</Text>
+                                            </View>
+                                        ))}
+                                        <Text style={styles.palavrasChaveTitle}>🔑 Conceitos POO esperados:</Text>
+                                        <View style={styles.palavrasChaveContainer}>
+                                            {exercicioAtual.palavrasChave.map((palavra: string, index: number) => (
+                                                <View key={index} style={styles.palavraChaveTag}>
+                                                    <Text style={styles.palavraChaveText}>{palavra}</Text>
+                                                </View>
+                                            ))}
+                                        </View>
+                                    </View>
+                                )}
                             </View>
-                        </View>
-                    )}
-                </View>
-
-                {/* Barra de Ferramentas POO */}
-                <View style={styles.toolbarContainer}>
-                    <Text style={styles.toolbarTitle}>⚡ Atalhos POO:</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                        <View style={styles.toolbarButtons}>
-                            <TouchableOpacity
-                                style={styles.toolButton}
-                                onPress={() => inserirTexto('public class ClassName {\n    \n}')}
-                            >
-                                <Text style={styles.toolButtonText}>class</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.toolButton}
-                                onPress={() => inserirTexto('private String attribute;')}
-                            >
-                                <Text style={styles.toolButtonText}>private</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.toolButton}
-                                onPress={() => inserirTexto('public ClassName() {\n    \n}')}
-                            >
-                                <Text style={styles.toolButtonText}>constructor</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.toolButton}
-                                onPress={() => inserirTexto('public void method() {\n    \n}')}
-                            >
-                                <Text style={styles.toolButtonText}>method</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.toolButton}
-                                onPress={() => inserirTexto('extends SuperClass')}
-                            >
-                                <Text style={styles.toolButtonText}>extends</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.toolButton}
-                                onPress={() => inserirTexto('@Override\npublic void method() {\n    \n}')}
-                            >
-                                <Text style={styles.toolButtonText}>@Override</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </ScrollView>
-                </View>
-
-                {/* Editor de Código */}
-                <View style={styles.editorContainer}>
-                    <View style={styles.editorHeader}>
-                        <Text style={styles.editorTitle}>📝 Seu Código Java POO:</Text>
-                        <TouchableOpacity style={styles.resetButton} onPress={resetarCodigo}>
-                            <Text style={styles.resetButtonText}>🔄 Reset</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                    <TextInput
-                        ref={codeInputRef}
-                        multiline
-                        style={styles.codeInput}
-                        value={userCode}
-                        onChangeText={setUserCode}
-                        placeholder="Digite seu código Java POO aqui..."
-                        placeholderTextColor="#666"
-                        textAlignVertical="top"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        spellCheck={false}
-                        onSelectionChange={(e) => setCursorPosition(e.nativeEvent.selection)}
-                            />
-                </View>
-
-                {/* Botão Validar */}
-                <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
-                    <TouchableOpacity
-                        style={[styles.validateButton, isValidating && styles.validateButtonDisabled]}
-                        onPress={validarCodigo}
-                        disabled={isValidating}
-                    >
-                        {isValidating ? (
-                            <View style={styles.loadingContainer}>
-                                <Animated.View style={{ transform: [{ rotate: spinAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
-                                    <Text style={{ fontSize: normalize(24) }}>⚙️</Text>
-                                </Animated.View>
-                                <Text style={styles.validateButtonText}>Compilando Java POO...</Text>
-                            </View>
-                        ) : (
-                            <Text style={styles.validateButtonText}>☕ Compilar & Validar POO</Text>
                         )}
-                    </TouchableOpacity>
-                </Animated.View>
 
-                {/* Resultado Modal */}
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={isModalVisible}
-                    onRequestClose={() => setIsModalVisible(false)}
-                >
-                    <View style={styles.modalContainer}>
+                        {/* Indicador compacto quando teclado visível */}
+                        {isKeyboardVisible && (
+                            <View style={styles.compactIndicator}>
+                                <Text style={styles.compactTitle}>{exercicioAtual.titulo}</Text>
+                                <Text style={styles.compactSubtitle}>Exercício {exercicioAtual.id}/{exerciciosPOO.length}</Text>
+                            </View>
+                        )}
+
+                        {/* Barra de Ferramentas POO */}
+                        <View style={styles.toolbarContainer}>
+                            <Text style={styles.toolbarTitle}>⚡ Atalhos POO:</Text>
+                            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                                <View style={styles.toolbarButtons}>
+                                    <TouchableOpacity
+                                        style={styles.toolButton}
+                                        onPress={() => inserirTexto('public class ClassName {\n    \n}')}
+                                    >
+                                        <Text style={styles.toolButtonText}>class</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.toolButton}
+                                        onPress={() => inserirTexto('private String attribute;')}
+                                    >
+                                        <Text style={styles.toolButtonText}>private</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.toolButton}
+                                        onPress={() => inserirTexto('public ClassName() {\n    \n}')}
+                                    >
+                                        <Text style={styles.toolButtonText}>constructor</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.toolButton}
+                                        onPress={() => inserirTexto('public void method() {\n    \n}')}
+                                    >
+                                        <Text style={styles.toolButtonText}>method</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.toolButton}
+                                        onPress={() => inserirTexto('extends SuperClass')}
+                                    >
+                                        <Text style={styles.toolButtonText}>extends</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.toolButton}
+                                        onPress={() => inserirTexto('@Override\npublic void method() {\n    \n}')}
+                                    >
+                                        <Text style={styles.toolButtonText}>@Override</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </ScrollView>
+                        </View>
+
+                        {/* Editor de Código */}
                         <View style={[
-                            styles.modalContent,
-                            resultado.includes('🎉') ? styles.resultadoSucesso : styles.resultadoErro
+                            styles.editorContainer,
+                            isKeyboardVisible && styles.editorContainerKeyboardVisible
                         ]}>
-                            <Text style={styles.resultadoText}>{resultado}</Text>
+                            <View style={styles.editorHeader}>
+                                <Text style={styles.editorTitle}>📝 Seu Código Java POO:</Text>
+                                <TouchableOpacity style={styles.resetButton} onPress={resetarCodigo}>
+                                    <Text style={styles.resetButtonText}>🔄 Reset</Text>
+                                </TouchableOpacity>
+                            </View>
+
                             <TouchableOpacity
-                                style={styles.closeButton}
-                                onPress={() => setIsModalVisible(false)}
+                                style={styles.codeInputContainer}
+                                onPress={focusOnEditor}
+                                activeOpacity={1}
                             >
-                                <Text style={styles.closeButtonText}>Fechar</Text>
+                                <TextInput
+                                    ref={codeInputRef}
+                                    multiline
+                                    style={[
+                                        styles.codeInput,
+                                        isKeyboardVisible && styles.codeInputKeyboardVisible
+                                    ]}
+                                    value={userCode}
+                                    onChangeText={setUserCode}
+                                    placeholder="Digite seu código Java POO aqui..."
+                                    placeholderTextColor="#666"
+                                    textAlignVertical="top"
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    spellCheck={false}
+                                    onSelectionChange={(e) => setCursorPosition(e.nativeEvent.selection)}
+                                    onFocus={() => {
+                                        if (scrollViewRef.current) {
+                                            setTimeout(() => {
+                                                scrollViewRef.current?.scrollToEnd({ animated: true });
+                                            }, 300);
+                                        }
+                                    }}
+                                />
                             </TouchableOpacity>
                         </View>
-                    </View>
-                </Modal>
-            </>
-        )}
-        </ScrollView>
-        </View>
+
+                        {/* Botão Validar */}
+                        <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
+                            <TouchableOpacity
+                                style={[styles.validateButton, isValidating && styles.validateButtonDisabled]}
+                                onPress={validarCodigo}
+                                disabled={isValidating}
+                            >
+                                {isValidating ? (
+                                    <View style={styles.loadingContainer}>
+                                        <Animated.View style={{ transform: [{ rotate: spinAnim.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
+                                            <Text style={{ fontSize: normalize(24) }}>⚙️</Text>
+                                        </Animated.View>
+                                        <Text style={styles.validateButtonText}>Compilando Java POO...</Text>
+                                    </View>
+                                ) : (
+                                    <Text style={styles.validateButtonText}>☕ Compilar & Validar POO</Text>
+                                )}
+                            </TouchableOpacity>
+                        </Animated.View>
+
+                        {/* Resultado Modal */}
+                        <Modal
+                            animationType="fade"
+                            transparent={true}
+                            visible={isModalVisible}
+                            onRequestClose={() => setIsModalVisible(false)}
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={[
+                                    styles.modalContent,
+                                    resultado.includes('🎉') ? styles.resultadoSucesso : styles.resultadoErro
+                                ]}>
+                                    <Text style={styles.resultadoText}>{resultado}</Text>
+                                    <TouchableOpacity
+                                        style={styles.closeButton}
+                                        onPress={() => setIsModalVisible(false)}
+                                    >
+                                        <Text style={styles.closeButtonText}>Fechar</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+                    </>
+                )}
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -516,6 +595,28 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         opacity: 0.8,
     },
+    // Indicador compacto para quando o teclado está visível
+    compactIndicator: {
+        backgroundColor: '#161B22',
+        borderRadius: normalize(10),
+        padding: normalize(12),
+        marginBottom: vh(1),
+        borderWidth: 1,
+        borderColor: '#21262D',
+    },
+    compactTitle: {
+        fontSize: normalize(16),
+        fontWeight: 'bold',
+        color: '#FF8C42',
+        textAlign: 'center',
+    },
+    compactSubtitle: {
+        fontSize: normalize(12),
+        color: '#ffffff',
+        textAlign: 'center',
+        opacity: 0.8,
+        marginTop: vh(0.5),
+    },
     exercicioCard: {
         backgroundColor: '#161B22',
         borderRadius: normalize(15),
@@ -553,19 +654,7 @@ const styles = StyleSheet.create({
         lineHeight: normalize(22),
         marginBottom: vh(0.5),
     },
-    pontosContainer: {
-        backgroundColor: 'rgba(255, 140, 66, 0.15)',
-        borderRadius: normalize(8),
-        paddingHorizontal: vw(3),
-        paddingVertical: vh(1),
-        alignSelf: 'flex-start',
-        marginBottom: vh(1),
-    },
-    pontosText: {
-        color: '#FF8C42',
-        fontSize: normalize(13),
-        fontWeight: 'bold',
-    },
+
     infoButtonsContainer: {
         flexDirection: 'row',
         gap: vw(2.5),
@@ -722,6 +811,7 @@ const styles = StyleSheet.create({
         borderColor: '#21262D',
         textAlignVertical: 'top',
         flex: 1,
+        minHeight: vh(20),
     },
     validateButton: {
         backgroundColor: '#FF8C42',

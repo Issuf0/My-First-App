@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Animated, StatusBar } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Animated, StatusBar, Modal } from "react-native";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
 import { Audio, AVPlaybackStatus } from 'expo-av';
@@ -9,13 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import perguntas from "../database/desafioJavaQuiz.json";
 
-const shuffleArray = (array: any[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-};
+
 
 const BackgroundSymbols = () => {
     const symbols = [
@@ -64,6 +58,7 @@ export default function Main() {
     const [quizCompleto, setQuizCompleto] = useState(false);
     const [showCelebration, setShowCelebration] = useState(false);
     const [shuffledPerguntas, setShuffledPerguntas] = useState<any[]>([]);
+    const [isSettingsModalVisible, setIsSettingsModalVisible] = useState(false);
 
     // Animações
     const slideAnim = useRef(new Animated.Value(0)).current;
@@ -247,6 +242,30 @@ export default function Main() {
             <BackgroundSymbols />
             <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
 
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={isSettingsModalVisible}
+                onRequestClose={() => setIsSettingsModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Configurações</Text>
+                        <TouchableOpacity onPress={() => setIsMuted(!isMuted)} style={styles.modalButton}>
+                            <Ionicons name={isMuted ? "volume-mute" : "volume-high"} size={normalize(24)} color="white" />
+                            <Text style={styles.modalButtonText}>{isMuted ? 'Ativar Som' : 'Silenciar'}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => router.back()} style={styles.modalButton}>
+                            <Ionicons name="arrow-back" size={normalize(24)} color="white" />
+                            <Text style={styles.modalButtonText}>Voltar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setIsSettingsModalVisible(false)} style={styles.modalCloseButton}>
+                            <Text style={styles.modalCloseButtonText}>Fechar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
             {showCelebration && (
                 <Animatable.View
                     animation="tada"
@@ -261,13 +280,22 @@ export default function Main() {
             {/* Header */}
             <View style={styles.header}>
                 <View style={styles.headerContainer}>
-                    <View style={styles.scoreContainer}>
+                    <View style={{flex: 1}}>
                         <Text style={styles.scoreText}>Pontuação: {pontuacao}</Text>
                         <Text style={styles.correctAnswersText}>Corretas: {respostasCorretas}</Text>
                     </View>
-                    <TouchableOpacity onPress={() => setIsMuted(!isMuted)} style={styles.muteButton}>
-                        <Ionicons name={isMuted ? "volume-mute" : "volume-high"} size={normalize(24)} color="white" />
-                    </TouchableOpacity>
+                    <View style={{flex: 1, alignItems: 'center'}}>
+                        <View style={styles.headerTitleContainer}>
+                            <Ionicons name="book-outline" size={normalize(20)} color="white" />
+                            <Text style={styles.headerTitle}>Java Básico</Text>
+                            <View style={{width: normalize(20)}} />
+                        </View>
+                    </View>
+                    <View style={{flex: 1, alignItems: 'flex-end'}}>
+                        <TouchableOpacity onPress={() => setIsSettingsModalVisible(true)} style={styles.settingsButton}>
+                            <Ionicons name="build" size={normalize(24)} color="white" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
 
@@ -311,7 +339,7 @@ export default function Main() {
 
                     {/* Options */}
                     <View style={styles.optionsContainer}>
-                        {shuffleArray([...shuffledPerguntas[index].opcoes]).map((opcao: string, i: number) => {
+                        {shuffledPerguntas[index].opcoes.map((opcao: string, i: number) => {
                             let buttonStyle: any[] = [styles.optionButton];
                             let textStyle: any[] = [styles.optionText];
 
@@ -328,6 +356,7 @@ export default function Main() {
                             return (
                                 <TouchableOpacity
                                     key={i}
+                                    activeOpacity={1}
                                     style={buttonStyle}
                                     onPress={() => selecionarResposta(opcao)}
                                     disabled={mostrarResposta}
@@ -340,12 +369,7 @@ export default function Main() {
                 </>
             )}
 
-            {/* Botão Voltar */}
-            <View style={styles.backContainer}>
-                <TouchableOpacity style={styles.backButtonMain} onPress={() => router.back()}>
-                    <Text style={styles.backButtonMainText}>← Voltar</Text>
-                </TouchableOpacity>
-            </View>
+            
         </View>
     );
 }
@@ -384,6 +408,25 @@ const styles = StyleSheet.create({
     },
     muteButton: {
         padding: vw(2),
+    },
+    settingsButton: {
+        padding: vw(2),
+    },
+    headerTitleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderRadius: normalize(10),
+        paddingHorizontal: vw(2),
+        paddingVertical: vh(1.5),
+        width: '90%',
+    },
+    headerTitle: {
+        color: '#ffffff',
+        fontSize: normalize(18),
+        fontWeight: 'bold',
+        marginLeft: vw(2),
     },
     celebrationOverlay: {
         position: 'absolute',
@@ -500,6 +543,7 @@ const styles = StyleSheet.create({
     correctOption: {
         backgroundColor: '#27ae60',
         borderColor: '#229954',
+        borderWidth: 2,
     },
     correctOptionText: {
         color: '#ffffff',
@@ -507,9 +551,59 @@ const styles = StyleSheet.create({
     incorrectOption: {
         backgroundColor: '#e74c3c',
         borderColor: '#c0392b',
+        borderWidth: 2,
     },
     incorrectOptionText: {
         color: '#ffffff',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    },
+    modalContent: {
+        width: '80%',
+        backgroundColor: '#16213e',
+        borderRadius: normalize(15),
+        padding: normalize(20),
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#0f3460',
+    },
+    modalTitle: {
+        fontSize: normalize(20),
+        fontWeight: 'bold',
+        color: '#ffffff',
+        marginBottom: vh(3),
+    },
+    modalButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#ff6b35',
+        borderRadius: normalize(12),
+        padding: normalize(15),
+        marginBottom: vh(2),
+        width: '100%',
+        justifyContent: 'center',
+    },
+    modalButtonText: {
+        color: '#ffffff',
+        fontSize: normalize(16),
+        fontWeight: '600',
+        marginLeft: vw(2),
+    },
+    modalCloseButton: {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        borderRadius: normalize(12),
+        padding: normalize(15),
+        width: '100%',
+        alignItems: 'center',
+    },
+    modalCloseButtonText: {
+        color: '#ffffff',
+        fontSize: normalize(16),
+        fontWeight: '600',
     },
     backContainer: {
         alignItems: 'center',

@@ -56,7 +56,7 @@ const JavaBackground = () => {
     return (
         <View style={styles.backgroundContainer}>
             {Array.from({ length: 35 }, (_, index) => {
-                const element = javaElements[Math.floor(Math.random() * javaElements.length)];
+                const element = javaElements[index % javaElements.length];
                 const isSymbol = ['{', '}', '(', ')', '[', ']', '< ', '>', ';', '=', '+', '-', '*', '/', '%'].includes(element);
                 const isIcon = ['☕', '♨', '⚙', '🔧', '💻', '📝', '🔍', '⚡', '🚀', '💡'].includes(element);
 
@@ -66,13 +66,13 @@ const JavaBackground = () => {
                         style={[
                             styles.backgroundElement,
                             {
-                                top: Math.random() * vh(100),
-                                left: Math.random() * vw(100),
+                                top: (index * 2.5) + '%',
+                                left: (index * 2.5) + '%',
                                 opacity: isIcon ? 0.15 : (isSymbol ? 0.12 : 0.08),
-                                fontSize: normalize(isIcon ? (Math.random() * 10 + 20) :
-                                    isSymbol ? (Math.random() * 8 + 16) :
-                                        (Math.random() * 6 + 10)),
-                                transform: [{ rotate: `${Math.random() * 360}deg` }],
+                                fontSize: normalize(isIcon ? (20) :
+                                    isSymbol ? (16) :
+                                        (10)),
+                                transform: [{ rotate: `${(index * 10)}deg` }],
                                 color: isIcon
                                     ? '#ff6b35'
                                     : isSymbol
@@ -100,7 +100,7 @@ export default function JavaCodeEditor() {
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
     useEffect(() => {
-        const exerciciosEmbaralhados = [...exercicios].sort(() => Math.random() - 0.5);
+        const exerciciosEmbaralhados = [...exercicios];
         setExerciciosEmbaralhados(exerciciosEmbaralhados);
         setExercicioAtual(exerciciosEmbaralhados[0]);
         setUserCode(exerciciosEmbaralhados[0].templateCodigo);

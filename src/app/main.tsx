@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Animated, StatusBar, Modal } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Animated, StatusBar, Modal, ScrollView } from "react-native";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
 import { Audio, AVPlaybackStatus } from 'expo-av';
@@ -55,6 +55,7 @@ export default function Main() {
     const [mostrarResposta, setMostrarResposta] = useState(false);
     const [pontuacao, setPontuacao] = useState(0);
     const [respostasCorretas, setRespostasCorretas] = useState(0);
+    const [respostasErradas, setRespostasErradas] = useState(0);
     const [quizCompleto, setQuizCompleto] = useState(false);
     const [showCelebration, setShowCelebration] = useState(false);
     const [shuffledPerguntas, setShuffledPerguntas] = useState<any[]>([]);
@@ -165,6 +166,7 @@ export default function Main() {
         } else {
             // Tocar som de resposta errada
             await playSound('incorrect');
+            setRespostasErradas(respostasErradas + 1);
         }
 
         setTimeout(() => {
@@ -192,6 +194,7 @@ export default function Main() {
         setMostrarResposta(false);
         setPontuacao(0);
         setRespostasCorretas(0);
+        setRespostasErradas(0);
         setQuizCompleto(false);
         slideAnim.setValue(0);
         scaleAnim.setValue(1);
@@ -281,14 +284,12 @@ export default function Main() {
             <View style={styles.header}>
                 <View style={styles.headerContainer}>
                     <View style={{flex: 1}}>
-                        <Text style={styles.scoreText}>Pontuação: {pontuacao}</Text>
-                        <Text style={styles.correctAnswersText}>Corretas: {respostasCorretas}</Text>
+                        <Text style={styles.scoreText}><Ionicons name="close-circle-outline" size={normalize(20)} color="#FFD700" /> {respostasErradas}</Text>
+                        <Text style={styles.correctAnswersText}><Ionicons name="checkmark-circle-outline" size={normalize(20)} color="#ff6b35" /> {respostasCorretas}</Text>
                     </View>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <View style={styles.headerTitleContainer}>
-                            <Ionicons name="book-outline" size={normalize(20)} color="white" />
-                            <Text style={styles.headerTitle}>Java Básico</Text>
-                            <View style={{width: normalize(20)}} />
+                            <Text style={styles.headerTitle}></Text>
                         </View>
                     </View>
                     <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -338,7 +339,7 @@ export default function Main() {
                     </Animated.View>
 
                     {/* Options */}
-                    <View style={styles.optionsContainer}>
+                    <ScrollView style={styles.optionsContainer}>
                         {shuffledPerguntas[index].opcoes.map((opcao: string, i: number) => {
                             let buttonStyle: any[] = [styles.optionButton];
                             let textStyle: any[] = [styles.optionText];
@@ -365,7 +366,7 @@ export default function Main() {
                                 </TouchableOpacity>
                             );
                         })}
-                    </View>
+                    </ScrollView>
                 </>
             )}
 
@@ -416,8 +417,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: normalize(10),
         paddingHorizontal: vw(2),
         paddingVertical: vh(1.5),
         width: '90%',
@@ -702,3 +701,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
+
+// Adicione esta parte para garantir que o botão de reiniciar tenha margem inferior
+const lastButtonMargin = {
+    marginBottom: vh(2),
+};

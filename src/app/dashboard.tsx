@@ -56,6 +56,7 @@ export default function Dashboard() {
     const [mostrarResposta, setMostrarResposta] = useState(false);
     const [pontuacao, setPontuacao] = useState(0);
     const [respostasCorretas, setRespostasCorretas] = useState(0);
+    const [respostasErradas, setRespostasErradas] = useState(0);
     const [quizCompleto, setQuizCompleto] = useState(false);
     const [showCelebration, setShowCelebration] = useState(false);
     const [shuffledPerguntas, setShuffledPerguntas] = useState<any[]>([]);
@@ -163,6 +164,7 @@ export default function Dashboard() {
             }
         } else {
             await playSound('incorrect');
+            setRespostasErradas(respostasErradas + 1);
         }
 
         setTimeout(() => {
@@ -190,6 +192,7 @@ export default function Dashboard() {
         setMostrarResposta(false);
         setPontuacao(0);
         setRespostasCorretas(0);
+        setRespostasErradas(0);
         setQuizCompleto(false);
         slideAnim.setValue(0);
         scaleAnim.setValue(1);
@@ -279,14 +282,12 @@ export default function Dashboard() {
             <View style={styles.header}>
                 <View style={styles.headerContainer}>
                     <View style={{flex: 1}}>
-                        <Text style={styles.scoreText}>Pontuação: {pontuacao}</Text>
-                        <Text style={styles.correctAnswersText}>Corretas: {respostasCorretas}</Text>
+                        <Text style={styles.scoreText}><Ionicons name="close-circle-outline" size={normalize(20)} color="#FFD700" /> {respostasErradas}</Text>
+                        <Text style={styles.correctAnswersText}><Ionicons name="checkmark-circle-outline" size={normalize(20)} color="#ff6b35" /> {respostasCorretas}</Text>
                     </View>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <View style={styles.headerTitleContainer}>
-                            <Ionicons name="book-outline" size={normalize(20)} color="white" />
-                            <Text style={styles.headerTitle}>Java POO</Text>
-                            <View style={{width: normalize(20)}} />
+                            <Text style={styles.headerTitle}></Text>
                         </View>
                     </View>
                     <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -413,8 +414,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: normalize(10),
         paddingHorizontal: vw(4),
         paddingVertical: vh(1.5),
         width: '90%',

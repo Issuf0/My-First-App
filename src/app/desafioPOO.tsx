@@ -48,7 +48,7 @@ const POOBackground = () => {
     return (
         <View style={styles.backgroundContainer}>
             {Array.from({ length: 45 }, (_, index) => {
-                const element = pooElements[Math.floor(Math.random() * pooElements.length)];
+                const element = pooElements[index % pooElements.length];
                 const isSymbol = ['{', '}', '(', ')', '[', ']', '< ', '>', '.', ';', ':', '='].includes(element);
                 const isIcon = ['☕', '🏗', '🔒', '🔓', '⚙', '🧩', '📦', '🔗', '🎭', '🏭', '🛠', '👥', '📚', '💼', '🎯', '🔄', '⭐', '🎨', '🔧', '💡', '🚀'].includes(element);
                 const isPOOConcept = ['class', 'object', 'extends', 'implements', 'inheritance', 'polymorphism', 'encapsulation'].includes(element);
@@ -60,16 +60,16 @@ const POOBackground = () => {
                         style={[
                             styles.backgroundElement,
                             {
-                                top: Math.random() * vh(100),
-                                left: Math.random() * vw(100),
+                                top: (index * 2.5) + '%',
+                                left: (index * 2.5) + '%',
                                 opacity: isIcon ? 0.25 :
                                     isPOOConcept ? 0.18 :
                                         isMethodStructure ? 0.15 :
                                             isSymbol ? 0.12 : 0.08,
-                                fontSize: normalize(isIcon ? (Math.random() * 15 + 20) :
-                                    isSymbol ? (Math.random() * 8 + 16) :
-                                        (Math.random() * 6 + 10)),
-                                transform: [{ rotate: `${Math.random() * 360}deg` }],
+                                fontSize: normalize(isIcon ? (20) :
+                                    isSymbol ? (16) :
+                                        (10)),
+                                transform: [{ rotate: `${(index * 10)}deg` }],
                                 color: isIcon
                                     ? '#FF8C42'
                                     : isPOOConcept
@@ -107,7 +107,7 @@ export default function JavaPOOEditor() {
     const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
     useEffect(() => {
-        const exerciciosEmbaralhados = [...exerciciosPOO].sort(() => Math.random() - 0.5);
+        const exerciciosEmbaralhados = [...exerciciosPOO];
         setExerciciosEmbaralhados(exerciciosEmbaralhados);
         setExercicioAtual(exerciciosEmbaralhados[0]);
         setUserCode(exerciciosEmbaralhados[0].templateCodigo);

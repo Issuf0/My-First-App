@@ -106,7 +106,7 @@
     },
     {
         "pergunta": "O que é o 'garbage collector' em Java?",
-        "opcoes": ["Um processo que libera memória de objetos não utilizados", "Uma ferramenta para depurar código", "Um tipo de exceção", "Uma classe para formatar strings"],
+        "opcoes": ["Um tipo de exceção", "Uma ferramenta para depurar código", "Um processo que libera memória de objetos não utilizados", "Uma classe para formatar strings"],
         "correta": "Um processo que libera memória de objetos não utilizados"
     },
     {
@@ -116,7 +116,7 @@
     },
     {
         "pergunta": "O que é uma classe aninhada (nested class) em Java?",
-        "opcoes": ["Uma classe definida dentro de outra classe", "Uma classe que herda de outra classe", "Uma classe que não pode ser instanciada", "Uma classe que contém apenas métodos estáticos"],
+        "opcoes": ["Uma classe que contém apenas métodos estáticos", "Uma classe que herda de outra classe", "Uma classe que não pode ser instanciada", "Uma classe definida dentro de outra classe"],
         "correta": "Uma classe definida dentro de outra classe"
     },
     {

@@ -1,12 +1,12 @@
 [
     {
         "pergunta": "O que significa POO?",
-        "opcoes": ["Programação Orientada a Objectos", "Programa Original de Operações", "Plano Operações Online"],
+        "opcoes": ["Plano Operações Online", "Programa Original de Operações", "Programação Orientada a Objectos", "Nunca ouvi falar"],
         "correta": "Programação Orientada a Objectos"
     },
     {
         "pergunta": "É correcto afirmar que Java é...",
-        "opcoes": ["Linguagem de programação de alto nível", "Linguagem de programação de baixo nível", "Linguagem usado no front-end", "Não sei"],
+        "opcoes": ["Não sei", "Linguagem de programação de baixo nível", "Linguagem usado no front-end", "Linguagem de programação de alto nível"],
         "correta": "Linguagem de programação de alto nível"
     },
     {
@@ -16,12 +16,12 @@
     },
     {
         "pergunta": "Qual é o papel dos métodos get e set?",
-        "opcoes": ["Permitir leitura e modificação controlada de atributos private", "Declarar atributos como públicos", "Definir o tipo de herança da classe", "Criar construtores automaticos"],
+        "opcoes": ["Definir o tipo de herança da classe", "Declarar atributos como públicos", "Permitir leitura e modificação controlada de atributos private", "Criar construtores automaticos"],
         "correta": "Permitir leitura e modificação controlada de atributos private"
     },
     {
         "pergunta": "O que é encapsulamento em Java?",
-        "opcoes": ["Ocultar detalhes internos de uma classe e controlar o acesso aos seus dados", "Compartilhar todas as variáveis com outras classes", "Criar métodos públicos apenas para leitura", "Armanezar todas as variáveis num ficheiro externo"],
+        "opcoes": ["Compartilhar todas as variáveis com outras classes", "Ocultar detalhes internos de uma classe e controlar o acesso aos seus dados", "Criar métodos públicos apenas para leitura", "Armanezar todas as variáveis num ficheiro externo"],
         "correta": "Ocultar detalhes internos de uma classe e controlar o acesso aos seus dados"
     },
     {
@@ -46,7 +46,7 @@
     },
     {
         "pergunta": "Qual é a função principal de um package em Java?",
-        "opcoes": ["Agrupar classes e interfaces relacionadas", "Impedir a modularização do código", "Aumentar o tempo de execução", "Eliminar a necessidade de construtores"],
+        "opcoes": ["Aumentar o tempo de execução", "Impedir a modularização do código", "Agrupar classes e interfaces relacionadas", "Eliminar a necessidade de construtores"],
         "correta": "Agrupar classes e interfaces relacionadas"
     },
     {
@@ -56,12 +56,12 @@
     },
     {
         "pergunta": "Qual das seguintes opções representa um método que não retorno valor?",
-        "opcoes": ["void imprimirMensagem()", "int calcularSoma()", "String obterNome()", "boolean validarSenha()"],
+        "opcoes": ["int calcularSoma()", "void imprimirMensagem()", "String obterNome()", "boolean validarSenha()"],
         "correta": "void imprimirMensagem()"
     },
     {
         "pergunta": "Onde devem ser definidos os parâmetros de um método?",
-        "opcoes": ["Na sua declaração, entre parênteses", "Fora da classe principal", "Apenas dentro de blocos if", "No final do programa, fora da mim"],
+        "opcoes": ["No final do programa, fora da mim", "Fora da classe principal", "Apenas dentro de blocos if", "Na sua declaração, entre parênteses"],
         "correta": "Na sua declaração, entre parênteses"
     },
     {
@@ -71,27 +71,27 @@
     },
     {
         "pergunta": "O que significa o modificador static em um método?",
-        "opcoes": ["O método pertence à classe e não à instância", "O método pode ser executado apenas uma vez", "O método é protegido por uma senha", "O método só pode ser chamado de fora da classe"],
+        "opcoes": ["O método é protegido por uma senha", "O método pode ser executado apenas uma vez", "O método pertence à classe e não à instância", "O método só pode ser chamado de fora da classe"],
         "correta": "O método pertence à classe e não à instância"
     },
     {
         "pergunta": "O que é um objeto em POO?",
-        "opcoes": ["Uma instância de uma classe", "Um tipo de dado primitivo", "Uma variável de classe", "Uma anotação para documentação"],
+        "opcoes": ["Uma anotação para documentação", "Um tipo de dado primitivo", "Uma variável de classe", "Uma instância de uma classe"],
         "correta": "Uma instância de uma classe"
     },
     {
         "pergunta": "Qual a finalidade de um método 'setter'?",
-        "opcoes": ["Modificar o valor de um atributo privado", "Retornar o valor de um atributo privado", "Criar uma nova instância da classe", "Destruir um objeto"],
+        "opcoes": ["Destruir um objeto", "Retornar o valor de um atributo privado", "Criar uma nova instância da classe", "Modificar o valor de um atributo privado"],
         "correta": "Modificar o valor de um atributo privado"
     },
     {
         "pergunta": "O que a palavra-chave 'instanceof' faz?",
-        "opcoes": ["Verifica se um objeto é uma instância de uma classe específica", "Cria uma nova instância de uma classe", "Compara dois objetos", "Retorna o tipo de um objeto"],
+        "opcoes": ["Cria uma nova instância de uma classe", "Verifica se um objeto é uma instância de uma classe específica", "Compara dois objetos", "Retorna o tipo de um objeto"],
         "correta": "Verifica se um objeto é uma instância de uma classe específica"
     },
     {
         "pergunta": "Qual é a principal vantagem do encapsulamento?",
-        "opcoes": ["Ocultar a complexidade e proteger os dados", "Permitir o acesso direto aos atributos", "Aumentar o acoplamento entre as classes", "Reduzir o número de métodos"],
+        "opcoes": ["Aumentar o acoplamento entre as classes", "Permitir o acesso direto aos atributos", "Ocultar a complexidade e proteger os dados", "Reduzir o número de métodos"],
         "correta": "Ocultar a complexidade e proteger os dados"
     },
     {

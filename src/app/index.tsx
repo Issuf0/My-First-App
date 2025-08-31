@@ -206,7 +206,7 @@ export default function Index() {
                             }
                         ]}
                     >
-                        Learn Java! ☕
+                        Quiz Code! ☕
                     </Animated.Text>
                     
                     <Animated.Text 

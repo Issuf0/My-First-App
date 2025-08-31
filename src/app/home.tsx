@@ -63,7 +63,7 @@ export default function Home() {
                     <View style={styles.circle3} />
                 </View>
 
-                <Text style={styles.mainTitle}>Learn Java</Text>
+                <Text style={styles.mainTitle}>Quiz Code</Text>
                 <Text style={styles.subtitle}>Escolha seu desafio</Text>
 
                 <View style={styles.section}>

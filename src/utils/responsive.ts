@@ -17,3 +17,13 @@ export const vw = (width: number) => {
 export const vh = (height: number) => {
   return (SCREEN_HEIGHT * height) / 100;
 };
+
+export const vmin = (value: number) => {
+    const min = Math.min(SCREEN_WIDTH, SCREEN_HEIGHT);
+    return (min * value) / 100;
+}
+
+export const vmax = (value: number) => {
+    const max = Math.max(SCREEN_WIDTH, SCREEN_HEIGHT);
+    return (max * value) / 100;
+}

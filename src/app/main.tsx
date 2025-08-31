@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import { useBackgroundSound } from "@/hooks/useBackground";
-import { normalize, vh, vw } from "../utils/responsive";
+import { normalize, vh, vw, vmin } from "../utils/responsive";
 import * as Animatable from 'react-native-animatable';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -289,7 +289,7 @@ export default function Main() {
                     </View>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <View style={styles.headerTitleContainer}>
-                            <Text style={styles.headerTitle}></Text>
+                            <Text style={styles.headerTitle}>☕ Java Básico</Text>
                         </View>
                     </View>
                     <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -398,8 +398,8 @@ const styles = StyleSheet.create({
     },
     header: {
         backgroundColor: '#16213e',
-        borderRadius: normalize(15),
-        padding: normalize(10),
+        borderRadius: vmin(4),
+        padding: vmin(2.5),
         marginBottom: vh(2),
     },
     headerContainer: {
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         color: '#ffffff',
-        fontSize: normalize(18),
+        fontSize: vmin(5),
         fontWeight: 'bold',
         marginLeft: vw(2),
     },
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
         zIndex: 1000,
     },
     celebrationText: {
-        fontSize: normalize(36),
+        fontSize: vmin(9),
         fontWeight: 'bold',
         color: '#FFD700',
         textAlign: 'center',
@@ -453,18 +453,18 @@ const styles = StyleSheet.create({
         width: '100%',
         height: vh(1),
         backgroundColor: '#16213e',
-        borderRadius: normalize(4),
+        borderRadius: vmin(4),
         overflow: 'hidden',
         marginBottom: vh(1.5),
     },
     progressFill: {
         height: '100%',
         backgroundColor: '#ff6b35',
-        borderRadius: normalize(4),
+        borderRadius: vmin(4),
     },
     progressText: {
         color: '#e94560',
-        fontSize: normalize(16),
+        fontSize: vmin(4),
         fontWeight: '600',
     },
     scoreContainer: {
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
     },
     scoreText: {
         color: '#FFD700',
-        fontSize: normalize(20),
+        fontSize: vmin(5),
         fontWeight: 'bold',
         textShadowColor: 'rgba(0, 0, 0, 0.75)',
         textShadowOffset: { width: 1, height: 1 },
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
     },
     correctAnswersText: {
         color: '#ff6b35',
-        fontSize: normalize(20),
+        fontSize: vmin(5),
         fontWeight: 'bold',
         textShadowColor: 'rgba(0, 0, 0, 0.75)',
         textShadowOffset: { width: 1, height: 1 },
@@ -491,8 +491,8 @@ const styles = StyleSheet.create({
     },
     questionContainer: {
         backgroundColor: '#16213e',
-        borderRadius: normalize(15),
-        padding: normalize(25),
+        borderRadius: vmin(4),
+        padding: vmin(6),
         marginBottom: vh(4),
         elevation: 8,
         shadowColor: '#000',
@@ -504,17 +504,17 @@ const styles = StyleSheet.create({
     },
     questionNumber: {
         color: '#ff6b35',
-        fontSize: normalize(16),
+        fontSize: vmin(4),
         fontWeight: 'bold',
         marginBottom: vh(1.5),
         textAlign: 'center',
     },
     questionText: {
         color: '#ffffff',
-        fontSize: normalize(20),
+        fontSize: vmin(5),
         fontWeight: '600',
         textAlign: 'center',
-        lineHeight: normalize(28),
+        lineHeight: vmin(7),
     },
     optionsContainer: {
         flex: 1,
@@ -522,8 +522,8 @@ const styles = StyleSheet.create({
     },
     optionButton: {
         backgroundColor: '#ff6b35',
-        borderRadius: normalize(12),
-        padding: normalize(18),
+        borderRadius: vmin(3),
+        padding: vmin(4.5),
         marginVertical: vh(1),
         elevation: 4,
         shadowColor: '#000',
@@ -535,7 +535,7 @@ const styles = StyleSheet.create({
     },
     optionText: {
         color: '#ffffff',
-        fontSize: normalize(16),
+        fontSize: vmin(4),
         fontWeight: '600',
         textAlign: 'center',
     },
@@ -564,14 +564,14 @@ const styles = StyleSheet.create({
     modalContent: {
         width: '80%',
         backgroundColor: '#16213e',
-        borderRadius: normalize(15),
-        padding: normalize(20),
+        borderRadius: vmin(4),
+        padding: vmin(5),
         alignItems: 'center',
         borderWidth: 2,
         borderColor: '#0f3460',
     },
     modalTitle: {
-        fontSize: normalize(20),
+        fontSize: vmin(5),
         fontWeight: 'bold',
         color: '#ffffff',
         marginBottom: vh(3),
@@ -580,28 +580,28 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#ff6b35',
-        borderRadius: normalize(12),
-        padding: normalize(15),
+        borderRadius: vmin(3),
+        padding: vmin(4),
         marginBottom: vh(2),
         width: '100%',
         justifyContent: 'center',
     },
     modalButtonText: {
         color: '#ffffff',
-        fontSize: normalize(16),
+        fontSize: vmin(4),
         fontWeight: '600',
         marginLeft: vw(2),
     },
     modalCloseButton: {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: normalize(12),
-        padding: normalize(15),
+        borderRadius: vmin(3),
+        padding: vmin(4),
         width: '100%',
         alignItems: 'center',
     },
     modalCloseButtonText: {
         color: '#ffffff',
-        fontSize: normalize(16),
+        fontSize: vmin(4),
         fontWeight: '600',
     },
     backContainer: {
@@ -612,13 +612,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
         paddingHorizontal: vw(6),
         paddingVertical: vh(1.5),
-        borderRadius: normalize(20),
+        borderRadius: vmin(5),
         borderWidth: 1,
         borderColor: 'rgba(255, 255, 255, 0.2)',
     },
     backButtonMainText: {
         color: '#ffffff',
-        fontSize: normalize(16),
+        fontSize: vmin(4),
         fontWeight: '600',
     },
     completionContainer: {
@@ -628,8 +628,8 @@ const styles = StyleSheet.create({
     },
     completionCard: {
         backgroundColor: '#16213e',
-        borderRadius: normalize(20),
-        padding: normalize(40),
+        borderRadius: vmin(5),
+        padding: vmin(10),
         alignItems: 'center',
         elevation: 10,
         shadowColor: '#000',
@@ -642,35 +642,35 @@ const styles = StyleSheet.create({
     },
     completionTitle: {
         color: '#ff6b35',
-        fontSize: normalize(28),
+        fontSize: vmin(7),
         fontWeight: 'bold',
         marginBottom: vh(3),
         textAlign: 'center',
     },
     completionScore: {
         color: '#ffffff',
-        fontSize: normalize(24),
+        fontSize: vmin(6),
         fontWeight: '600',
         marginBottom: vh(1.5),
         textAlign: 'center',
     },
     completionPercentage: {
         color: '#e94560',
-        fontSize: normalize(20),
+        fontSize: vmin(5),
         fontWeight: '600',
         marginBottom: vh(2),
         textAlign: 'center',
     },
     motivationalMessage: {
         color: '#FFD700',
-        fontSize: normalize(18),
+        fontSize: vmin(4.5),
         fontWeight: '600',
         textAlign: 'center',
         marginBottom: vh(4),
     },
     restartButton: {
         backgroundColor: '#ff6b35',
-        borderRadius: normalize(25),
+        borderRadius: vmin(6),
         paddingVertical: vh(2),
         paddingHorizontal: vw(7.5),
         marginBottom: vh(2),
@@ -682,13 +682,13 @@ const styles = StyleSheet.create({
     },
     restartButtonText: {
         color: '#ffffff',
-        fontSize: normalize(18),
+        fontSize: vmin(4.5),
         fontWeight: 'bold',
         textAlign: 'center',
     },
     backHomeButton: {
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        borderRadius: normalize(20),
+        borderRadius: vmin(5),
         paddingVertical: vh(1.5),
         paddingHorizontal: vw(6),
         borderWidth: 1,
@@ -696,7 +696,7 @@ const styles = StyleSheet.create({
     },
     backHomeButtonText: {
         color: '#ffffff',
-        fontSize: normalize(16),
+        fontSize: vmin(4),
         fontWeight: '600',
         textAlign: 'center',
     },

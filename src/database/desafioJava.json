@@ -18,7 +18,7 @@
         "titulo": "Soma de Dois Números",
         "descricao": "Declare duas variáveis inteiras a=10 e b=5, calcule a soma e imprima o resultado.",
         "dicas": ["Use int para declarar variáveis", "Use + para somar", "Imprima o resultado"],
-        "variaveisObrigatorias": ["int a = 10", "int b = 5", "int soma"],
+        "variaveisObrigatorias": ["int a = 10;", "int b = 5;", "int soma=a+b;"],
         "palavrasChave": ["int", "soma", "System.out.println"],
         "templateCodigo": "public class Soma {\n    public static void main(String[] args) {\n        // Declare as variáveis a=10 e b=5\n        // Calcule a soma\n        // Imprima o resultado\n        \n    }\n}",
         "pontos": 5

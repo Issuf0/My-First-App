@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Animated, StatusBar, Modal, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Animated, StatusBar, Modal, ScrollView, Platform } from "react-native";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
 import { Audio, AVPlaybackStatus } from 'expo-av';
@@ -140,6 +140,7 @@ export default function Main() {
         if (isCorrect) {
             setPontuacao(pontuacao + 10);
             setRespostasCorretas(respostasCorretas + 1);
+            setConsecutiveCorrectAnswers(consecutiveCorrectAnswers + 1);
 
             // Tocar som de resposta correta
             await playSound('correct');
@@ -158,12 +159,13 @@ export default function Main() {
                 })
             ]).start();
 
-            // Celebração a cada 3 respostas corretas
-            if ((respostasCorretas + 1) % 3 === 0) {
+            // Celebração a cada 5 respostas corretas consecutivas
+            if ((consecutiveCorrectAnswers + 1) % 5 === 0 && consecutiveCorrectAnswers > 0) {
                 animateCelebration();
                 await playSound('celebration');
             }
         } else {
+            setConsecutiveCorrectAnswers(0);
             // Tocar som de resposta errada
             await playSound('incorrect');
             setRespostasErradas(respostasErradas + 1);
@@ -380,7 +382,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#1a1a2e',
         paddingHorizontal: vw(5),
-        paddingTop: vh(7),
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     backgroundContainer: {
         position: 'absolute',

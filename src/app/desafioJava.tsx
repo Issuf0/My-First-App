@@ -340,18 +340,18 @@ export default function JavaCodeEditor() {
             <StatusBar barStyle="light-content" backgroundColor="#1a1a2e" />
 
             <KeyboardAvoidingView
-                style={styles.keyboardAvoidingContainer}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
+                style={styles.container}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? keyboardHeight > 0 ? 90 : 0 : 0}
             >
                 <ScrollView
                     ref={scrollViewRef}
                     style={[
                         styles.contentContainer,
-                        isKeyboardVisible && styles.contentWithKeyboard
+                        isKeyboardVisible && { marginBottom: Platform.OS === 'android' ? keyboardHeight * 0.1 : 0 }
                     ]}
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={styles.scrollContentContainer}
+                    contentContainerStyle={{ paddingBottom: isKeyboardVisible ? vh(5) : vh(2) }}
                     keyboardShouldPersistTaps="handled"
                 >
                     {exercicioAtual && (
@@ -367,73 +367,82 @@ export default function JavaCodeEditor() {
                                 </Text>
                             </View>
 
-                            {/* Card do Exercício Completo */}
-                            <View style={styles.exercicioCard}>
-                                <View style={styles.exercicioHeader}>
-                                    <Text style={styles.exercicioTitulo}>{exercicioAtual.titulo}</Text>
-                                    <View style={styles.categoriaTag}>
-                                        <Text style={styles.categoriaText}>{exercicioAtual.categoria}</Text>
-                                    </View>
-                                </View>
-
-                                <Text style={styles.exercicioDescricao}>{exercicioAtual.descricao}</Text>
-
-                                {/* Botões de Informação */}
-                                <View style={styles.infoButtonsContainer}>
-                                    <TouchableOpacity
-                                        style={[styles.infoButton, showDicas && styles.infoButtonActive]}
-                                        onPress={() => setShowDicas(!showDicas)}
-                                    >
-                                        <Text style={styles.infoButtonText}>
-                                            💡 {showDicas ? 'Ocultar' : 'Ver'} Dicas
-                                        </Text>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity
-                                        style={[styles.infoButton, showVariaveis && styles.infoButtonActive]}
-                                        onPress={() => setShowVariaveis(!showVariaveis)}
-                                    >
-                                        <Text style={styles.infoButtonText}>
-                                            📋 {showVariaveis ? 'Ocultar' : 'Ver'} Variáveis
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                                {/* Dicas */}
-                                {showDicas && (
-                                    <View style={styles.infoContainer}>
-                                        <Text style={styles.infoTitle}>💡 Dicas:</Text>
-                                        {exercicioAtual.dicas.map((dica: string, index: number) => (
-                                            <Text key={index} style={styles.infoText}>
-                                                • {dica}
-                                            </Text>
-                                        ))}
-                                    </View>
-                                )}
-
-                                {/* Variáveis Obrigatórias */}
-                                {showVariaveis && (
-                                    <View style={styles.variaveisContainer}>
-                                        <Text style={styles.infoTitle}>📋 Variáveis Obrigatórias:</Text>
-                                        <Text style={styles.variaveisSubtitle}>
-                                            ⚠ Use exatamente estas variáveis para compatibilidade:
-                                        </Text>
-                                        {exercicioAtual.variaveisObrigatorias.map((variavel: string, index: number) => (
-                                            <View key={index} style={styles.variavelItem}>
-                                                <Text style={styles.variavelText}>{variavel}</Text>
-                                            </View>
-                                        ))}
-                                        <Text style={styles.palavrasChaveTitle}>🔑 Palavras-chave esperadas:</Text>
-                                        <View style={styles.palavrasChaveContainer}>
-                                            {exercicioAtual.palavrasChave.map((palavra: string, index: number) => (
-                                                <View key={index} style={styles.palavraChaveTag}>
-                                                    <Text style={styles.palavraChaveText}>{palavra}</Text>
-                                                </View>
-                                            ))}
+                            {/* Card do Exercício Completo - Ocultar quando teclado visível */}
+                            {!isKeyboardVisible && (
+                                <View style={styles.exercicioCard}>
+                                    <View style={styles.exercicioHeader}>
+                                        <Text style={styles.exercicioTitulo}>{exercicioAtual.titulo}</Text>
+                                        <View style={styles.categoriaTag}>
+                                            <Text style={styles.categoriaText}>{exercicioAtual.categoria}</Text>
                                         </View>
                                     </View>
-                                )}
-                            </View>
+
+                                    <Text style={styles.exercicioDescricao}>{exercicioAtual.descricao}</Text>
+
+                                    {/* Botões de Informação */}
+                                    <View style={styles.infoButtonsContainer}>
+                                        <TouchableOpacity
+                                            style={[styles.infoButton, showDicas && styles.infoButtonActive]}
+                                            onPress={() => setShowDicas(!showDicas)}
+                                        >
+                                            <Text style={styles.infoButtonText}>
+                                                💡 {showDicas ? 'Ocultar' : 'Ver'} Dicas
+                                            </Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            style={[styles.infoButton, showVariaveis && styles.infoButtonActive]}
+                                            onPress={() => setShowVariaveis(!showVariaveis)}
+                                        >
+                                            <Text style={styles.infoButtonText}>
+                                                📋 {showVariaveis ? 'Ocultar' : 'Ver'} Variáveis
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    {/* Dicas */}
+                                    {showDicas && (
+                                        <View style={styles.infoContainer}>
+                                            <Text style={styles.infoTitle}>💡 Dicas:</Text>
+                                            {exercicioAtual.dicas.map((dica: string, index: number) => (
+                                                <Text key={index} style={styles.infoText}>
+                                                    • {dica}
+                                                </Text>
+                                            ))}
+                                        </View>
+                                    )}
+
+                                    {/* Variáveis Obrigatórias */}
+                                    {showVariaveis && (
+                                        <View style={styles.variaveisContainer}>
+                                            <Text style={styles.infoTitle}>📋 Variáveis Obrigatórias:</Text>
+                                            <Text style={styles.variaveisSubtitle}>
+                                                ⚠ Use exatamente estas variáveis para compatibilidade:
+                                            </Text>
+                                            {exercicioAtual.variaveisObrigatorias.map((variavel: string, index: number) => (
+                                                <View key={index} style={styles.variavelItem}>
+                                                    <Text style={styles.variavelText}>{variavel}</Text>
+                                                </View>
+                                            ))}
+                                            <Text style={styles.palavrasChaveTitle}>🔑 Palavras-chave esperadas:</Text>
+                                            <View style={styles.palavrasChaveContainer}>
+                                                {exercicioAtual.palavrasChave.map((palavra: string, index: number) => (
+                                                    <View key={index} style={styles.palavraChaveTag}>
+                                                        <Text style={styles.palavraChaveText}>{palavra}</Text>
+                                                    </View>
+                                                ))}
+                                            </View>
+                                        </View>
+                                    )}
+                                </View>
+                            )}
+                            {/* Indicador compacto quando teclado visível */}
+                            {isKeyboardVisible && (
+                                <View style={styles.compactIndicator}>
+                                    <Text style={styles.compactTitle}>{exercicioAtual.titulo}</Text>
+                                    <Text style={styles.compactSubtitle}>Exercício {exercicioAtual.id}/{exercicios.length}</Text>
+                                </View>
+                            )}
 
                             {/* Barra de Ferramentas */}
                             <View style={styles.toolbarContainer}>
@@ -481,7 +490,7 @@ export default function JavaCodeEditor() {
                             {/* Editor de Código */}
                             <View style={[
                                 styles.editorContainer,
-                                isKeyboardVisible && styles.editorWithKeyboard
+                                isKeyboardVisible && styles.editorContainerKeyboardVisible
                             ]}>
                                 <View style={styles.editorHeader}>
                                     <Text style={styles.editorTitle}>📝 Seu Código Java:</Text>
@@ -495,7 +504,7 @@ export default function JavaCodeEditor() {
                                     multiline
                                     style={[
                                         styles.codeInput,
-                                        isKeyboardVisible && styles.codeInputWithKeyboard
+                                        isKeyboardVisible && styles.codeInputKeyboardVisible
                                     ]}
                                     value={userCode}
                                     onChangeText={setUserCode}
@@ -568,6 +577,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#1a1a2e',
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     backgroundContainer: {
         position: 'absolute',
@@ -621,6 +631,28 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         textAlign: 'center',
         opacity: 0.8,
+    },
+    // Indicador compacto para quando o teclado está visível
+    compactIndicator: {
+        backgroundColor: '#16213e',
+        borderRadius: normalize(10),
+        padding: normalize(12),
+        marginBottom: vh(1),
+        borderWidth: 1,
+        borderColor: '#0f3460',
+    },
+    compactTitle: {
+        fontSize: normalize(16),
+        fontWeight: 'bold',
+        color: '#ff6b35',
+        textAlign: 'center',
+    },
+    compactSubtitle: {
+        fontSize: normalize(12),
+        color: '#ffffff',
+        textAlign: 'center',
+        opacity: 0.8,
+        marginTop: vh(0.5),
     },
     exercicioCard: {
         backgroundColor: '#16213e',
@@ -815,6 +847,12 @@ const styles = StyleSheet.create({
         textAlignVertical: 'top',
         minHeight: vh(20),
         flex: 1,
+    },
+    editorContainerKeyboardVisible: {
+        flex: 1,
+    },
+    codeInputKeyboardVisible: {
+        height: vh(40),
     },
     validateButton: {
         backgroundColor: '#ff6b35',

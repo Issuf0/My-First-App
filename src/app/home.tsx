@@ -1,14 +1,19 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Modal, BackHandler } from "react-native";
 import { router } from "expo-router";
 import { Button } from "../componentes/button";
 import { useBackgroundSound } from "@/hooks/useBackground";
 import { normalize, vh, vw } from "../utils/responsive";
+import { Ionicons } from '@expo/vector-icons';
+import { useState } from "react";
+import Constants from 'expo-constants';
 
 const backgroundMusic = require('../assets/audio/background.mp3');
+const appVersion = Constants.expoConfig.version;
 
 export default function Home() {
-    useBackgroundSound(backgroundMusic);
-    
+    const { isMuted, toggleMute } = useBackgroundSound(backgroundMusic);
+    const [modalVisible, setModalVisible] = useState(false);
+
     function handleNext() {
         router.navigate("/dashboard");
     }
@@ -25,8 +30,55 @@ export default function Home() {
         router.navigate("/desafioPOO");
     }
 
+    function handleSettings() {
+        setModalVisible(true);
+    }
+
+    function handleExit() {
+        BackHandler.exitApp();
+    }
+
     return (
         <View style={styles.container}>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={handleSettings} style={styles.settingsButton}>
+                    <Ionicons name="settings-outline" size={normalize(24)} color="#FFFFFF" />
+                </TouchableOpacity>
+            </View>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Configurações</Text>
+                        <TouchableOpacity
+                            style={[styles.button, { backgroundColor: '#1F3A5F' }]}
+                            onPress={toggleMute}
+                        >
+                            <Text style={styles.textStyle}>{isMuted ? "Ativar Som" : "Silenciar Música"}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.button, { backgroundColor: '#1F3A5F' }]}
+                            onPress={handleExit}
+                        >
+                            <Text style={styles.textStyle}>Sair do Jogo</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.button, { backgroundColor: '#FFC107' }]}
+                            onPress={() => setModalVisible(!modalVisible)}
+                        >
+                            <Text style={[styles.textStyle, { color: '#000'}]}>Fechar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
             {/* Fundo com elementos Java */}
             <View style={styles.javaBackground}>
                 {/* Elementos flutuantes Java */}
@@ -47,11 +99,13 @@ export default function Home() {
                 <Text style={[styles.javaSymbol, styles.symbol4]}>[]</Text>
                 <Text style={[styles.javaSymbol, styles.symbol7]}>=</Text>
                 <Text style={[styles.javaSymbol, styles.symbol8]}>!=</Text>
+                <Text style={[styles.javaSymbol, styles.symbol8]}>==</Text>
                 
                 {/* Logo Java (café) */}
                 <Text style={[styles.coffeeIcon, styles.coffee1]}>☕</Text>
                 <Text style={[styles.coffeeIcon, styles.coffee2]}>☕</Text>
                 <Text style={[styles.coffeeIcon, styles.coffee3]}>☕</Text>
+                <Text style={[styles.coffeeIcon, styles.coffee4]}>☕</Text>
                 <Text style={[styles.coffeeIcon, styles.coffee4]}>☕</Text>
             </View>
 
@@ -82,6 +136,10 @@ export default function Home() {
                     </View>
                 </View>
             </View>
+            <View style={styles.footer}>
+                <Text style={styles.footerText}>Versão {appVersion}</Text>
+                <Text style={styles.footerText}>Desenvolvido pela Learn Code</Text>
+            </View>
         </View>
     );
 }
@@ -90,6 +148,59 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#0D1B2A', // Azul escuro profundo
+    },
+    header: {
+        position: 'absolute',
+        top: normalize(40),
+        right: normalize(20),
+        zIndex: 10,
+    },
+    settingsButton: {
+        padding: normalize(10),
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "#0D1B2A",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        borderColor: '#FFC107',
+        borderWidth: 1,
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2,
+        marginBottom: 10,
+        width: 200,
+        alignItems: 'center'
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center",
+        fontSize: normalize(20),
+        fontWeight: 'bold',
+        color: '#FFFFFF',
     },
     
     // Fundo com elementos Java
@@ -249,5 +360,18 @@ const styles = StyleSheet.create({
     },
     buttonGroup: {
         gap: vh(1.5),
+    },
+    footer: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        padding: normalize(10),
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    footerText: {
+        color: '#B8D4FF',
+        fontSize: normalize(12),
+        fontWeight: '400',
     },
 });

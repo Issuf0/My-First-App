@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Audio } from 'expo-av';
 
 export function useBackgroundSound(soundFile: any, isPlaying = true) {
     const sound = useRef<Audio.Sound | null>(null);
+    const [isMuted, setIsMuted] = useState(false);
 
     useEffect(() => {
         const manageSound = async () => {
@@ -34,4 +35,14 @@ export function useBackgroundSound(soundFile: any, isPlaying = true) {
             }
         };
     }, [soundFile, isPlaying]);
+
+    const toggleMute = async () => {
+        if (sound.current) {
+            const newMuteState = !isMuted;
+            await sound.current.setIsMutedAsync(newMuteState);
+            setIsMuted(newMuteState);
+        }
+    };
+
+    return { isMuted, toggleMute };
 }

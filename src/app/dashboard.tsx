@@ -140,6 +140,7 @@ export default function Dashboard() {
         if (isCorrect) {
             setPontuacao(pontuacao + 10);
             setRespostasCorretas(respostasCorretas + 1);
+            setConsecutiveCorrectAnswers(consecutiveCorrectAnswers + 1);
 
             await playSound('correct');
 
@@ -157,12 +158,13 @@ export default function Dashboard() {
                 })
             ]).start();
 
-            // Celebração a cada 3 respostas corretas
-            if ((respostasCorretas + 1) % 3 === 0) {
+            // Celebração a cada 5 respostas corretas consecutivas
+            if ((consecutiveCorrectAnswers + 1) % 5 === 0 && consecutiveCorrectAnswers > 0) {
                 animateCelebration();
                 await playSound('celebration');
             }
         } else {
+            setConsecutiveCorrectAnswers(0);
             await playSound('incorrect');
             setRespostasErradas(respostasErradas + 1);
         }

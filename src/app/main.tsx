@@ -140,7 +140,6 @@ export default function Main() {
         if (isCorrect) {
             setPontuacao(pontuacao + 10);
             setRespostasCorretas(respostasCorretas + 1);
-            setConsecutiveCorrectAnswers(consecutiveCorrectAnswers + 1);
 
             // Tocar som de resposta correta
             await playSound('correct');
@@ -160,12 +159,11 @@ export default function Main() {
             ]).start();
 
             // Celebração a cada 5 respostas corretas consecutivas
-            if ((consecutiveCorrectAnswers + 1) % 5 === 0 && consecutiveCorrectAnswers > 0) {
+            if ((respostasCorretas + 1) % 5 === 0) {
                 animateCelebration();
                 await playSound('celebration');
             }
         } else {
-            setConsecutiveCorrectAnswers(0);
             // Tocar som de resposta errada
             await playSound('incorrect');
             setRespostasErradas(respostasErradas + 1);
@@ -286,8 +284,8 @@ export default function Main() {
             <View style={styles.header}>
                 <View style={styles.headerContainer}>
                     <View style={{flex: 1}}>
-                        <Text style={styles.scoreText}><Ionicons name="close-circle-outline" size={normalize(20)} color="#FFD700" /> {respostasErradas}</Text>
-                        <Text style={styles.correctAnswersText}><Ionicons name="checkmark-circle-outline" size={normalize(20)} color="#ff6b35" /> {respostasCorretas}</Text>
+                        <Text style={styles.correctAnswersText}><Ionicons name="checkmark-circle-outline" size={normalize(20)} color="#27ae60" /> {respostasCorretas}</Text>
+                        <Text style={styles.scoreText}><Ionicons name="close-circle-outline" size={normalize(20)} color="#e74c3c" /> {respostasErradas}</Text>
                     </View>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <View style={styles.headerTitleContainer}>

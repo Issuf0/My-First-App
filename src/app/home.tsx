@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Modal, BackHandler } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Modal, BackHandler, Linking } from "react-native";
 import { router } from "expo-router";
 import { Button } from "../componentes/button";
 import { useBackgroundSound } from "@/hooks/useBackground";
@@ -13,6 +13,8 @@ const appVersion = Constants.expoConfig.version;
 export default function Home() {
     const { isMuted, toggleMute } = useBackgroundSound(backgroundMusic);
     const [modalVisible, setModalVisible] = useState(false);
+    const [aboutModalVisible, setAboutModalVisible] = useState(false);
+    const [feedbackModalVisible, setFeedbackModalVisible] = useState(false);
 
     function handleNext() {
         router.navigate("/dashboard");
@@ -38,6 +40,10 @@ export default function Home() {
         BackHandler.exitApp();
     }
 
+    function handleEmailPress() {
+        Linking.openURL('mailto:codelearn048@gmail.com');
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -57,21 +63,78 @@ export default function Home() {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>Configurações</Text>
+                        <View style={styles.iconGroup}>
+                            <TouchableOpacity style={styles.iconContainer} onPress={toggleMute}>
+                                <Ionicons name={isMuted ? "volume-mute-outline" : "volume-high-outline"} size={normalize(30)} color="#FFFFFF" />
+                                <Text style={styles.iconLabel}>{isMuted ? "Ativar Som" : "Silenciar"}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.iconContainer} onPress={() => setAboutModalVisible(true)}>
+                                <Ionicons name="information-circle-outline" size={normalize(30)} color="#FFFFFF" />
+                                <Text style={styles.iconLabel}>Sobre</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.iconGroup}>
+                            <TouchableOpacity style={styles.iconContainer} onPress={() => setFeedbackModalVisible(true)}>
+                                <Ionicons name="chatbubble-ellipses-outline" size={normalize(30)} color="#FFFFFF" />
+                                <Text style={styles.iconLabel}>Feedback</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.iconContainer} onPress={handleExit}>
+                                <Ionicons name="exit-outline" size={normalize(30)} color="#FFFFFF" />
+                                <Text style={styles.iconLabel}>Sair</Text>
+                            </TouchableOpacity>
+                        </View>
                         <TouchableOpacity
-                            style={[styles.button, { backgroundColor: '#1F3A5F' }]}
-                            onPress={toggleMute}
+                            style={[styles.button, { backgroundColor: '#FFC107', marginTop: 20 }]}
+                            onPress={() => setModalVisible(!modalVisible)}
                         >
-                            <Text style={styles.textStyle}>{isMuted ? "Ativar Som" : "Silenciar Música"}</Text>
+                            <Text style={[styles.textStyle, { color: '#000'}]}>Fechar</Text>
                         </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={aboutModalVisible}
+                onRequestClose={() => {
+                    setAboutModalVisible(!aboutModalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Sobre o App</Text>
+                        <Text style={styles.aboutText}>Este é um aplicativo de quiz de programação.</Text>
+                        <Text style={styles.aboutText}>Versão: {appVersion}</Text>
+                        <Text style={styles.aboutText}>Desenvolvido por Learn Code</Text>
                         <TouchableOpacity
-                            style={[styles.button, { backgroundColor: '#1F3A5F' }]}
-                            onPress={handleExit}
+                            style={[styles.button, { backgroundColor: '#FFC107' }]}
+                            onPress={() => setAboutModalVisible(!aboutModalVisible)}
                         >
-                            <Text style={styles.textStyle}>Sair do Jogo</Text>
+                            <Text style={[styles.textStyle, { color: '#000'}]}>Fechar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={feedbackModalVisible}
+                onRequestClose={() => {
+                    setFeedbackModalVisible(!feedbackModalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Feedback</Text>
+                        <Text style={styles.aboutText}>Para feedback, entre em contato conosco em:</Text>
+                        <TouchableOpacity onPress={handleEmailPress}>
+                            <Text style={styles.aboutText}>codelearn048@gmail.com</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[styles.button, { backgroundColor: '#FFC107' }]}
-                            onPress={() => setModalVisible(!modalVisible)}
+                            onPress={() => setFeedbackModalVisible(!feedbackModalVisible)}
                         >
                             <Text style={[styles.textStyle, { color: '#000'}]}>Fechar</Text>
                         </TouchableOpacity>
@@ -201,6 +264,26 @@ const styles = StyleSheet.create({
         fontSize: normalize(20),
         fontWeight: 'bold',
         color: '#FFFFFF',
+    },
+    aboutText: {
+        fontSize: normalize(16),
+        color: '#FFFFFF',
+        textAlign: 'center',
+        marginBottom: vh(2),
+    },
+    iconGroup: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        marginBottom: 20,
+    },
+    iconContainer: {
+        alignItems: 'center',
+    },
+    iconLabel: {
+        color: '#FFFFFF',
+        marginTop: 5,
+        fontSize: normalize(12),
     },
     
     // Fundo com elementos Java

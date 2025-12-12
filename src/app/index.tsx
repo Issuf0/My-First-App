@@ -5,10 +5,13 @@ import { useBackgroundSound } from "@/hooks/useBackground";
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { normalize, vh, vw } from "../utils/responsive";
 
+
+
 const backgroundMusic = require('../assets/audio/background.mp3');
 const logoImage = require('../assets/images/marca.jpg');
 
 export default function Index() {
+        
     useBackgroundSound(backgroundMusic);
     
     const [showSplash, setShowSplash] = useState(true);

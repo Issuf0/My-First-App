@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, Animated, StatusBar, Modal, ScrollView, Platform } from "react-native";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
-import { Audio, AVPlaybackStatus } from 'expo-av';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { useBackgroundSound } from "@/hooks/useBackground";
 import { normalize, vh, vw, vmin } from "../utils/responsive";
 import * as Animatable from 'react-native-animatable';
@@ -50,6 +50,18 @@ export default function Main() {
     const [isMuted, setIsMuted] = useState(false);
     useBackgroundSound(backgroundMusic, !isMuted);
 
+    const correctSoundPlayer = useAudioPlayer(require('@/assets/audio/success.wav'));
+    const correctSoundStatus = useAudioPlayerStatus(correctSoundPlayer);
+
+    const incorrectSoundPlayer = useAudioPlayer(require('@/assets/audio/wrong.wav'));
+    const incorrectSoundStatus = useAudioPlayerStatus(incorrectSoundPlayer);
+
+    const celebrationSoundPlayer = useAudioPlayer(require('@/assets/audio/coorect.wav'));
+    const celebrationSoundStatus = useAudioPlayerStatus(celebrationSoundPlayer);
+
+    const finishSoundPlayer = useAudioPlayer(require('@/assets/audio/fim.wav'));
+    const finishSoundStatus = useAudioPlayerStatus(finishSoundPlayer);
+
     const [index, setIndex] = useState(0);
     const [respostaSelecionada, setRespostaSelecionada] = useState<string | null>(null);
     const [mostrarResposta, setMostrarResposta] = useState(false);
@@ -73,29 +85,31 @@ export default function Main() {
 
     // Sistema de som personalizado
     const playSound = async (soundType: 'correct' | 'incorrect' | 'celebration' | 'finish') => {
-        try {
-            let soundFile;
-            if (soundType === 'correct') {
-                soundFile = require('@/assets/audio/success.wav');
-            } else if (soundType === 'incorrect') {
-                soundFile = require('@/assets/audio/wrong.wav');
-            } else if (soundType === 'celebration') {
-                soundFile = require('@/assets/audio/coorect.wav');
-            } else if (soundType === 'finish') {
-                soundFile = require('@/assets/audio/fim.wav');
-            }
+        if (isMuted) return;
 
-            if (soundFile) {
-                const { sound } = await Audio.Sound.createAsync(soundFile);
-                await sound.playAsync();
-                sound.setOnPlaybackStatusUpdate((status: AVPlaybackStatus) => {
-                    if ((status as any).didJustFinish) {
-                        sound.unloadAsync();
-                    }
-                });
+        let player;
+        switch (soundType) {
+            case 'correct':
+                player = correctSoundPlayer;
+                break;
+            case 'incorrect':
+                player = incorrectSoundPlayer;
+                break;
+            case 'celebration':
+                player = celebrationSoundPlayer;
+                break;
+            case 'finish':
+                player = finishSoundPlayer;
+                break;
+        }
+
+        if (player) { // Temporarily removed player.isLoaded check
+            try {
+                await player.seekTo(0);
+                await player.play();
+            } catch (error) {
+                console.log('Erro ao tocar som:', error);
             }
-        } catch (error) {
-            console.log('Erro ao tocar som:', error);
         }
     };
 
@@ -678,7 +692,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.3,
-        shadowRadius: 5,
+        shadowRadius: .5,
     },
     restartButtonText: {
         color: '#ffffff',

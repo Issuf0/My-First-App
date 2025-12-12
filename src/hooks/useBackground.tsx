@@ -1,45 +1,38 @@
-import { useEffect, useRef, useState } from 'react';
-import { Audio } from 'expo-av';
+import { useEffect, useState } from 'react';
+import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 
 export function useBackgroundSound(soundFile: any, isPlaying = true) {
-    const sound = useRef<Audio.Sound | null>(null);
+    const player = useAudioPlayer(soundFile);
+    const status = useAudioPlayerStatus(player);
     const [isMuted, setIsMuted] = useState(false);
 
     useEffect(() => {
         const manageSound = async () => {
-            if (isPlaying) {
-                if (!sound.current) {
-                    try {
-                        sound.current = new Audio.Sound();
-                        await sound.current.loadAsync(soundFile);
-                        await sound.current.setIsLoopingAsync(true);
-                        await sound.current.playAsync();
-                    } catch (error) {
-                        console.log('Erro ao carregar som:', error);
-                    }
-                }
-            } else {
-                if (sound.current) {
-                    await sound.current.unloadAsync();
-                    sound.current = null;
+            if (player && status.isLoaded) {
+                if (isPlaying) {
+                    await player.play();
+                } else {
+                    await player.pause();
                 }
             }
         };
 
         manageSound();
+    }, [isPlaying, player, status.isLoaded]);
 
-        return () => {
-            if (sound.current) {
-                sound.current.unloadAsync().catch(console.error);
-                sound.current = null;
-            }
-        };
-    }, [soundFile, isPlaying]);
+    useEffect(() => {
+        if (status.isLoaded && !status.playing && status.currentTime > 0 && status.currentTime >= status.duration) {
+            // Sound finished, so restart to loop
+            player.seekTo(0);
+            player.play();
+        }
+    }, [status, player]);
 
-    const toggleMute = async () => {
-        if (sound.current) {
+
+    const toggleMute = () => {
+        if (player) {
             const newMuteState = !isMuted;
-            await sound.current.setIsMutedAsync(newMuteState);
+            player.muted = newMuteState;
             setIsMuted(newMuteState);
         }
     };

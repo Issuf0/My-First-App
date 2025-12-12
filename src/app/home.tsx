@@ -6,6 +6,7 @@ import { normalize, vh, vw } from "../utils/responsive";
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from "react";
 import Constants from 'expo-constants';
+import { Audio, AVPlaybackStatus } from 'expo-audio';
 
 const backgroundMusic = require('../assets/audio/background.mp3');
 const appVersion = Constants.expoConfig.version;

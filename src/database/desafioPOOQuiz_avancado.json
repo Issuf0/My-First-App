@@ -1,0 +1,77 @@
+[
+    {
+        "pergunta": "Qual é uma das principais vantagens do Polimorfismo?",
+        "opcoes": ["Tornar o código mais lento", "Reduzir o acoplamento e aumentar a flexibilidade do código", "Permitir apenas um tipo de objeto em uma coleção", "Exigir mais 'if/else' para tratar tipos diferentes"],
+        "correta": "Reduzir o acoplamento e aumentar a flexibilidade do código"
+    },
+    {
+        "pergunta": "Qual a principal diferença entre uma classe abstrata e uma interface?",
+        "opcoes": ["Uma classe pode implementar várias classes abstratas", "Uma interface pode ter construtores", "Uma classe pode herdar de múltiplas interfaces, mas apenas de uma classe abstrata", "Interfaces não podem ter métodos com implementação"],
+        "correta": "Uma classe pode herdar de múltiplas interfaces, mas apenas de uma classe abstrata"
+    },
+    {
+        "pergunta": "O que a palavra-chave 'instanceof' faz?",
+        "opcoes": ["Cria uma nova instância de uma classe", "Verifica se um objeto é uma instância de uma classe ou interface específica", "Compara dois objetos", "Retorna o tipo de um objeto"],
+        "correta": "Verifica se um objeto é uma instância de uma classe ou interface específica"
+    },
+    {
+        "pergunta": "Quando o bloco 'finally' de um 'try-catch-finally' é executado?",
+        "opcoes": ["Apenas se uma exceção for lançada", "Apenas se nenhuma exceção for lançada", "Sempre, ocorrendo ou não uma exceção", "Apenas se a exceção for do tipo 'Exception'"],
+        "correta": "Sempre, ocorrendo ou não uma exceção"
+    },
+    {
+        "pergunta": "Qual a diferença entre 'throw' e 'throws' em Java?",
+        "opcoes": ["'throw' lança a exceção, 'throws' declara que um método pode lançar exceções", "'throws' lança a exceção, 'throw' declara", "Não há diferença", "'throw' trata exceções, 'throws' as lança"],
+        "correta": "'throw' lança a exceção, 'throws' declara que um método pode lançar exceções"
+    },
+    {
+        "pergunta": "O que é uma exceção em Java?",
+        "opcoes": ["Um evento que interrompe o fluxo normal do programa", "Um tipo de erro de sintaxe", "Uma classe que não pode ser instanciada", "Um método que não retorna valor"],
+        "correta": "Um evento que interrompe o fluxo normal do programa"
+    },
+    {
+        "pergunta": "O que é um método 'default' em uma interface Java (a partir do Java 8)?",
+        "opcoes": ["Um método que não pode ser implementado", "Um método que deve ser estático", "Um método que só pode ser chamado pela própria interface", "Um método na interface que fornece uma implementação padrão"],
+        "correta": "Um método na interface que fornece uma implementação padrão"
+    },
+    {
+        "pergunta": "Qual é a principal função do modificador 'private'?",
+        "opcoes": ["Permitir o acesso global a todas as classes", "Restringir o acesso a membros apenas à própria classe", "Compartilhar membros com outros pacotes", "Executar o método principal"],
+        "correta": "Restringir o acesso a membros apenas à própria classe"
+    },
+    {
+        "pergunta": "Qual a principal vantagem do encapsulamento?",
+        "opcoes": ["Aumentar o acoplamento entre as classes", "Permitir o acesso direto aos atributos", "Ocultar a complexidade e proteger os dados do acesso direto", "Reduzir o número de métodos"],
+        "correta": "Ocultar a complexidade e proteger os dados do acesso direto"
+    },
+    {
+        "pergunta": "Qual a diferença entre 'ArrayList' e 'LinkedList' em termos de performance?",
+        "opcoes": ["'ArrayList' é mais rápido para inserções/remoções no meio da lista", "Não há diferença de performance", "'LinkedList' é mais rápido para acesso aleatório por índice", "'ArrayList' é mais rápido para acesso aleatório por índice"],
+        "correta": "'ArrayList' é mais rápido para acesso aleatório por índice"
+    },
+    {
+        "pergunta": "O que a palavra-chave 'final' faz quando aplicada a uma classe?",
+        "opcoes": ["A classe não pode ser instanciada", "A classe não pode ser herdada", "Todos os métodos da classe se tornam finais", "A classe se torna pública"],
+        "correta": "A classe não pode ser herdada"
+    },
+    {
+        "pergunta": "O que a palavra-chave 'final' faz quando aplicada a um método?",
+        "opcoes": ["O método não pode ser chamado", "O método não pode ser sobrescrito", "O método se torna privado", "O método retorna um valor final"],
+        "correta": "O método não pode ser sobrescrito"
+    },
+    {
+        "pergunta": "O que é uma classe aninhada (nested class) em Java?",
+        "opcoes": ["Uma classe que contém apenas métodos estáticos", "Uma classe que herda de outra classe", "Uma classe que não pode ser instanciada", "Uma classe definida dentro de outra classe"],
+        "correta": "Uma classe definida dentro de outra classe"
+    },
+    {
+        "pergunta": "É correto afirmar que uma classe pode implementar múltiplas interfaces?",
+        "opcoes": ["Não, uma classe só pode implementar uma interface", "Sim, uma classe pode implementar múltiplas interfaces", "Apenas se as interfaces não tiverem métodos", "Apenas se a classe for abstrata"],
+        "correta": "Sim, uma classe pode implementar múltiplas interfaces"
+    },
+    {
+        "pergunta": "Qual é o objetivo principal do 'garbage collector' em Java?",
+        "opcoes": ["Coletar erros de compilação", "Limpar o console de saída", "Liberar automaticamente a memória de objetos que não são mais referenciados", "Organizar os arquivos do projeto"],
+        "correta": "Liberar automaticamente a memória de objetos que não são mais referenciados"
+    }
+]

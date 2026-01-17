@@ -1,0 +1,77 @@
+[
+    {
+        "pergunta": "Qual é o tipo de dado usado para armazenar números inteiros em Java?",
+        "opcoes": ["float", "int", "boolean", "char"],
+        "correta": "int"
+    },
+    {
+        "pergunta": "Qual palavra-chave é usada para criar uma classe em Java?",
+        "opcoes": ["new", "object", "class", "package"],
+        "correta": "class"
+    },
+    {
+        "pergunta": "O que System.out.println() faz?",
+        "opcoes": ["Lê dados do utilizador", "Compila o código", "Imprime algo no ecrã", "Cria uma nova nova variável"],
+        "correta": "Imprime algo no ecrã"
+    },
+    {
+        "pergunta": "Qual destes é usado para guardar texto em Java?",
+        "opcoes": ["char", "String", "int", "boolean"],
+        "correta": "String"
+    },
+    {
+        "pergunta": "Como se escreve uma variável inteira chamada idade?",
+        "opcoes": ["idade int", "integer idade", "int idade", "num idade"],
+        "correta": "int idade"
+    },
+    {
+        "pergunta": "Qual estrutura de controlo é usada para repetições com um número definido de vezes?",
+        "opcoes": ["if", "switch", "while", "for"],
+        "correta": "for"
+    },
+    {
+        "pergunta": "Qual palavra-chave serve para criar um objecto?",
+        "opcoes": ["init", "new", "make", "create"],
+        "correta": "new"
+    },
+    {
+        "pergunta": "Como começa a execução de um programa em Java?",
+        "opcoes": ["Pela função start()", "Pelo método main()", "Pela classe program()", "Pelo construtor de classe pai"],
+        "correta": "Pelo método main()"
+    },
+    {
+        "pergunta": "Qual destes é um tipo de dado primitivo em Java?",
+        "opcoes": ["String", "int", "Array", "Scanner"],
+        "correta": "int"
+    },
+    {
+        "pergunta": "Qual símbolo é usado para comentários de uma linha em Java?",
+        "opcoes": ["#", "//", "/*", "<!-- -->"],
+        "correta": "//"
+    },
+    {
+        "pergunta": "Qual é o operador de adição em Java?",
+        "opcoes": ["++", "+", "+=", "add"],
+        "correta": "+"
+    },
+    {
+        "pergunta": "O que o operador '&&' representa em Java?",
+        "opcoes": ["OU lógico (OR)", "E lógico (AND)", "Negação lógica (NOT)", "OU exclusivo (XOR)"],
+        "correta": "E lógico (AND)" 
+    },
+    {
+        "pergunta": "O que o operador '%' faz em Java?",
+        "opcoes": ["Calcula a porcentagem", "Retorna o resto de uma divisão", "Define um comentário", "Compara dois valores"],
+        "correta": "Retorna o resto de uma divisão"
+    },
+    {
+        "pergunta": "Qual é o valor padrão de uma variável booleana não inicializada em Java?",
+        "opcoes": ["0", "true", "false", "null"],
+        "correta": "false"
+    },
+    {
+        "pergunta": "O que o método 'sc.nextInt()' da classe Scanner faz?",
+        "opcoes": ["Lê a próxima linha inteira como uma String", "Lê o próximo token de entrada como um int", "Lê o próximo caractere", "Pula para o próximo inteiro na entrada"],
+        "correta": "Lê o próximo token de entrada como um int"
+    }
+]

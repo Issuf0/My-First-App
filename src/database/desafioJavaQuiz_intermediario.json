@@ -1,0 +1,77 @@
+[
+    {
+        "pergunta": "Qual a principal diferença entre um loop 'while' e um 'do-while'?",
+        "opcoes": ["'do-while' não usa condição", "'while' executa o bloco de código pelo menos uma vez", "'do-while' executa o bloco de código pelo menos uma vez", "'while' é mais rápido"],
+        "correta": "'do-while' executa o bloco de código pelo menos uma vez"
+    },
+    {
+        "pergunta": "Qual é a sintaxe correta para um loop 'while' em Java?",
+        "opcoes": ["while { ...} (condição)", "while (condição) { ... }", "loop (condição) { ... }", "while.loop (condição) { ... }"],
+        "correta": "while (condição) { ... }" 
+    },
+    {
+        "pergunta": "O que a palavra-chave 'continue' faz dentro de um loop?",
+        "opcoes": ["Encerra o programa", "Pula para a próxima iteração do loop", "Encerra o loop completamente", "Retorna um valor do método"],
+        "correta": "Pula para a próxima iteração do loop"
+    },
+    {
+        "pergunta": "Qual é a palavra-chave usada para sair de um loop prematuramente?",
+        "opcoes": ["exit", "continue", "return", "break"],
+        "correta": "break"
+    },
+    {
+        "pergunta": "Como se declara um array de inteiros com 5 elementos em Java?",
+        "opcoes": ["int meuArray = {0, 0, 0, 0, 0};", "int meuArray[5];", "array<int> meuArray = new array<int>(5);", "int[] meuArray = new int[5];"],
+        "correta": "int[] meuArray = new int[5];"
+    },
+    {
+        "pergunta": "Como se obtém o número de elementos em um array 'meuArray'?",
+        "opcoes": ["meuArray.size()", "meuArray.length()", "meuArray.count", "meuArray.length"],
+        "correta": "meuArray.length"
+    },
+    {
+        "pergunta": "Qual método da classe String retorna o caractere em um índice específico?",
+        "opcoes": ["getChar()", "characterAt()", "charAt()", "get()"],
+        "correta": "charAt()"
+    },
+    {
+        "pergunta": "O que o método 'length()' faz em uma String Java?",
+        "opcoes": ["Retorna o número de caracteres na String", "Retorna a capacidade da String", "Define o tamanho da String", "Remove espaços em branco da String"],
+        "correta": "Retorna o número de caracteres na String"
+    },
+    {
+        "pergunta": "Qual é o modificador de acesso mais restritivo em Java?",
+        "opcoes": ["protected", "private", "default(sem modificador)", "public"],
+        "correta": "private"
+    },
+    {
+        "pergunta": "Qual é a diferença entre == e .equals() em Java?",
+        "opcoes": ["== compara valores, .equals() compara referências", ".equals() é apenas usado para tipos primitivos", "Ambos comparam valores de forma idêntica, sempre.", "== compara referências, .equals() compara valores"],
+        "correta": "== compara referências, .equals() compara valores"
+    },
+    {
+        "pergunta": "Qual bloco é executado em uma estrutura 'switch' se nenhum 'case' corresponder?",
+        "opcoes": ["finally", "else", "default", "otherwise"],
+        "correta": "default"
+    },
+    {
+        "pergunta": "Para que serve o método 'String.toLowerCase()'?",
+        "opcoes": ["Converte a string para letras maiúsculas", "Verifica se a string contém apenas letras minúsculas", "Remove todos os espaços da string", "Converte todos os caracteres da string para minúsculas"],
+        "correta": "Converte todos os caracteres da string para minúsculas"
+    },
+    {
+        "pergunta": "O que é um construtor em Java?",
+        "opcoes": ["Um método para construir strings", "Um método especial para criar e inicializar objetos", "Uma variável que aponta para um objeto", "Um loop para construir arrays"],
+        "correta": "Um método especial para criar e inicializar objetos"
+    },
+    {
+        "pergunta": "Como se compara se duas Strings são iguais em valor em Java?",
+        "opcoes": ["usando o método .compare()", "usando o operador ==", "usando o método .equals()", "usando o operador ==="],
+        "correta": "usando o método .equals()" 
+    },
+    {
+        "pergunta": "Qual é a saída de 'System.out.println(10 / 3);' em Java?",
+        "opcoes": ["3.0", "3.33", "3", "1"],
+        "correta": "3"
+    }
+]

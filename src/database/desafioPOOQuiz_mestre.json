@@ -1,0 +1,77 @@
+[
+    {
+        "pergunta": "Qual é o objetivo do padrão de projeto 'Singleton'?",
+        "opcoes": ["Criar múltiplos objetos de uma classe", "Garantir que uma classe tenha apenas uma única instância e fornecer um ponto de acesso global", "Permitir que subclasses decidam qual classe instanciar", "Separar a construção de um objeto complexo de sua representação"],
+        "correta": "Garantir que uma classe tenha apenas uma única instância e fornecer um ponto de acesso global"
+    },
+    {
+        "pergunta": "Qual é a principal ideia do padrão de projeto 'Factory'?",
+        "opcoes": ["Garantir que uma classe tenha apenas uma instância", "Encapsular a lógica de criação de objetos, permitindo que as subclasses decidam qual classe instanciar", "Definir uma família de algoritmos intercambiáveis", "Permitir que um objeto altere seu comportamento quando seu estado interno muda"],
+        "correta": "Encapsular a lógica de criação de objetos, permitindo que as subclasses decidam qual classe instanciar"
+    },
+    {
+        "pergunta": "Qual é o principal benefício de usar Generics (<T>) em Java?",
+        "opcoes": ["Melhorar a performance do código em tempo de execução", "Permitir a criação de classes sem nome", "Aumentar a segurança de tipo (type safety), detectando erros em tempo de compilação", "Reduzir o uso de memória do programa"],
+        "correta": "Aumentar a segurança de tipo (type safety), detectando erros em tempo de compilação"
+    },
+    {
+        "pergunta": "O que é uma expressão lambda em Java?",
+        "opcoes": ["Um tipo especial de classe", "Um objeto que representa um método a ser executado no futuro", "Uma forma de criar threads", "Uma função anônima que pode ser tratada como um valor"],
+        "correta": "Uma função anônima que pode ser tratada como um valor"
+    },
+    {
+        "pergunta": "Qual interface funcional é usada como alvo para uma expressão lambda que será usada em 'List.sort()'?",
+        "opcoes": ["Runnable", "Callable", "Predicate", "Comparator"],
+        "correta": "Comparator"
+    },
+    {
+        "pergunta": "O que a Reflection API em Java permite fazer?",
+        "opcoes": ["Apenas ler arquivos de configuração do projeto", "Criar interfaces gráficas dinamicamente", "Inspecionar e manipular classes, métodos e atributos em tempo de execução", "Conectar-se a bancos de dados de forma refletida"],
+        "correta": "Inspecionar e manipular classes, métodos e atributos em tempo de execução"
+    },
+    {
+        "pergunta": "Qual é um risco associado ao uso excessivo de Reflection?",
+        "opcoes": ["Melhora a segurança do tipo", "Reduz a performance e quebra o encapsulamento", "Sempre resulta em código mais lento", "É proibido em aplicações comerciais"],
+        "correta": "Reduz a performance e quebra o encapsulamento"
+    },
+    {
+        "pergunta": "O que é uma 'interface funcional' em Java?",
+        "opcoes": ["Qualquer interface com métodos", "Uma interface que não pode ser implementada", "Uma interface que possui exatamente um método abstrato", "Uma interface usada para funções matemáticas"],
+        "correta": "Uma interface que possui exatamente um método abstrato"
+    },
+    {
+        "pergunta": "O que são 'Streams' na API do Java 8?",
+        "opcoes": ["Um tipo de coleção para armazenar dados", "Uma sequência de elementos que suporta operações de agregação em paralelo e sequenciais", "Uma forma de ler e escrever em arquivos", "Uma API para streaming de vídeo"],
+        "correta": "Uma sequência de elementos que suporta operações de agregação em paralelo e sequenciais"
+    },
+    {
+        "pergunta": "Qual operação de Stream é usada para transformar cada elemento em outro valor?",
+        "opcoes": ["filter()", "reduce()", "map()", "forEach()"],
+        "correta": "map()"
+    },
+    {
+        "pergunta": "Qual operação de Stream é uma 'operação terminal'?",
+        "opcoes": ["map()", "filter()", "sorted()", "collect()"],
+        "correta": "collect()"
+    },
+    {
+        "pergunta": "Qual a diferença entre uma referência de método (method reference) e uma expressão lambda?",
+        "opcoes": ["Não há diferença funcional", "Referências de método são mais lentas", "Uma referência de método é uma forma mais curta de escrever uma lambda que apenas chama um método existente", "Lambdas não podem ser usadas onde referências de método são usadas"],
+        "correta": "Uma referência de método é uma forma mais curta de escrever uma lambda que apenas chama um método existente"
+    },
+    {
+        "pergunta": "O que é 'Injeção de Dependência'?",
+        "opcoes": ["Um padrão onde uma classe cria suas próprias dependências", "Um padrão onde as dependências de um objeto são fornecidas por uma fonte externa", "Uma forma de depurar código", "Uma técnica para carregar classes dinamicamente"],
+        "correta": "Um padrão onde as dependências de um objeto são fornecidas por uma fonte externa"
+    },
+    {
+        "pergunta": "Qual o propósito da classe 'Optional<T>' introduzida no Java 8?",
+        "opcoes": ["Tornar todos os valores opcionais", "Substituir todas as exceções", "Fornecer um container que pode ou não conter um valor não-nulo, para evitar NullPointerException", "Melhorar a performance de listas"],
+        "correta": "Fornecer um container que pode ou não conter um valor não-nulo, para evitar NullPointerException"
+    },
+    {
+        "pergunta": "O que é um 'record' em Java (a partir do Java 16)?",
+        "opcoes": ["Um tipo especial de interface", "Uma classe concisa para armazenar dados imutáveis", "Uma anotação para gravação de logs", "Um novo tipo de loop"],
+        "correta": "Uma classe concisa para armazenar dados imutáveis"
+    }
+]

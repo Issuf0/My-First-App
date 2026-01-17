@@ -1,0 +1,77 @@
+[
+    {
+        "pergunta": "O que significa POO?",
+        "opcoes": ["Plano Operações Online", "Programa Original de Operações", "Programação Orientada a Objectos", "Nunca ouvi falar"],
+        "correta": "Programação Orientada a Objectos"
+    },
+    {
+        "pergunta": "O que é um objeto em POO?",
+        "opcoes": ["Uma anotação para documentação", "Um tipo de dado primitivo", "Uma variável de classe", "Uma instância de uma classe"],
+        "correta": "Uma instância de uma classe"
+    },
+    {
+        "pergunta": "Qual é a palavra-chave usada para uma classe herdar de outra em Java?",
+        "opcoes": ["inherits", "extends", "implements", "super"],
+        "correta": "extends"
+    },
+    {
+        "pergunta": "Para que serve a palavra-chave 'this' em Java?",
+        "opcoes": ["Para criar uma nova instância da classe", "Para referenciar a instância atual do objeto", "Para chamar um método estático", "Para acessar a superclasse"],
+        "correta": "Para referenciar a instância atual do objeto"
+    },
+    {
+        "pergunta": "Qual o papel dos métodos 'get' e 'set'?",
+        "opcoes": ["Definir o tipo de herança da classe", "Declarar atributos como públicos", "Permitir leitura e modificação controlada de atributos privados", "Criar construtores automáticos"],
+        "correta": "Permitir leitura e modificação controlada de atributos privados"
+    },
+    {
+        "pergunta": "O que é encapsulamento em Java?",
+        "opcoes": ["Compartilhar todas as variáveis com outras classes", "Ocultar detalhes internos e controlar o acesso aos dados", "Criar métodos públicos apenas para leitura", "Armazenar todas as variáveis num ficheiro externo"],
+        "correta": "Ocultar detalhes internos e controlar o acesso aos dados"
+    },
+    {
+        "pergunta": "O que o método 'toString()' da classe Object faz por padrão?",
+        "opcoes": ["Retorna uma string vazia", "Retorna 'null'", "Retorna uma representação em string do objeto (nome da classe e hashcode)", "Lança uma exceção"],
+        "correta": "Retorna uma representação em string do objeto (nome da classe e hashcode)"
+    },
+    {
+        "pergunta": "Para que serve a chamada 'super()' em um construtor?",
+        "opcoes": ["Para chamar um método da classe atual", "Para chamar o construtor da superclasse", "Para criar uma instância da superclasse", "Para referenciar um atributo da superclasse"],
+        "correta": "Para chamar o construtor da superclasse"
+    },
+    {
+        "pergunta": "O que significa o modificador 'static' em um método?",
+        "opcoes": ["O método é protegido por uma senha", "O método pode ser executado apenas uma vez", "O método pertence à classe e não a uma instância específica", "O método só pode ser chamado de fora da classe"],
+        "correta": "O método pertence à classe e não a uma instância específica"
+    },
+    {
+        "pergunta": "Como um método estático é chamado?",
+        "opcoes": ["Apenas de dentro de um construtor", "A partir de uma instância da classe (objeto)", "Usando o nome da classe diretamente", "Apenas por outros métodos estáticos"],
+        "correta": "Usando o nome da classe diretamente"
+    },
+    {
+        "pergunta": "Qual a finalidade de um método 'setter'?",
+        "opcoes": ["Destruir um objeto", "Retornar o valor de um atributo privado", "Criar uma nova instância da classe", "Modificar o valor de um atributo privado"],
+        "correta": "Modificar o valor de um atributo privado"
+    },
+    {
+        "pergunta": "Qual a finalidade da anotação '@Override'?",
+        "opcoes": ["Indicar que um método está sobrescrevendo um método da superclasse", "Indicar que um método está obsoleto", "Indicar que um método é privado", "Indicar que um método é estático"],
+        "correta": "Indicar que um método está sobrescrevendo um método da superclasse"
+    },
+    {
+        "pergunta": "O que é 'Composição' em POO?",
+        "opcoes": ["Uma relação onde uma classe herda de outra (é-um)", "Um tipo especial de comentário", "Uma relação onde uma classe contém uma instância de outra (tem-um)", "O processo de compilar o código"],
+        "correta": "Uma relação onde uma classe contém uma instância de outra (tem-um)"
+    },
+    {
+        "pergunta": "Uma 'enum' em Java pode ter um construtor?",
+        "opcoes": ["Sim, mas ele deve ser sempre público", "Não, enums não podem ter construtores", "Sim, e ele é sempre implicitamente privado", "Sim, mas apenas se a enum não tiver valores"],
+        "correta": "Sim, e ele é sempre implicitamente privado"
+    },
+    {
+        "pergunta": "Qual das seguintes opções representa um método que não retorna valor?",
+        "opcoes": ["int calcularSoma()", "void imprimirMensagem()", "String obterNome()", "boolean validarSenha()"],
+        "correta": "void imprimirMensagem()"
+    }
+]

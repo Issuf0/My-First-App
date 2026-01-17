@@ -1,0 +1,77 @@
+[
+    {
+        "pergunta": "Qual coleção é mais adequada para armazenar pares de chave-valor únicos?",
+        "opcoes": ["ArrayList", "HashSet", "HashMap", "LinkedList"],
+        "correta": "HashMap"
+    },
+    {
+        "pergunta": "Qual estrutura de dados da biblioteca Java Collections não permite elementos duplicados?",
+        "opcoes": ["ArrayList", "LinkedList", "HashMap", "HashSet"],
+        "correta": "HashSet"
+    },
+    {
+        "pergunta": "Quais métodos são comumente usados para adicionar e recuperar valores de um HashMap?",
+        "opcoes": ["add() e get()", "insert() e retrieve()", "put() e get()", "push() e pop()"],
+        "correta": "put() e get()"
+    },
+    {
+        "pergunta": "Qual exceção é lançada quando se tenta acessar um arquivo que não existe?",
+        "opcoes": ["IOException", "FileDoesNotExistException", "FileNotFoundException", "NullPointerException"],
+        "correta": "FileNotFoundException"
+    },
+    {
+        "pergunta": "Em um método recursivo, o que é o 'caso base'?",
+        "opcoes": ["A primeira linha do método", "A condição que faz o método chamar a si mesmo", "O valor de retorno do método", "A condição que para a recursão"],
+        "correta": "A condição que para a recursão"
+    },
+    {
+        "pergunta": "Como se chama o processo de converter um tipo de dado para outro em Java?",
+        "opcoes": ["Boxing", "Parsing", "Casting", "Formatting"],
+        "correta": "Casting"
+    },
+    {
+        "pergunta": "Qual a sintaxe para converter um 'double' para 'int' explicitamente (casting)?",
+        "opcoes": ["int x = (int) meuDouble;", "int x = int(meuDouble);", "int x = meuDouble.toInt();", "int x = convert.toInt(meuDouble);"],
+        "correta": "int x = (int) meuDouble;"
+    },
+    {
+        "pergunta": "O que a palavra-chave 'final' faz quando aplicada a uma variável?",
+        "opcoes": ["Torna a variável acessível globalmente", "Impede que a variável seja modificada após a inicialização", "Faz a variável ser destruída no final do método", "Aumenta a precisão da variável"],
+        "correta": "Impede que a variável seja modificada após a inicialização"
+    },
+    {
+        "pergunta": "Qual a diferença entre 'throw' e 'throws' em Java?",
+        "opcoes": ["'throw' lança uma exceção, 'throws' declara que um método pode lançar exceções", "'throws' lança, 'throw' declara", "Não há diferença", "'throw' trata exceções, 'throws' as lança"],
+        "correta": "'throw' lança uma exceção, 'throws' declara que um método pode lançar exceções"
+    },
+    {
+        "pergunta": "O que é o 'garbage collector' em Java?",
+        "opcoes": ["Um tipo de exceção", "Uma ferramenta para depurar código", "Um processo que libera memória de objetos não utilizados", "Uma classe para formatar strings"],
+        "correta": "Um processo que libera memória de objetos não utilizados"
+    },
+    {
+        "pergunta": "Qual a finalidade da anotação '@Override'?",
+        "opcoes": ["Indicar que um método está sobrescrevendo um método da superclasse", "Indicar que um método está obsoleto", "Indicar que um método é privado", "Indicar que um método é estático"],
+        "correta": "Indicar que um método está sobrescrevendo um método da superclasse"
+    },
+    {
+        "pergunta": "O que é uma classe aninhada (nested class) em Java?",
+        "opcoes": ["Uma classe que contém apenas métodos estáticos", "Uma classe que herda de outra classe", "Uma classe que não pode ser instanciada", "Uma classe definida dentro de outra classe"],
+        "correta": "Uma classe definida dentro de outra classe"
+    },
+    {
+        "pergunta": "Qual a diferença entre 'ArrayList' e 'LinkedList' em Java?",
+        "opcoes": ["ArrayList é melhor para acesso aleatório, LinkedList para inserções/remoções", "LinkedList é sempre mais rápido", "ArrayList não pode crescer dinamicamente", "Não há diferença de desempenho"],
+        "correta": "ArrayList é melhor para acesso aleatório, LinkedList para inserções/remoções"
+    },
+    {
+        "pergunta": "Para que serve a chamada 'super()' em um construtor?",
+        "opcoes": ["Para chamar um método da classe atual", "Para chamar o construtor da superclasse", "Para criar uma instância da superclasse", "Para referenciar um atributo da superclasse"],
+        "correta": "Para chamar o construtor da superclasse"
+    },
+    {
+        "pergunta": "O que é um método 'default' em uma interface Java?",
+        "opcoes": ["Um método que não pode ser implementado", "Um método que deve ser estático", "Um método que só pode ser chamado pela própria interface", "Um método que fornece uma implementação padrão na interface"],
+        "correta": "Um método que fornece uma implementação padrão na interface"
+    }
+]

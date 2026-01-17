@@ -26,8 +26,8 @@
     },
     {
         "pergunta": "Quando usamos herança em Java, o que acontece com a superclasse?",
-        "opcoes": ["Torna-se uma classe abstrata", "Perde o acesso a seus próprios métodos", "Gera automaticamente novos pacotes", "Herda os atributos e métodos da superclasse"],
-        "correta": "Herda os atributos e métodos da superclasse"
+        "opcoes": ["Torna-se uma classe abstrata", "Perde o acesso a seus próprios métodos", "Gera automaticamente novos pacotes", "A subclasse herda os atributos e métodos da superclasse"],
+        "correta": "A subclasse herda os atributos e métodos da superclasse"
     },
     {
         "pergunta": "O que define a relação entre Funcionario e chefe numa herança?",
@@ -66,8 +66,8 @@
     },
     {
         "pergunta": "Qual destas regras é correcta sobre nomes de métodos em Java?",
-        "opcoes": ["Devem terminar com ponto e vírgula", "Devem smepre começar com 'main'", "Podem conter espaços em branco", "Devem começar com letra mainúscula e ser um verbo"],
-        "correta": "Devem começar com letra mainúscula e ser um verbo"
+        "opcoes": ["Devem terminar com ponto e vírgula", "Devem smepre começar com 'main'", "Podem conter espaços em branco", "Devem começar com letra minúscula e ser um verbo"],
+        "correta": "Devem começar com letra minúscula e ser um verbo"
     },
     {
         "pergunta": "O que significa o modificador static em um método?",
@@ -123,5 +123,80 @@
         "pergunta": "Qual a diferença entre 'ArrayList' e 'LinkedList' em Java?",
         "opcoes": ["'ArrayList' usa um array dinâmico, 'LinkedList' usa uma lista duplamente encadeada", "'LinkedList' é mais rápido para acessar elementos por índice", "'ArrayList' é mais eficiente para inserção e remoção de elementos no meio da lista", "Não há diferença de desempenho"],
         "correta": "'ArrayList' usa um array dinâmico, 'LinkedList' usa uma lista duplamente encadeada"
+    },
+    {
+        "pergunta": "Para que serve a chamada 'super()' em um construtor?",
+        "opcoes": ["Para chamar um método da classe atual", "Para chamar o construtor da superclasse", "Para criar uma instância da superclasse", "Para referenciar um atributo da superclasse"],
+        "correta": "Para chamar o construtor da superclasse"
+    },
+    {
+        "pergunta": "O que é um método 'default' em uma interface Java?",
+        "opcoes": ["Um método que não pode ser implementado", "Um método que deve ser estático", "Um método que só pode ser chamado pela própria interface", "Um método que fornece uma implementação padrão na interface"],
+        "correta": "Um método que fornece uma implementação padrão na interface"
+    },
+    {
+        "pergunta": "Quando o bloco 'finally' de um 'try-catch-finally' é executado?",
+        "opcoes": ["Apenas se uma exceção for lançada", "Apenas se nenhuma exceção for lançada", "Sempre, ocorrendo ou não uma exceção", "Apenas se a exceção for do tipo 'Exception'"],
+        "correta": "Sempre, ocorrendo ou não uma exceção"
+    },
+    {
+        "pergunta": "Qual é o principal benefício de usar Generics (<T>) em Java?",
+        "opcoes": ["Melhorar a performance do código", "Permitir a criação de classes sem nome", "Aumentar a segurança de tipo (type safety) em tempo de compilação", "Reduzir o uso de memória"],
+        "correta": "Aumentar a segurança de tipo (type safety) em tempo de compilação"
+    },
+    {
+        "pergunta": "Qual é a principal ideia do padrão de projeto 'Factory'?",
+        "opcoes": ["Garantir que uma classe tenha apenas uma instância", "Encapsular a lógica de criação de objetos", "Definir uma família de algoritmos intercambiáveis", "Permitir que um objeto altere seu comportamento quando seu estado interno muda"],
+        "correta": "Encapsular a lógica de criação de objetos"
+    },
+    {
+        "pergunta": "Qual é a sintaxe de uma expressão lambda para um Comparator de duas strings?",
+        "opcoes": ["(s1, s2) -> s1.compareTo(s2)", "function(s1, s2) { s1.compareTo(s2) }", "lambda s1, s2: s1.compareTo(s2)", "def (s1, s2) => s1.compareTo(s2)"],
+        "correta": "(s1, s2) -> s1.compareTo(s2)"
+    },
+    {
+        "pergunta": "O que a Reflection API em Java permite fazer?",
+        "opcoes": ["Apenas ler arquivos de configuração", "Criar interfaces gráficas dinamicamente", "Inspecionar e manipular classes, métodos e atributos em tempo de execução", "Conectar-se a bancos de dados de forma refletida"],
+        "correta": "Inspecionar e manipular classes, métodos e atributos em tempo de execução"
+    },
+    {
+        "pergunta": "Qual a principal diferença entre uma classe abstrata e uma interface?",
+        "opcoes": ["Uma classe pode implementar várias classes abstratas", "Uma interface pode ter construtores", "Uma classe pode herdar de múltiplas interfaces, mas apenas de uma classe abstrata", "Interfaces não podem ter métodos"],
+        "correta": "Uma classe pode herdar de múltiplas interfaces, mas apenas de uma classe abstrata"
+    },
+    {
+        "pergunta": "Para que serve a palavra-chave 'this' em Java?",
+        "opcoes": ["Para criar uma nova instância da classe", "Para referenciar a instância atual do objeto", "Para chamar um método estático", "Para acessar a superclasse"],
+        "correta": "Para referenciar a instância atual do objeto"
+    },
+    {
+        "pergunta": "Como um método estático é chamado?",
+        "opcoes": ["Apenas de dentro de um construtor", "A partir de uma instância da classe (objeto)", "Usando o nome da classe diretamente", "Apenas por outros métodos estáticos"],
+        "correta": "Usando o nome da classe diretamente"
+    },
+    {
+        "pergunta": "Qual é uma das principais vantagens do Polimorfismo?",
+        "opcoes": ["Tornar o código mais lento", "Reduzir o acoplamento e aumentar a flexibilidade do código", "Permitir apenas um tipo de objeto em uma coleção", "Exigir mais 'if/else' para tratar tipos diferentes"],
+        "correta": "Reduzir o acoplamento e aumentar a flexibilidade do código"
+    },
+    {
+        "pergunta": "O que o método 'toString()' da classe Object faz por padrão?",
+        "opcoes": ["Retorna uma string vazia", "Retorna 'null'", "Retorna uma representação em string do objeto, geralmente o nome da classe e o hashcode", "Lança uma exceção"],
+        "correta": "Retorna uma representação em string do objeto, geralmente o nome da classe e o hashcode"
+    },
+    {
+        "pergunta": "O que é 'Composição' em POO?",
+        "opcoes": ["Uma relação onde uma classe herda de outra (é-um)", "Um tipo especial de comentário", "Uma relação onde uma classe contém uma instância de outra (tem-um)", "O processo de compilar o código"],
+        "correta": "Uma relação onde uma classe contém uma instância de outra (tem-um)"
+    },
+    {
+        "pergunta": "Uma 'enum' em Java pode ter um construtor?",
+        "opcoes": ["Sim, mas ele deve ser sempre público", "Não, enums não podem ter construtores", "Sim, e ele é sempre implicitamente privado", "Sim, mas apenas se a enum não tiver valores"],
+        "correta": "Sim, e ele é sempre implicitamente privado"
+    },
+    {
+        "pergunta": "Qual é o objetivo do padrão de projeto 'Singleton'?",
+        "opcoes": ["Criar múltiplos objetos de uma classe", "Garantir que uma classe tenha apenas uma única instância", "Permitir que subclasses decidam qual classe instanciar", "Separar a construção de um objeto complexo de sua representação"],
+        "correta": "Garantir que uma classe tenha apenas uma única instância"
     }
 ]

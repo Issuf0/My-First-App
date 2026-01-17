@@ -6,6 +6,7 @@ import { useBackgroundSound } from "@/hooks/useBackground";
 import { normalize, vh, vw, vmin } from "../utils/responsive";
 import * as Animatable from 'react-native-animatable';
 import { Ionicons } from '@expo/vector-icons';
+import { useAudio } from "@/contexts/AudioContext";
 
 import perguntas from "../database/desafioPOOQuiz.json";
 
@@ -48,8 +49,8 @@ const BackgroundSymbols = () => {
 const backgroundMusic = require('@/assets/audio/background.mp3');
 
 export default function Dashboard() {
-    const [isMuted, setIsMuted] = useState(false);
-    useBackgroundSound(backgroundMusic, !isMuted);
+    const { isBgmEnabled, toggleBgm, isSfxEnabled, toggleSfx } = useAudio();
+    useBackgroundSound(backgroundMusic, isBgmEnabled);
 
     const correctSoundPlayer = useAudioPlayer(require('@/assets/audio/success.wav'));
     const correctSoundStatus = useAudioPlayerStatus(correctSoundPlayer);
@@ -85,7 +86,7 @@ export default function Dashboard() {
     };
 
     const playSound = async (soundType: 'correct' | 'incorrect' | 'celebration' | 'finish') => {
-        if (isMuted) return;
+        if (!isSfxEnabled) return;
 
         let player;
         let status;
@@ -271,9 +272,9 @@ export default function Dashboard() {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Configurações</Text>
-                        <TouchableOpacity onPress={() => setIsMuted(!isMuted)} style={styles.modalButton}>
-                            <Ionicons name={isMuted ? "volume-mute" : "volume-high"} size={normalize(24)} color="white" />
-                            <Text style={styles.modalButtonText}>{isMuted ? 'Ativar Som' : 'Silenciar'}</Text>
+                        <TouchableOpacity onPress={() => { toggleBgm(); toggleSfx(); }} style={styles.modalButton}>
+                            <Ionicons name={!isBgmEnabled && !isSfxEnabled ? "volume-mute" : "volume-high"} size={normalize(24)} color="white" />
+                            <Text style={styles.modalButtonText}>{!isBgmEnabled && !isSfxEnabled ? 'Ativar Som' : 'Silenciar'}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => router.back()} style={styles.modalButton}>
                             <Ionicons name="arrow-back" size={normalize(24)} color="white" />

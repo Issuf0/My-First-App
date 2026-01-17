@@ -166,5 +166,89 @@
         "palavrasChave": ["instanceof", "polimorfismo", "casting"],
         "templateCodigo": "interface Forma { }\nclass Circulo implements Forma { }\nclass Quadrado implements Forma { }\n\npublic class ContadorDeFormas {\n    public static void main(String[] args) {\n        Forma[] formas = {new Circulo(), new Quadrado(), new Circulo()};\n        int numCirculos = 0;\n        int numQuadrados = 0;\n\n        // Use instanceof para contar as formas\n\n        System.out.println(\"Círculos: \" + numCirculos);\n        System.out.println(\"Quadrados: \" + numQuadrados);\n    }\n}",
         "pontos": 110
+    },
+    {
+        "id": 15,
+        "nivel": "intermediario",
+        "categoria": "poo",
+        "titulo": "Herança e Construtores",
+        "descricao": "Crie uma classe 'Veiculo' com construtor que aceita uma 'marca'. Crie uma classe 'Carro' que herda de 'Veiculo' e chama o construtor da superclasse usando 'super()'.",
+        "dicas": ["O construtor da subclasse deve ser o primeiro a chamar 'super(...)'", "Passe os parâmetros necessários para o construtor da superclasse"],
+        "variaveisObrigatorias": ["super(marca)", "extends Veiculo"],
+        "palavrasChave": ["herança", "super", "construtor", "subclasse"],
+        "templateCodigo": "class Veiculo {\n    String marca;\n    public Veiculo(String marca) {\n        this.marca = marca;\n        System.out.println(\"Construtor Veiculo: \" + marca);\n    }\n}\n\nclass Carro extends Veiculo {\n    public Carro(String marca) {\n        // Chame o construtor da superclasse aqui\n    }\n}\n\npublic class TesteSuper {\n    public static void main(String[] args) {\n        new Carro(\"Toyota\");\n    }\n}",
+        "pontos": 70
+    },
+    {
+        "id": 16,
+        "nivel": "avancado",
+        "categoria": "poo",
+        "titulo": "Interface com Métodos Default",
+        "descricao": "Crie uma interface 'Autenticavel' com um método 'autenticar(String senha)' e um método 'default void logout()' que imprime 'Logout efetuado'.",
+        "dicas": ["Métodos 'default' em interfaces têm uma implementação padrão", "Uma classe que implementa a interface não precisa implementar o método default"],
+        "variaveisObrigatorias": ["interface Autenticavel", "default void logout()"],
+        "palavrasChave": ["interface", "default method", "Java 8"],
+        "templateCodigo": "interface Autenticavel {\n    boolean autenticar(String senha);\n    // Crie o método default aqui\n}\n\nclass Usuario implements Autenticavel {\n    public boolean autenticar(String senha) {\n        return senha.equals(\"123\");\n    }\n}\n\npublic class TesteDefault {\n    public static void main(String[] args) {\n        Usuario user = new Usuario();\n        user.logout();\n    }\n}",
+        "pontos": 120
+    },
+    {
+        "id": 17,
+        "nivel": "avancado",
+        "categoria": "excecoes",
+        "titulo": "Bloco Finally",
+        "descricao": "Use um bloco 'try-catch-finally' para ler um arquivo. O bloco 'finally' deve garantir que o recurso (ex: Scanner) seja fechado, ocorrendo uma exceção ou não.",
+        "dicas": ["O bloco 'finally' é sempre executado após o 'try' (e 'catch', se houver)", "É o local ideal para liberar recursos e evitar memory leaks", "Verifique se o recurso não é nulo antes de fechá-lo"],
+        "variaveisObrigatorias": ["try", "catch", "finally", "close()"],
+        "palavrasChave": ["finally", "exceções", "recursos", "try-with-resources"],
+        "templateCodigo": "import java.util.Scanner;\nimport java.io.File;\n\npublic class BlocoFinally {\n    public static void main(String[] args) {\n        Scanner sc = null;\n        try {\n            sc = new Scanner(new File(\"inexistente.txt\"));\n        } catch (Exception e) {\n            System.out.println(\"Exceção capturada!\");\n        } finally {\n            // Feche o scanner aqui\n            System.out.println(\"Bloco finally executado.\");\n        }\n    }\n}",
+        "pontos": 100
+    },
+    {
+        "id": 18,
+        "nivel": "avancado",
+        "categoria": "generics",
+        "titulo": "Classe Genérica",
+        "descricao": "Crie uma classe genérica 'Caixa<T>' que pode armazenar um objeto de qualquer tipo. Adicione métodos 'get()' e 'set()' para o objeto.",
+        "dicas": ["Use '<T>' após o nome da classe para indicar um tipo genérico", "Use 'T' como o tipo do atributo interno", "Instancie a caixa com um tipo específico: Caixa<String> caixaDeTexto = new Caixa<>();"],
+        "variaveisObrigatorias": ["class Caixa<T>", "T item", "T get()", "void set(T item)"],
+        "palavrasChave": ["generics", "tipo genérico", "type safety", "<T>"],
+        "templateCodigo": "class Caixa<T> {\n    // Atributo e métodos genéricos aqui\n}\n\npublic class TesteCaixa {\n    public static void main(String[] args) {\n        Caixa<Integer> caixaDeInteiro = new Caixa<>();\n        caixaDeInteiro.set(10);\n        System.out.println(caixaDeInteiro.get());\n    }\n}",
+        "pontos": 130
+    },
+    {
+        "id": 19,
+        "nivel": "mestre",
+        "categoria": "poo",
+        "titulo": "Padrão Factory",
+        "descricao": "Implemente um padrão de projeto 'Factory' simples. Crie uma classe 'FabricaDeAnimal' com um método que retorna objetos 'Cachorro' ou 'Gato' (que herdam de 'Animal') baseado em uma string.",
+        "dicas": ["Crie uma classe abstrata 'Animal'", "Crie as subclasses 'Cachorro' e 'Gato'", "O método da fábrica (ex: 'getAnimal(String tipo)') usa 'if' ou 'switch' para decidir qual objeto instanciar"],
+        "variaveisObrigatorias": ["FabricaDeAnimal", "getAnimal(String tipo)"],
+        "palavrasChave": ["factory", "padrão de projeto", "design pattern", "abstração"],
+        "templateCodigo": "abstract class Animal { abstract void fazerSom(); }\nclass Cachorro extends Animal { void fazerSom() { System.out.println(\"Au Au!\"); } }\nclass Gato extends Animal { void fazerSom() { System.out.println(\"Miau!\"); } }\n\nclass FabricaDeAnimal {\n    // Implemente o método getAnimal aqui\n}\n\npublic class TesteFabrica {\n    public static void main(String[] args) {\n        FabricaDeAnimal fabrica = new FabricaDeAnimal();\n        Animal a1 = fabrica.getAnimal(\"cachorro\");\n        a1.fazerSom();\n    }\n}",
+        "pontos": 140
+    },
+    {
+        "id": 20,
+        "nivel": "mestre",
+        "categoria": "lambda",
+        "titulo": "Expressões Lambda",
+        "descricao": "Use uma expressão lambda para ordenar uma lista de Strings em ordem de tamanho (do menor para o maior).",
+        "dicas": ["Use 'Collections.sort()' ou 'List.sort()'", "O segundo argumento é um 'Comparator', que pode ser uma expressão lambda", "A lambda deve comparar o 'length()' de duas strings: (s1, s2) -> Integer.compare(s1.length(), s2.length())"],
+        "variaveisObrigatorias": ["List<String> nomes", "nomes.sort()"],
+        "palavrasChave": ["lambda", "expressão lambda", "Comparator", "sort"],
+        "templateCodigo": "import java.util.ArrayList;\nimport java.util.Arrays;\nimport java.util.List;\n\npublic class OrdenarComLambda {\n    public static void main(String[] args) {\n        List<String> nomes = new ArrayList<>(Arrays.asList(\"Ana\", \"Carlos\", \"Bia\"));\n        // Ordene a lista usando uma expressão lambda\n        \n        System.out.println(nomes);\n    }\n}",
+        "pontos": 150
+    },
+    {
+        "id": 21,
+        "nivel": "mestre",
+        "categoria": "reflection",
+        "titulo": "Reflection API",
+        "descricao": "Use a Reflection API para listar todos os nomes dos métodos da classe 'String'.",
+        "dicas": ["Obtenha o objeto Class: 'String.class' ou '\"texto\".getClass()'", "Use o método 'getMethods()' para obter um array de objetos 'Method'", "Percorra o array e imprima o nome de cada método com 'method.getName()'"],
+        "variaveisObrigatorias": ["String.class", "Method[] metodos", "method.getName()"],
+        "palavrasChave": ["reflection", "meta-programação", "Method", "Class"],
+        "templateCodigo": "import java.lang.reflect.Method;\n\npublic class InspecionarClasse {\n    public static void main(String[] args) {\n        // Use reflection para listar os métodos da classe String\n        \n    }\n}",
+        "pontos": 160
     }
 ]

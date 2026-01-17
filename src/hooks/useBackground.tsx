@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+
+import { useEffect } from 'react';
 import { useAudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 
-export function useBackgroundSound(soundFile: any, isPlaying = true) {
+export function useBackgroundSound(soundFile: any, isPlaying: boolean) {
     const player = useAudioPlayer(soundFile);
     const status = useAudioPlayerStatus(player);
-    const [isMuted, setIsMuted] = useState(false);
 
     useEffect(() => {
         const manageSound = async () => {
@@ -27,15 +27,5 @@ export function useBackgroundSound(soundFile: any, isPlaying = true) {
             player.play();
         }
     }, [status, player]);
-
-
-    const toggleMute = () => {
-        if (player) {
-            const newMuteState = !isMuted;
-            player.muted = newMuteState;
-            setIsMuted(newMuteState);
-        }
-    };
-
-    return { isMuted, toggleMute };
 }
+

@@ -1,37 +1,25 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal, BackHandler, Linking } from "react-native";
 import { router } from "expo-router";
 import { Button } from "../componentes/button";
-import { useBackgroundSound } from "@/hooks/useBackground";
 import { normalize, vh, vw } from "../utils/responsive";
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from "react";
 import Constants from 'expo-constants';
-import { Audio, AVPlaybackStatus } from 'expo-audio';
+import levels, { Level } from "../../../constants/Levels"; // Importar levels e o tipo Level
+import { useAudio } from "@/contexts/AudioContext";
 
-const backgroundMusic = require('../assets/audio/background.mp3');
 const appVersion = Constants.expoConfig.version;
 
-export default function Home() {
-    const { isMuted, toggleMute } = useBackgroundSound(backgroundMusic);
+
+function HomeContent() {
+    const { isBgmEnabled, toggleBgm, isSfxEnabled, toggleSfx } = useAudio();
     const [modalVisible, setModalVisible] = useState(false);
     const [aboutModalVisible, setAboutModalVisible] = useState(false);
     const [feedbackModalVisible, setFeedbackModalVisible] = useState(false);
 
-    function handleNext() {
-        router.navigate("/dashboard");
-    }
-
-    function nextPage() {
-        router.navigate("/main");
-    }
-
-    function desafioJava() {
-        router.navigate("/desafioJava");
-    }
-
-    function desafioPOO() {
-        router.navigate("/desafioPOO");
-    }
+    const handleLevelSelect = (levelId: Level['id']) => {
+        router.navigate(`/lessons/${levelId}`);
+    };
 
     function handleSettings() {
         setModalVisible(true);
@@ -65,21 +53,27 @@ export default function Home() {
                     <View style={styles.modalView}>
                         <Text style={styles.modalText}>Configurações</Text>
                         <View style={styles.iconGroup}>
-                            <TouchableOpacity style={styles.iconContainer} onPress={toggleMute}>
-                                <Ionicons name={isMuted ? "volume-mute-outline" : "volume-high-outline"} size={normalize(30)} color="#FFFFFF" />
-                                <Text style={styles.iconLabel}>{isMuted ? "Ativar Som" : "Silenciar"}</Text>
+                            <TouchableOpacity style={styles.iconContainer} onPress={toggleBgm}>
+                                <Ionicons name={!isBgmEnabled ? "volume-mute-outline" : "volume-high-outline"} size={normalize(30)} color="#FFFFFF" />
+                                <Text style={styles.iconLabel}>{!isBgmEnabled ? "Ativar Música" : "Silenciar Música"}</Text>
                             </TouchableOpacity>
+                            <TouchableOpacity style={styles.iconContainer} onPress={toggleSfx}>
+                                <Ionicons name={!isSfxEnabled ? "volume-mute-outline" : "volume-high-outline"} size={normalize(30)} color="#FFFFFF" />
+                                <Text style={styles.iconLabel}>{!isSfxEnabled ? "Ativar Efeitos" : "Silenciar Efeitos"}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.iconGroup}>
                             <TouchableOpacity style={styles.iconContainer} onPress={() => setAboutModalVisible(true)}>
                                 <Ionicons name="information-circle-outline" size={normalize(30)} color="#FFFFFF" />
                                 <Text style={styles.iconLabel}>Sobre</Text>
                             </TouchableOpacity>
-                        </View>
-                        <View style={styles.iconGroup}>
                             <TouchableOpacity style={styles.iconContainer} onPress={() => setFeedbackModalVisible(true)}>
                                 <Ionicons name="chatbubble-ellipses-outline" size={normalize(30)} color="#FFFFFF" />
                                 <Text style={styles.iconLabel}>Feedback</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.iconContainer} onPress={handleExit}>
+                        </View>
+                        <View style={styles.iconGroup}>
+                           <TouchableOpacity style={styles.iconContainer} onPress={handleExit}>
                                 <Ionicons name="exit-outline" size={normalize(30)} color="#FFFFFF" />
                                 <Text style={styles.iconLabel}>Sair</Text>
                             </TouchableOpacity>
@@ -184,19 +178,13 @@ export default function Home() {
                 <Text style={styles.mainTitle}>Quiz Code</Text>
                 <Text style={styles.subtitle}>Escolha seu desafio</Text>
 
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>🧩 Parte do Quiz</Text>
-                    <View style={styles.buttonGroup}>
-                        <Button title="📚 Java Básico" onPress={nextPage} />
-                        <Button title="🎯 Java POO" onPress={handleNext} />
-                    </View>
-                </View>
+                                <Text style={styles.subtitle}>Escolha seu Nível</Text>
 
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>💻 Parte do Código</Text>
                     <View style={styles.buttonGroup}>
-                        <Button title="⚡ Desafio Java" onPress={desafioJava} />
-                        <Button title="🚀 Desafio POO" onPress={desafioPOO} />
+                        <Button title="👶 Iniciante" onPress={() => handleLevelSelect('beginner')} />
+                        <Button title="🧑‍🎓 Intermediário" onPress={() => handleLevelSelect('intermediate')} />
+                        <Button title="🧠 Avançado" onPress={() => handleLevelSelect('advanced')} />
                     </View>
                 </View>
             </View>
@@ -205,6 +193,12 @@ export default function Home() {
                 <Text style={styles.footerText}>Desenvolvido pela Learn Code</Text>
             </View>
         </View>
+    );
+}
+
+export default function Home() {
+    return (
+        <HomeContent />
     );
 }
 

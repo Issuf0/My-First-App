@@ -123,5 +123,80 @@
         "pergunta": "Como se compara se duas Strings são iguais em valor em Java?",
         "opcoes": ["usando o método .compare()", "usando o operador ==", "usando o método .equals()", "usando o operador ==="],
         "correta": "usando o método .equals()" 
+    },
+    {
+        "pergunta": "Qual bloco é executado em uma estrutura 'switch' se nenhum 'case' corresponder?",
+        "opcoes": ["finally", "else", "default", "otherwise"],
+        "correta": "default"
+    },
+    {
+        "pergunta": "Qual a principal diferença entre um loop 'while' e um 'do-while'?",
+        "opcoes": ["'do-while' não usa condição", "'while' executa o bloco de código pelo menos uma vez", "'do-while' executa o bloco de código pelo menos uma vez", "'while' é mais rápido"],
+        "correta": "'do-while' executa o bloco de código pelo menos uma vez"
+    },
+    {
+        "pergunta": "O que a palavra-chave 'continue' faz dentro de um loop?",
+        "opcoes": ["Encerra o programa", "Pula para a próxima iteração do loop", "Encerra o loop completamente", "Retorna um valor do método"],
+        "correta": "Pula para a próxima iteração do loop"
+    },
+    {
+        "pergunta": "Qual método da classe String retorna o caractere em um índice específico?",
+        "opcoes": ["getChar()", "characterAt()", "charAt()", "get()"],
+        "correta": "charAt()"
+    },
+    {
+        "pergunta": "Qual coleção é mais adequada para armazenar pares de chave-valor únicos?",
+        "opcoes": ["ArrayList", "HashSet", "HashMap", "LinkedList"],
+        "correta": "HashMap"
+    },
+    {
+        "pergunta": "Quais métodos são comumente usados para adicionar e recuperar valores de um HashMap?",
+        "opcoes": ["add() e get()", "insert() e retrieve()", "put() e get()", "push() e pop()"],
+        "correta": "put() e get()"
+    },
+    {
+        "pergunta": "Qual exceção é lançada quando se tenta acessar um arquivo que não existe?",
+        "opcoes": ["IOException", "FileDoesNotExistException", "FileNotFoundException", "NullPointerException"],
+        "correta": "FileNotFoundException"
+    },
+    {
+        "pergunta": "Em um método recursivo, o que é o 'caso base'?",
+        "opcoes": ["A primeira linha do método", "A condição que faz o método chamar a si mesmo", "O valor de retorno do método", "A condição que para a recursão"],
+        "correta": "A condição que para a recursão"
+    },
+    {
+        "pergunta": "Qual a sintaxe para converter um 'double' para 'int' explicitamente (casting)?",
+        "opcoes": ["int x = (int) meuDouble;", "int x = int(meuDouble);", "int x = meuDouble.toInt();", "int x = convert.toInt(meuDouble);"],
+        "correta": "int x = (int) meuDouble;"
+    },
+    {
+        "pergunta": "O que a palavra-chave 'final' faz quando aplicada a uma variável?",
+        "opcoes": ["Torna a variável acessível globalmente", "Impede que a variável seja modificada após a inicialização", "Faz a variável ser destruída no final do método", "Aumenta a precisão da variável"],
+        "correta": "Impede que a variável seja modificada após a inicialização"
+    },
+    {
+        "pergunta": "O que é um construtor em Java?",
+        "opcoes": ["Um método para construir strings", "Um método especial para criar e inicializar objetos", "Uma variável que aponta para um objeto", "Um loop para construir arrays"],
+        "correta": "Um método especial para criar e inicializar objetos"
+    },
+    {
+        "pergunta": "Como se obtém o número de elementos em um array 'meuArray'?",
+        "opcoes": ["meuArray.size()", "meuArray.length()", "meuArray.count", "meuArray.length"],
+        "correta": "meuArray.length"
+    },
+    {
+        "pergunta": "O que o método 'sc.nextInt()' da classe Scanner faz?",
+        "opcoes": ["Lê a próxima linha inteira como uma String", "Lê o próximo token de entrada como um int", "Lê o próximo caractere", "Pula para o próximo inteiro na entrada"],
+        "correta": "Lê o próximo token de entrada como um int"
+    },
+    {
+        "pergunta": "Para que serve o método 'String.toLowerCase()'?",
+        "opcoes": ["Converte a string para letras maiúsculas", "Verifica se a string contém apenas letras minúsculas", "Remove todos os espaços da string", "Converte todos os caracteres da string para minúsculas"],
+        "correta": "Converte todos os caracteres da string para minúsculas"
+    },
+    {
+        "pergunta": "Qual estrutura de dados da biblioteca Java Collections não permite elementos duplicados?",
+        "opcoes": ["ArrayList", "LinkedList", "HashMap", "HashSet"],
+        "correta": "HashSet"
     }
 ]

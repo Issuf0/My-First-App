@@ -4,7 +4,7 @@ import { Stack, useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { normalize, vh, vw } from '../../../utils/responsive';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import levels, { Level, Lesson, LessonContent } from '../../../../constants/Levels';
+import levels, { Level, Lesson, LessonContent } from '../../../constants/Levels';
 
 export default function CodeChallengeScreen() {
   const { levelId, lessonId } = useLocalSearchParams();

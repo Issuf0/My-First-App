@@ -73,5 +73,430 @@
         "pergunta": "O que o método 'sc.nextInt()' da classe Scanner faz?",
         "opcoes": ["Lê a próxima linha inteira como uma String", "Lê o próximo token de entrada como um int", "Lê o próximo caractere", "Pula para o próximo inteiro na entrada"],
         "correta": "Lê o próximo token de entrada como um int"
+    },
+    {
+        "pergunta": "Qual estrutura de decisão é usada para testar uma condição e executar um bloco de código se a condição for verdadeira?",
+        "opcoes": ["for", "while", "if", "switch"],
+        "correta": "if"
+    },
+    {
+        "pergunta": "Na estrutura 'if-else', o que acontece se a condição do 'if' for falsa?",
+        "opcoes": ["O programa termina", "O bloco de código do 'else' é executado", "O bloco de código do 'if' é executado mesmo assim", "Um erro é lançado"],
+        "correta": "O bloco de código do 'else' é executado"
+    },
+    {
+        "pergunta": "Qual é o operador de igualdade em Java, usado em comparações?",
+        "opcoes": ["=", "==", "===", "!="],
+        "correta": "=="
+    },
+    {
+        "pergunta": "Para que serve a cláusula 'else if'?",
+        "opcoes": ["Para terminar um loop", "Para definir um bloco padrão no switch", "Para testar uma nova condição se a condição anterior for falsa", "Para forçar um erro"],
+        "correta": "Para testar uma nova condição se a condição anterior for falsa"
+    },
+    {
+        "pergunta": "É possível ter um 'if' sem um 'else'?",
+        "opcoes": ["Sim, é possível", "Não, um 'if' sempre precisa de um 'else'", "Apenas dentro de loops", "Apenas em métodos"],
+        "correta": "Sim, é possível"
+    },
+    {
+        "pergunta": "Qual estrutura de decisão é ideal para comparar uma variável com múltiplos valores constantes?",
+        "opcoes": ["if-else-if", "for", "while", "switch"],
+        "correta": "switch"
+    },
+    {
+        "pergunta": "Qual palavra-chave é usada dentro de um 'switch' para definir os casos de teste?",
+        "opcoes": ["case", "when", "option", "if"],
+        "correta": "case"
+    },
+    {
+        "pergunta": "O que a palavra-chave 'break' faz dentro de um 'switch'?",
+        "opcoes": ["Interrompe o loop atual", "Pula para o próximo caso", "Sai da estrutura 'switch'", "Retorna um valor do método"],
+        "correta": "Sai da estrutura 'switch'"
+    },
+    {
+        "pergunta": "Para que serve a cláusula 'default' em um 'switch'?",
+        "opcoes": ["É obrigatória em todos os 'switch'", "Executa se nenhum dos casos corresponder", "Define o valor padrão da variável", "É um sinônimo para 'case 0'"],
+        "correta": "Executa se nenhum dos casos corresponder"
+    },
+    {
+        "pergunta": "Que tipo de variáveis um 'switch' em Java pode testar?",
+        "opcoes": ["Apenas inteiros", "Apenas strings", "int, char, String, enum, entre outros", "Apenas booleanos"],
+        "correta": "int, char, String, enum, entre outros"
+    },
+    {
+        "pergunta": "Qual laço de repetição executa o bloco de código enquanto a condição for verdadeira?",
+        "opcoes": ["for", "do-while", "while", "if"],
+        "correta": "while"
+    },
+    {
+        "pergunta": "Se a condição de um laço 'while' for falsa desde o início, quantas vezes o bloco será executado?",
+        "opcoes": ["Pelo menos uma vez", "Infinitas vezes", "Nenhuma vez", "Ocorrerá um erro"],
+        "correta": "Nenhuma vez"
+    },
+    {
+        "pergunta": "O que é um 'loop infinito'?",
+        "opcoes": ["Um loop que nunca termina", "Um loop que executa 1000 vezes", "Um erro de sintaxe", "Um tipo especial de 'for'"],
+        "correta": "Um loop que nunca termina"
+    },
+    {
+        "pergunta": "Como se incrementa uma variável 'i' em 1 dentro de um loop?",
+        "opcoes": ["i = i + 1", "i++", "i += 1", "Todas as opções estão corretas"],
+        "correta": "Todas as opções estão corretas"
+    },
+    {
+        "pergunta": "O que um laço 'while(true)' faria sem uma condição de parada interna?",
+        "opcoes": ["Executaria uma vez", "Não executaria", "Criaria um loop infinito", "Geraria um erro de compilação"],
+        "correta": "Criaria um loop infinito"
+    },
+    {
+        "pergunta": "Qual é a principal diferença entre o laço 'while' e o 'do-while'?",
+        "opcoes": ["'do-while' não usa condição", "'do-while' executa o bloco pelo menos uma vez", "'while' é mais rápido", "Não há diferença"],
+        "correta": "'do-while' executa o bloco pelo menos uma vez"
+    },
+    {
+        "pergunta": "Onde a condição de um laço 'do-while' é verificada?",
+        "opcoes": ["No início do bloco", "No final do bloco", "Nunca é verificada", "Fora do laço"],
+        "correta": "No final do bloco"
+    },
+    {
+        "pergunta": "Qual é a sintaxe correta para um laço 'do-while'?",
+        "opcoes": ["do { ... } while(condição);", "while(condição) { ... } do;", "do-while(condição) { ... };", "do(condição) { ... } while;"],
+        "correta": "do { ... } while(condição);"
+    },
+    {
+        "pergunta": "Se a condição de um 'do-while' for falsa na primeira verificação, quantas vezes o bloco terá sido executado?",
+        "opcoes": ["Nenhuma", "Uma vez", "Duas vezes", "Infinitas vezes"],
+        "correta": "Uma vez"
+    },
+    {
+        "pergunta": "Qual laço é mais adequado quando você quer garantir que a ação seja executada ao menos uma vez?",
+        "opcoes": ["for", "while", "do-while", "if-else"],
+        "correta": "do-while"
+    },
+    {
+        "pergunta": "Qual laço de repetição é mais utilizado quando o número de iterações é conhecido?",
+        "opcoes": ["while", "do-while", "for", "switch"],
+        "correta": "for"
+    },
+    {
+        "pergunta": "Quais são as três partes na declaração de um laço 'for', separadas por ponto e vírgula?",
+        "opcoes": ["condição, inicialização, corpo", "inicialização, condição, incremento", "condição, incremento, corpo", "inicialização, corpo, condição"],
+        "correta": "inicialização, condição, incremento"
+    },
+    {
+        "pergunta": "Em um laço 'for(int i=0; i<5; i++)', qual é o último valor de 'i' que será usado DENTRO do laço?",
+        "opcoes": ["0", "4", "5", "6"],
+        "correta": "4"
+    },
+    {
+        "pergunta": "É possível omitir alguma das partes de um laço 'for' (inicialização, condição, incremento)?",
+        "opcoes": ["Não, todas são obrigatórias", "Sim, qualquer uma ou todas podem ser omitidas", "Apenas a inicialização pode ser omitida", "Apenas a condição pode ser omitida"],
+        "correta": "Sim, qualquer uma ou todas podem ser omitidas"
+    },
+    {
+        "pergunta": "O que 'for (;;)' representa em Java?",
+        "opcoes": ["Um erro de sintaxe", "Um laço que executa uma vez", "Um laço infinito", "Um comentário"],
+        "correta": "Um laço infinito"
+    },
+    {
+        "pergunta": "Qual palavra-chave é usada para sair imediatamente de um laço?",
+        "opcoes": ["exit", "return", "continue", "break"],
+        "correta": "break"
+    },
+    {
+        "pergunta": "O que a palavra-chave 'continue' faz dentro de um laço?",
+        "opcoes": ["Sai do laço permanentemente", "Pula a iteração atual e vai para a próxima", "Pausa o laço", "Deleta a variável de controle"],
+        "correta": "Pula a iteração atual e vai para a próxima"
+    },
+    {
+        "pergunta": "Onde a palavra-chave 'break' pode ser usada?",
+        "opcoes": ["Apenas em laços 'for'", "Apenas em 'switch'", "Em laços e em 'switch'", "Em qualquer lugar do código"],
+        "correta": "Em laços e em 'switch'"
+    },
+    {
+        "pergunta": "Em um laço 'for', se 'continue' é chamado, qual parte do 'for' é executada em seguida?",
+        "opcoes": ["A inicialização", "A condição", "O incremento", "O corpo do laço"],
+        "correta": "O incremento"
+    },
+    {
+        "pergunta": "O uso de 'break' fora de um laço ou 'switch' resulta em:",
+        "opcoes": ["Um aviso do compilador", "Um erro de compilação", "O programa é encerrado", "Nada, é ignorado"],
+        "correta": "Um erro de compilação"
+    },
+    {
+        "pergunta": "O que é um array em Java?",
+        "opcoes": ["Um tipo de dado primitivo", "Uma coleção de elementos do mesmo tipo com tamanho fixo", "Uma função matemática", "Uma classe para entrada de dados"],
+        "correta": "Uma coleção de elementos do mesmo tipo com tamanho fixo"
+    },
+    {
+        "pergunta": "Qual é a sintaxe correta para declarar um array de inteiros?",
+        "opcoes": ["int[] numeros;", "Array<int> numeros;", "int numeros[];", "Ambas 'int[] numeros;' e 'int numeros[];' estão corretas"],
+        "correta": "Ambas 'int[] numeros;' e 'int numeros[];' estão corretas"
+    },
+    {
+        "pergunta": "Qual é o índice do primeiro elemento de um array?",
+        "opcoes": ["1", "0", "-1", "depende do tamanho"],
+        "correta": "0"
+    },
+    {
+        "pergunta": "Como se acessa o terceiro elemento de um array chamado 'valores'?",
+        "opcoes": ["valores[3]", "valores(2)", "valores[2]", "valores.get(3)"],
+        "correta": "valores[2]"
+    },
+    {
+        "pergunta": "Qual propriedade de um array retorna seu tamanho (número de elementos)?",
+        "opcoes": ["size()", "length()", "length", "size"],
+        "correta": "length"
+    },
+    {
+        "pergunta": "O que acontece se você tentar acessar um índice de array que não existe?",
+        "opcoes": ["Retorna 0", "Retorna null", "Lança uma exceção 'ArrayIndexOutOfBoundsException'", "O array aumenta de tamanho"],
+        "correta": "Lança uma exceção 'ArrayIndexOutOfBoundsException'"
+    },
+    {
+        "pergunta": "Como se inicializa um array de inteiros com os valores 1, 2 e 3?",
+        "opcoes": ["int[] arr = {1, 2, 3};", "int[] arr = new int(1, 2, 3);", "int[] arr = [1, 2, 3];", "int arr = {1, 2, 3};"],
+        "correta": "int[] arr = {1, 2, 3};"
+    },
+    {
+        "pergunta": "Para percorrer todos os elementos de um array 'dados', qual laço é comumente usado?",
+        "opcoes": ["if-else", "switch", "for", "while (somente)"],
+        "correta": "for"
+    },
+    {
+        "pergunta": "Arrays em Java podem mudar de tamanho depois de criados?",
+        "opcoes": ["Sim, usando o método resize()", "Sim, a qualquer momento", "Não, o tamanho de um array é fixo", "Apenas se não tiver elementos"],
+        "correta": "Não, o tamanho de um array é fixo"
+    },
+    {
+        "pergunta": "O que é um 'enhanced for loop' (for-each)?",
+        "opcoes": ["Uma forma mais rápida de 'for'", "Uma forma simplificada de percorrer arrays e coleções", "Um laço exclusivo para matrizes", "Um laço que só funciona com números"],
+        "correta": "Uma forma simplificada de percorrer arrays e coleções"
+    },
+    {
+        "pergunta": "O que é um método em Java?",
+        "opcoes": ["Um tipo de variável", "Um bloco de código que realiza uma tarefa específica e pode ser reutilizado", "Uma classe principal", "Um arquivo de configuração"],
+        "correta": "Um bloco de código que realiza uma tarefa específica e pode ser reutilizado"
+    },
+    {
+        "pergunta": "Qual palavra-chave é usada para indicar que um método não retorna nenhum valor?",
+        "opcoes": ["null", "void", "empty", "return"],
+        "correta": "void"
+    },
+    {
+        "pergunta": "Como se chama um método chamado 'calcularSoma' em um objeto 'calc'?",
+        "opcoes": ["calc.calcularSoma;", "calc.calcularSoma();", "chamar calc.calcularSoma();", "calcularSoma(calc);"],
+        "correta": "calc.calcularSoma();"
+    },
+    {
+        "pergunta": "Onde os parâmetros de um método são declarados?",
+        "opcoes": ["Dentro do corpo do método", "Depois da palavra-chave return", "Dentro dos parênteses após o nome do método", "Antes do tipo de retorno"],
+        "correta": "Dentro dos parênteses após o nome do método"
+    },
+    {
+        "pergunta": "O que é a 'assinatura' de um método?",
+        "opcoes": ["Apenas o nome do método", "O nome do método e a lista de tipos de seus parâmetros", "O tipo de retorno do método", "O corpo do método"],
+        "correta": "O nome do método e a lista de tipos de seus parâmetros"
+    },
+    {
+        "pergunta": "O que são parâmetros de um método?",
+        "opcoes": ["Variáveis locais usadas apenas dentro do método", "Valores que um método retorna", "Valores que são passados para um método quando ele é chamado", "Constantes globais"],
+        "correta": "Valores que são passados para um método quando ele é chamado"
+    },
+    {
+        "pergunta": "Qual palavra-chave é usada para retornar um valor de um método?",
+        "opcoes": ["void", "send", "return", "get"],
+        "correta": "return"
+    },
+    {
+        "pergunta": "Um método pode ter mais de uma instrução 'return'?",
+        "opcoes": ["Não, apenas uma", "Sim, mas apenas uma será executada por chamada", "Sim, e todas são executadas", "Apenas se forem do mesmo tipo"],
+        "correta": "Sim, mas apenas uma será executada por chamada"
+    },
+    {
+        "pergunta": "Se um método é declarado com 'int' como tipo de retorno, o que ele precisa fazer?",
+        "opcoes": ["Retornar um valor do tipo 'int'", "Imprimir um inteiro", "Receber um 'int' como parâmetro", "Não retornar nada"],
+        "correta": "Retornar um valor do tipo 'int'"
+    },
+    {
+        "pergunta": "O que acontece se você chamar um método com o número errado de parâmetros?",
+        "opcoes": ["Ocorre um aviso", "Ocorre um erro de compilação", "Os parâmetros extras são ignorados", "Valores padrão são usados para os parâmetros faltantes"],
+        "correta": "Ocorre um erro de compilação"
+    },
+    {
+        "pergunta": "O que é sobrecarga de métodos (method overloading)?",
+        "opcoes": ["Criar um método que faz muitas coisas", "Ter vários métodos com o mesmo nome, mas com diferentes parâmetros", "Chamar um método muitas vezes", "Um método que chama a si mesmo"],
+        "correta": "Ter vários métodos com o mesmo nome, mas com diferentes parâmetros"
+    },
+    {
+        "pergunta": "Para sobrecarregar um método, o que precisa ser diferente?",
+        "opcoes": ["Apenas o tipo de retorno", "Apenas o nome do método", "A lista de parâmetros (número ou tipo)", "O corpo do método"],
+        "correta": "A lista de parâmetros (número ou tipo)"
+    },
+    {
+        "pergunta": "É possível sobrecarregar um método mudando apenas o seu tipo de retorno?",
+        "opcoes": ["Sim, é uma prática comum", "Não, isso causa um erro de compilação", "Apenas se os nomes dos parâmetros forem diferentes", "Apenas em classes abstratas"],
+        "correta": "Não, isso causa um erro de compilação"
+    },
+    {
+        "pergunta": "Qual é a principal vantagem da sobrecarga de métodos?",
+        "opcoes": ["Deixar o código mais rápido", "Aumentar a legibilidade permitindo usar o mesmo nome para operações semelhantes", "Economizar memória", "Substituir o uso de 'if-else'"],
+        "correta": "Aumentar a legibilidade permitindo usar o mesmo nome para operações semelhantes"
+    },
+    {
+        "pergunta": "Se temos 'void print(int x)' e 'void print(double y)', qual método é chamado por 'print(5.0)'?",
+        "opcoes": ["void print(int x)", "void print(double y)", "Ambos", "Nenhum, causa erro"],
+        "correta": "void print(double y)"
+    },
+    {
+        "pergunta": "Em Java, a classe String é um tipo de dado...",
+        "opcoes": ["Primitivo", "de Referência (Objeto)", "Numérico", "Lógico"],
+        "correta": "de Referência (Objeto)"
+    },
+    {
+        "pergunta": "Qual método da classe String retorna o número de caracteres?",
+        "opcoes": ["length", "size()", "count()", "length()"],
+        "correta": "length()"
+    },
+    {
+        "pergunta": "Como se compara o conteúdo de duas Strings, 's1' e 's2', para ver se são iguais?",
+        "opcoes": ["s1 == s2", "s1.equals(s2)", "s1.compare(s2)", "equals(s1, s2)"],
+        "correta": "s1.equals(s2)"
+    },
+    {
+        "pergunta": "Strings em Java são imutáveis. O que isso significa?",
+        "opcoes": ["Não podem ser impressas", "Não podem ter mais de 10 caracteres", "Seu valor não pode ser alterado após a criação", "Só podem conter letras"],
+        "correta": "Seu valor não pode ser alterado após a criação"
+    },
+    {
+        "pergunta": "O que o operador '+' faz com duas Strings?",
+        "opcoes": ["Soma seus valores ASCII", "Causa um erro", "Concatena (une) as duas Strings", "Compara as duas Strings"],
+        "correta": "Concatena (une) as duas Strings"
+    },
+    {
+        "pergunta": "Qual método de String retorna o caractere em uma posição específica?",
+        "opcoes": ["getChar(int index)", "charAt(int index)", "characterAt(int index)", "at(int index)"],
+        "correta": "charAt(int index)"
+    },
+    {
+        "pergunta": "Qual método converte todos os caracteres de uma String para maiúsculas?",
+        "opcoes": ["toUpperCase()", "toUpperCase", "toUpper()", "upperCase()"],
+        "correta": "toUpperCase()"
+    },
+    {
+        "pergunta": "Qual método verifica se uma String começa com um determinado prefixo?",
+        "opcoes": ["beginsWith(String prefix)", "hasPrefix(String prefix)", "startsWith(String prefix)", "prefix(String prefix)"],
+        "correta": "startsWith(String prefix)"
+    },
+    {
+        "pergunta": "O que o método 'substring(int beginIndex)' faz?",
+        "opcoes": ["Remove uma parte da String", "Retorna uma nova String que é uma sub-string da original, do índice até o fim", "Retorna o caractere no índice", "Substitui uma parte da String"],
+        "correta": "Retorna uma nova String que é uma sub-string da original, do índice até o fim"
+    },
+    {
+        "pergunta": "Qual método remove espaços em branco do início e do fim de uma String?",
+        "opcoes": ["trim()", "strip()", "clean()", "removeSpaces()"],
+        "correta": "trim()"
+    },
+    {
+        "pergunta": "O que é uma classe em Programação Orientada a Objetos?",
+        "opcoes": ["Um objeto específico", "Um método", "Um modelo ou planta para criar objetos", "Uma variável"],
+        "correta": "Um modelo ou planta para criar objetos"
+    },
+    {
+        "pergunta": "O que é um objeto em Java?",
+        "opcoes": ["Um tipo de dado primitivo", "Uma instância de uma classe", "Um nome de método", "Uma palavra-chave"],
+        "correta": "Uma instância de uma classe"
+    },
+    {
+        "pergunta": "Qual palavra-chave é usada para criar uma instância (objeto) de uma classe?",
+        "opcoes": ["class", "object", "new", "instance"],
+        "correta": "new"
+    },
+    {
+        "pergunta": "Em uma classe 'Carro', 'cor' e 'velocidade' seriam exemplos de:",
+        "opcoes": ["Métodos", "Atributos (variáveis de instância)", "Classes", "Pacotes"],
+        "correta": "Atributos (variáveis de instância)"
+    },
+    {
+        "pergunta": "Em uma classe 'Carro', 'acelerar()' e 'frear()' seriam exemplos de:",
+        "opcoes": ["Atributos", "Construtores", "Objetos", "Métodos"],
+        "correta": "Métodos"
+    },
+    {
+        "pergunta": "O que é um construtor em Java?",
+        "opcoes": ["Um método para destruir objetos", "Um método especial para criar e inicializar objetos", "Uma variável de classe", "Um tipo de loop"],
+        "correta": "Um método especial para criar e inicializar objetos"
+    },
+    {
+        "pergunta": "Qual é a principal característica de um construtor?",
+        "opcoes": ["Ele sempre retorna um valor 'int'", "Ele não tem tipo de retorno e tem o mesmo nome da classe", "Ele não pode ter parâmetros", "Ele deve ser chamado 'main'"],
+        "correta": "Ele não tem tipo de retorno e tem o mesmo nome da classe"
+    },
+    {
+        "pergunta": "O que acontece se você não definir um construtor em sua classe?",
+        "opcoes": ["Ocorre um erro de compilação", "Java fornece um construtor padrão (sem parâmetros)", "O objeto não pode ser criado", "A classe se torna abstrata"],
+        "correta": "Java fornece um construtor padrão (sem parâmetros)"
+    },
+    {
+        "pergunta": "Um construtor pode ser sobrecarregado?",
+        "opcoes": ["Não, uma classe só pode ter um construtor", "Sim, pode-se ter vários construtores com diferentes listas de parâmetros", "Apenas em classes 'final'", "Apenas se não tiverem parâmetros"],
+        "correta": "Sim, pode-se ter vários construtores com diferentes listas de parâmetros"
+    },
+    {
+        "pergunta": "Quando o construtor de uma classe é chamado?",
+        "opcoes": ["Quando o programa termina", "Quando um método da classe é chamado", "Automaticamente quando um objeto é criado com 'new'", "Manualmente após a criação do objeto"],
+        "correta": "Automaticamente quando um objeto é criado com 'new'"
+    },
+    {
+        "pergunta": "O que são atributos (ou variáveis de instância)?",
+        "opcoes": ["Métodos de uma classe", "Variáveis declaradas dentro de um método", "Variáveis declaradas dentro de uma classe, mas fora de qualquer método", "Constantes globais"],
+        "correta": "Variáveis declaradas dentro de uma classe, mas fora de qualquer método"
+    },
+    {
+        "pergunta": "Qual palavra-chave é usada dentro de um método para se referir ao objeto atual?",
+        "opcoes": ["self", "object", "this", "current"],
+        "correta": "this"
+    },
+    {
+        "pergunta": "Para que serve a palavra-chave 'this'?",
+        "opcoes": ["Para criar um novo objeto", "Para chamar um método estático", "Para diferenciar variáveis de instância de parâmetros com o mesmo nome", "Para encerrar o programa"],
+        "correta": "Para diferenciar variáveis de instância de parâmetros com o mesmo nome"
+    },
+    {
+        "pergunta": "Métodos de instância podem acessar...",
+        "opcoes": ["Apenas outras variáveis locais", "Apenas atributos estáticos", "Tanto atributos de instância quanto estáticos da classe", "Apenas métodos em outras classes"],
+        "correta": "Tanto atributos de instância quanto estáticos da classe"
+    },
+    {
+        "pergunta": "Cada objeto de uma classe tem sua própria cópia de...",
+        "opcoes": ["Métodos estáticos", "Atributos de instância", "Todas as variáveis locais", "A classe inteira"],
+        "correta": "Atributos de instância"
+    },
+    {
+        "pergunta": "O que é encapsulamento em POO?",
+        "opcoes": ["O processo de compilar o código", "Agrupar dados (atributos) e métodos que operam nesses dados em uma única unidade (classe)", "Criar muitas classes", "Usar apenas métodos estáticos"],
+        "correta": "Agrupar dados (atributos) e métodos que operam nesses dados em uma única unidade (classe)"
+    },
+    {
+        "pergunta": "Qual modificador de acesso é usado para tornar um atributo inacessível de fora da classe?",
+        "opcoes": ["public", "protected", "private", "static"],
+        "correta": "private"
+    },
+    {
+        "pergunta": "O que é um método 'getter'?",
+        "opcoes": ["Um método para modificar o valor de um atributo privado", "Um método público para retornar o valor de um atributo privado", "Um construtor", "Um método para deletar um objeto"],
+        "correta": "Um método público para retornar o valor de um atributo privado"
+    },
+    {
+        "pergunta": "O que é um método 'setter'?",
+        "opcoes": ["Um método para obter o valor de um atributo privado", "Um método público para modificar o valor de um atributo privado", "Um método para configurar o ambiente", "Um método que não retorna nada"],
+        "correta": "Um método público para modificar o valor de um atributo privado"
+    },
+    {
+        "pergunta": "Qual é a principal vantagem do encapsulamento?",
+        "opcoes": ["Deixar o programa mais rápido", "Proteger os dados de acesso e modificação indevidos, aumentando a segurança e controle", "Reduzir o número de linhas de código", "Facilitar a criação de loops"],
+        "correta": "Proteger os dados de acesso e modificação indevidos, aumentando a segurança e controle"
     }
 ]

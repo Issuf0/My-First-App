@@ -10,3 +10,9 @@ export interface Exercicio {
     templateCodigo: string;
     pontos: number;
 }
+
+export interface StoredQuestion {
+  pergunta: string;
+  opcoes: string[];
+  correta: string;
+}

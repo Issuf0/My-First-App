@@ -23,9 +23,13 @@ const LessonLearningScreen = () => {
     setLoading(false);
   }, [lessonId]);
 
-  const handleStartQuiz = () => {
+  const handleStart = () => {
     if (lesson) {
-      router.push(`/quiz-screen/${lesson.levelId}/${lesson.id}`);
+      if (lesson.isChallenge) {
+        router.push(`/code-challenge/${lesson.levelId}/${lesson.id}`);
+      } else {
+        router.push(`/quiz-screen/${lesson.levelId}/${lesson.id}`);
+      }
     }
   };
 
@@ -68,30 +72,41 @@ const LessonLearningScreen = () => {
         <Text style={styles.title}>{lesson.title}</Text>
         <Text style={styles.introductionText}>{lesson.introduction}</Text>
         
-        {lesson.theory.map((block, index) => (
-          <View key={index} style={styles.theoryBlock}>
-            <Text style={styles.sectionTitle}>{block.title}</Text>
-            <Text style={styles.explanationText}>{block.explanation}</Text>
-            {block.example && (
-              <View style={styles.codeBlock}>
-                <Text style={styles.codeText}>{block.example}</Text>
-              </View>
-            )}
-            {block.observation && (
-              <Text style={styles.observationText}>💡 {block.observation}</Text>
-            )}
+        {lesson.isChallenge && lesson.challenge ? (
+          <View>
+            <Text style={styles.sectionTitle}>Objetivo</Text>
+            <Text style={styles.explanationText}>{lesson.challenge.objective}</Text>
+            <Text style={styles.sectionTitle}>Problema</Text>
+            <Text style={styles.explanationText}>{lesson.challenge.problem}</Text>
           </View>
-        ))}
-        
-        {lesson.codeExample && (
+        ) : (
           <>
-            <Text style={styles.sectionTitle}>Exemplo Prático Detalhado</Text>
-            {renderExplainedCode()}
+            {lesson.theory.map((block, index) => (
+              <View key={index} style={styles.theoryBlock}>
+                <Text style={styles.sectionTitle}>{block.title}</Text>
+                <Text style={styles.explanationText}>{block.explanation}</Text>
+                {block.example && (
+                  <View style={styles.codeBlock}>
+                    <Text style={styles.codeText}>{block.example}</Text>
+                  </View>
+                )}
+                {block.observation && (
+                  <Text style={styles.observationText}>💡 {block.observation}</Text>
+                )}
+              </View>
+            ))}
+            
+            {lesson.codeExample && (
+              <>
+                <Text style={styles.sectionTitle}>Exemplo Prático Detalhado</Text>
+                {renderExplainedCode()}
+              </>
+            )}
           </>
         )}
 
         <View style={styles.buttonContainer}>
-          <Button title="Começar Quiz" onPress={handleStartQuiz} />
+          <Button title={lesson.isChallenge ? "Começar Desafio" : "Começar Quiz"} onPress={handleStart} />
         </View>
       </ScrollView>
     </View>

@@ -1,3 +1,4 @@
+
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import levels, { Level } from '@/constants/Levels'; // Manter para outros níveis
@@ -43,6 +44,7 @@ type DisplayLesson = {
   description?: string; // Opcional para manter compatibilidade
   stars?: number;
   isUnlocked?: boolean;
+  isChallenge?: boolean;
 };
 
 export default function LessonsList() {
@@ -70,6 +72,7 @@ export default function LessonsList() {
           description: lesson.introduction, // Usar a introdução como descrição
           stars: progress?.stars || 0,
           isUnlocked: progress?.isUnlocked !== undefined ? progress.isUnlocked : (lesson.id === 1), // Desbloia a primeira por padrão
+          isChallenge: lesson.isChallenge,
         };
       });
     } else {
@@ -107,11 +110,12 @@ export default function LessonsList() {
 
   const renderLessonItem = ({ item }: { item: DisplayLesson }) => (
     <TouchableOpacity
-      style={[styles.lessonItem, !item.isUnlocked && styles.lessonLocked]}
+      style={[styles.lessonItem, !item.isUnlocked && styles.lessonLocked, item.isChallenge && styles.challengeItem]}
       onPress={() => handleLessonPress(item)}
       disabled={!item.isUnlocked}
     >
       <View style={styles.lessonHeader}>
+        {item.isChallenge && <Ionicons name="flame" size={normalize(18)} color={Colors.light.tint} style={{marginRight: 8}} />}
         <Text style={styles.lessonTitle}>{item.title}</Text>
         {!item.isUnlocked && <Ionicons name="lock-closed" size={normalize(18)} color="#888" />}
       </View>

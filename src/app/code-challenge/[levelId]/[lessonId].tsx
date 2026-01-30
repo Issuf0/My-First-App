@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert, ActivityIndicator, KeyboardAvoidingView, Platform } from 'react-native';
-import { Stack, useLocalSearchParams, router } from 'expo-router';
+import { useLocalSearchParams, router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { normalize, vh, vw } from '../../../utils/responsive';
 import { getBeginnerLessonById, Lesson } from '../../../services/lessonService';
 import Colors from '@/constants/Colors';
+import { GlobalHeader } from '@/componentes/GlobalHeader';
 
 export default function CodeChallengeScreen() {
   const { levelId, lessonId: lessonIdParam } = useLocalSearchParams<{ levelId: string, lessonId: string }>();
@@ -30,7 +31,6 @@ export default function CodeChallengeScreen() {
     let foundKeywords = 0;
     
     solutionKeywords.forEach(keyword => {
-      // Regex para encontrar a palavra-chave como uma palavra inteira, ignorando o caso
       const regex = new RegExp(`\\b${keyword}\\b`, 'i');
       if (regex.test(userCode)) {
         foundKeywords++;
@@ -63,12 +63,18 @@ export default function CodeChallengeScreen() {
   };
 
   if (loading) {
-    return <ActivityIndicator size="large" color={Colors.light.tint} style={styles.container} />;
+    return (
+        <View style={styles.container}>
+            <GlobalHeader title="Carregando Desafio..." showBack />
+            <ActivityIndicator size="large" color={Colors.light.tint} style={{flex: 1}}/>
+        </View>
+    );
   }
 
   if (!lesson || !lesson.isChallenge || !lesson.challenge) {
     return (
       <View style={styles.container}>
+        <GlobalHeader title="Erro" showBack />
         <Text style={styles.loadingText}>Desafio de código não encontrado.</Text>
       </View>
     );
@@ -78,15 +84,9 @@ export default function CodeChallengeScreen() {
     <KeyboardAvoidingView 
       style={styles.container} 
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={90}
     >
-      <Stack.Screen options={{ title: lesson.title }} />
+      <GlobalHeader title={lesson.title} subtitle="Desafio de Código" showBack />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View style={styles.headerContainer}>
-          <Ionicons name="flame" size={normalize(30)} color={Colors.light.tint} />
-          <Text style={styles.challengeTitle}>{lesson.title}</Text>
-        </View>
-
         <View style={styles.contentSection}>
             <Text style={styles.sectionTitle}>🎯 Objetivo</Text>
             <Text style={styles.contentText}>{lesson.challenge.objective}</Text>
@@ -123,12 +123,6 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     padding: vw(5),
     paddingBottom: vh(5),
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: vh(2),
   },
   challengeTitle: {
     fontSize: normalize(24),

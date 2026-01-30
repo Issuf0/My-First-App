@@ -6,6 +6,7 @@ import { getBeginnerLessonById, Lesson } from '../../services/lessonService';
 import { styles } from '../../styles/lesson-intro.styles';
 import { Button } from '../../componentes/button';
 import Colors from '../../constants/Colors';
+import { GlobalHeader } from '@/componentes/GlobalHeader';
 
 const LessonLearningScreen = () => {
   const router = useRouter();
@@ -54,22 +55,30 @@ const LessonLearningScreen = () => {
     );
   };
 
-  if (loading) {
-    return <ActivityIndicator size="large" color={Colors.light.tint} style={{ flex: 1, backgroundColor: styles.container.backgroundColor }} />;
+  if (loading || !lesson) {
+    return (
+      <View style={{ flex: 1, backgroundColor: Colors.dark.background }}>
+        <GlobalHeader title="Carregando..." showBack />
+        <ActivityIndicator size="large" color={Colors.light.tint} style={{ flex: 1 }} />
+      </View>
+    );
   }
 
   if (!lesson) {
     return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Lição não encontrada.</Text>
+      <View style={styles.container}>
+        <GlobalHeader title="Erro" showBack />
+        <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>Lição não encontrada.</Text>
+        </View>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
+      <GlobalHeader title={lesson.title} subtitle={`Nível: ${lesson.levelId}`} showBack showSoundControls />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.title}>{lesson.title}</Text>
         <Text style={styles.introductionText}>{lesson.introduction}</Text>
         
         {lesson.isChallenge && lesson.challenge ? (

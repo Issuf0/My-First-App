@@ -1,50 +1,29 @@
-
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import levels, { Level } from '@/constants/Levels'; // Manter para outros níveis
-import { getBeginnerLessons, Lesson as BeginnerLesson } from '../../services/lessonService';
+import { useLocalSearchParams, useRouter, useFocusEffect } from 'expo-router';
+import levels from '@/constants/Levels';
+import { getBeginnerLessons } from '../../services/lessonService';
 import { Ionicons } from '@expo/vector-icons';
 import { normalize } from '../../utils/responsive';
-import { useEffect, useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { styles } from '../../styles/lessons.styles';
 import Colors from '@/constants/Colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GlobalHeader } from '@/componentes/GlobalHeader';
 
-// Mock de dados de progresso do usuário para demonstração
-const mockUserProgress = {
-  beginner: {
-    1: { stars: 3, isUnlocked: true },
-    2: { stars: 2, isUnlocked: true },
-    3: { stars: 0, isUnlocked: true },
-    4: { stars: 0, isUnlocked: false },
-    5: { stars: 0, isUnlocked: false },
-    6: { stars: 0, isUnlocked: false },
-    7: { stars: 0, isUnlocked: false },
-    8: { stars: 0, isUnlocked: false },
-    9: { stars: 0, isUnlocked: false },
-    10: { stars: 0, isUnlocked: false },
-    11: { stars: 0, isUnlocked: false },
-    12: { stars: 0, isUnlocked: false },
-    13: { stars: 0, isUnlocked: false },
-    14: { stars: 0, isUnlocked: false },
-    15: { stars: 0, isUnlocked: false },
-    16: { stars: 0, isUnlocked: false },
-    17: { stars: 0, isUnlocked: false },
-    18: { stars: 0, isUnlocked: false },
-    19: { stars: 0, isUnlocked: false },
-    20: { stars: 0, isUnlocked: false },
-  },
-  intermediate: {},
-  advanced: {},
-};
-
-// Interface unificada para lições, compatível com ambas as fontes
 type DisplayLesson = {
   id: number;
   title: string;
-  description?: string; // Opcional para manter compatibilidade
+  description?: string;
   stars?: number;
   isUnlocked?: boolean;
   isChallenge?: boolean;
+};
+
+type UserProgress = {
+  [key: number]: {
+    stars: number;
+    isUnlocked: boolean;
+  };
 };
 
 export default function LessonsList() {
@@ -55,56 +34,79 @@ export default function LessonsList() {
   const [lessons, setLessons] = useState<DisplayLesson[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const loadLessonData = useCallback(async () => {
     setLoading(true);
     let displayLessons: DisplayLesson[] = [];
     let name = '';
+    
+    try {
+      if (levelId === 'beginner') {
+        const beginnerLessons = getBeginnerLessons();
+        name = 'Iniciante';
 
-    if (levelId === 'beginner') {
-      const beginnerLessons = getBeginnerLessons();
-      name = 'Iniciante';
-      // Mapeia as lições do serviço para o formato de exibição, aplicando o progresso
-      displayLessons = beginnerLessons.map(lesson => {
-        const progress = mockUserProgress.beginner[lesson.id as keyof typeof mockUserProgress.beginner];
-        return {
-          id: lesson.id,
-          title: lesson.title,
-          description: lesson.introduction, // Usar a introdução como descrição
-          stars: progress?.stars || 0,
-          isUnlocked: progress?.isUnlocked !== undefined ? progress.isUnlocked : (lesson.id === 1), // Desbloia a primeira por padrão
-          isChallenge: lesson.isChallenge,
-        };
-      });
-    } else {
-      // Lógica para outros níveis (mantida por enquanto)
-      const foundLevel = levels.find(level => level.id === levelId);
-      if (foundLevel) {
-        name = foundLevel.name;
-        displayLessons = foundLevel.lessons.map(lesson => {
-            const progress = mockUserProgress[levelId as keyof typeof mockUserProgress]?.[lesson.id];
-            return {
-              ...lesson,
-              stars: progress?.stars || lesson.stars,
-              isUnlocked: progress?.isUnlocked || lesson.isUnlocked,
-            };
+        const progressKey = `@userProgress:${levelId}`;
+        const existingProgressJSON = await AsyncStorage.getItem(progressKey);
+        const userProgress: UserProgress = existingProgressJSON ? JSON.parse(existingProgressJSON) : {};
+
+        displayLessons = beginnerLessons.map((lesson, index, allLessons) => {
+          const progress = userProgress[lesson.id];
+          const stars = progress?.stars || 0;
+
+          let isUnlocked = false;
+          if (index === 0) {
+            isUnlocked = true;
+          } else {
+            const previousLessonId = allLessons[index - 1].id;
+            const previousLessonProgress = userProgress[previousLessonId];
+            const previousLessonStars = previousLessonProgress?.stars || 0;
+            if (previousLessonStars >= 2) {
+              isUnlocked = true;
+            }
+          }
+
+          return {
+            id: lesson.id,
+            title: lesson.title,
+            description: lesson.introduction,
+            stars: stars,
+            isUnlocked: isUnlocked,
+            isChallenge: lesson.isChallenge,
+          };
         });
+      } else {
+        const foundLevel = levels.find(level => level.id === levelId);
+        if (foundLevel) {
+          name = foundLevel.name;
+          displayLessons = foundLevel.lessons.map(lesson => ({
+            ...lesson,
+            stars: lesson.stars || 0,
+            isUnlocked: lesson.isUnlocked,
+          }));
+        }
       }
+      setLessons(displayLessons);
+      setLevelName(name);
+    } catch (e) {
+      console.error("Falha ao carregar dados das lições.", e);
+    } finally {
+      setLoading(false);
     }
-
-    setLessons(displayLessons);
-    setLevelName(name);
-    setLoading(false);
   }, [levelId]);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadLessonData();
+    }, [loadLessonData])
+  );
 
   const handleLessonPress = (lesson: DisplayLesson) => {
     if (!lesson.isUnlocked) return;
 
     if (levelId === 'beginner') {
-      // Navega para a nova tela de introdução para o nível iniciante
       router.push(`/lesson-intro/${lesson.id}`);
     } else {
-      // Mantém a navegação antiga para outros níveis
-      router.push(`/lesson-detail/${levelId}/${lesson.id}`);
+        // Futura navegação para outros níveis
+      router.push(`/quiz-screen/${levelId}/${lesson.id}`);
     }
   };
 
@@ -146,15 +148,15 @@ export default function LessonsList() {
   if (lessons.length === 0) {
     return (
       <View style={styles.container}>
+        <GlobalHeader title="Erro" showBack />
         <Text style={styles.loadingText}>Nível não encontrado ou sem lições.</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen options={{ title: levelName }} />
-      <Text style={styles.levelTitle}>{levelName}</Text>
+    <View style={{ flex: 1, backgroundColor: Colors.dark.background }}>
+      <GlobalHeader title={levelName} showBack showSoundControls />
       <FlatList
         data={lessons}
         renderItem={renderLessonItem}
